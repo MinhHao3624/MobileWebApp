@@ -1,9 +1,12 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import model.AtmRechargeHistory;
 
@@ -90,6 +93,85 @@ public class AtmRechargeHistoryDAO implements DAOInterface<AtmRechargeHistory>{
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public String getSoTienAtm(String userID, Date todaysDate) {
+		// TODO Auto-generated method stub
+		String ans = "";
+		List<AtmRechargeHistory> listAll = new ArrayList<AtmRechargeHistory>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM atmrechargehistory WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			ResultSet rs = stm.executeQuery();
+			UserDao userDao = new UserDao();
+			while(rs.next()) {
+				String iD = rs.getString("id");
+				String userId = rs.getString("userID");
+				String amountBefore = rs.getString("amountbeforedesposit");
+				String amount = rs.getString("amountdesposit");
+				String amountAfter = rs.getString("amountafterdesposit");
+				Date date = rs.getDate("date");
+				String status = rs.getString("status");
+				String bank = rs.getString("bank");
+				String numAccount = rs.getString("numaccount");
+				String pinCode = rs.getString("pincode");
+				AtmRechargeHistory atmRechargeHistory = new AtmRechargeHistory(iD, userDao.selectById3(userId), amountBefore, amount, amountAfter, date, status, bank, numAccount, pinCode);
+				listAll.add(atmRechargeHistory);
+			}
+			int soTienNap = 0;
+			 // Sử dụng Calendar để trừ đi 1 tháng
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(todaysDate);
+	        cal.add(Calendar.MONTH, -1); // Trừ 1 tháng
+
+	        // Lấy ngày tháng năm mới
+	        Date previousMonthDate = new Date(cal.getTimeInMillis());
+			for (AtmRechargeHistory atmRechargeHistory : listAll) {
+				if(atmRechargeHistory.getDate().getTime() <= todaysDate.getTime() && atmRechargeHistory.getDate().getTime() >= previousMonthDate.getTime()) {
+					soTienNap += Integer.parseInt(atmRechargeHistory.getAmountDesposit());
+				}
+			}
+			ans = String.valueOf(soTienNap);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public List<AtmRechargeHistory> selectListAtmByID(String userID) {
+		// TODO Auto-generated method stub
+		List<AtmRechargeHistory> lst = new ArrayList<AtmRechargeHistory>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM atmrechargehistory WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID);
+			ResultSet rs = stm.executeQuery();
+			UserDao userDao = new UserDao();
+			while(rs.next()) {
+				String iD = rs.getString("id");
+				String userID2 = rs.getString("userID");
+				String amountBefore = rs.getString("amountbeforedesposit");
+				String amount = rs.getString("amountdesposit");
+				String amountAfter = rs.getString("amountafterdesposit");
+				Date date = rs.getDate("date");
+				String status = rs.getString("status");
+				String bank = rs.getString("bank");
+				String numAccount = rs.getString("numaccount");
+				String pinCode = rs.getString("pincode");
+				AtmRechargeHistory atmRechargeHistory = new AtmRechargeHistory(iD, userDao.selectById3(userID2), amountBefore, amount, amountAfter, date, status, bank, numAccount, pinCode);
+				lst.add(atmRechargeHistory);
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return lst;
 	}
 
 }

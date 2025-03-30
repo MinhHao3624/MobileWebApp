@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Orders;
 import model.Product;
@@ -38,6 +39,28 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			e.printStackTrace();
 		}
 		return res;
+	}
+	public boolean deleteOrder(String orderid) {
+		boolean ans = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "DELETE FROM orders WHERE ordersID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, orderid);
+			int res = stm.executeUpdate();
+			if(res > 0) {
+				ans = true;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
+	}
+	public static void main(String[] args) {
+		OrdersDAO dao = new OrdersDAO();
+		System.out.println(dao.deleteOrder("0007"));
 	}
 
 	@Override
@@ -350,6 +373,38 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		e.printStackTrace();
 	}
 	   return res;
+	}
+	public double getTongSoTienBanDuoc(String userID) {
+		// TODO Auto-generated method stub
+		double res = 0;
+		List<Orders> lst = new ArrayList<Orders>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+		    ResultSet rs = stm.executeQuery();
+		    UserDao userDAO = new UserDao();
+		    while(rs.next()) {
+		    	String ordersID = rs.getString("ordersID");
+		    	Date date = rs.getDate("ordersDate");
+		    	String userID2 = rs.getString("userID");
+		    	String status = rs.getString("status");
+		    	double totalAmount = rs.getDouble("totalAmount");
+		    	String shippingAddress = rs.getString("shippingAddress");
+		    	String phone = rs.getString("phone");
+		    	Orders orders = new Orders(ordersID, date, userDAO.selectById3(userID2), status, totalAmount, shippingAddress, phone);
+		    	lst.add(orders);
+		    }
+		    for (Orders orders : lst) {
+				res += orders.getTotalAmount();
+			}
+		    JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	
