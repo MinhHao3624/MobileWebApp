@@ -699,7 +699,6 @@ body {
 	background-color: #c9302c;
 	/*CSS form xác nhận thành công */
 }
-	
 </style>
 </head>
 
@@ -1254,8 +1253,8 @@ body {
 			<div class="buttons">
 				<button class="btn btn-register" onclick="openSignupForm()">Đăng
 					ký</button>
-				<button class="btn btn-cancel"
-					onclick="closeProductModal3()">Hủy bỏ</button>
+				<button class="btn btn-cancel" onclick="closeProductModal3()">Hủy
+					bỏ</button>
 			</div>
 		</div>
 	</div>
@@ -1263,25 +1262,23 @@ body {
 	<div class="signup-form" id="signupForm">
 		<div class="form-container">
 			<h2>Tiến hành đăng ký</h2>
-			<form id="signupFormContent" action="dang-ky-ctv" method="post">
-				<label>Họ và tên:</label> <input type="text" required name = "hoten"><br>
-				<br> <label>Tuổi:</label> <input type="number" min="18" name = "age"
-					required><br><label>Căn cước công dân:</label> <input type="text" name = "cccd"
+			<form id="signupFormContent" action="dang-ky-ctv" method="POST">
+				<label>Họ và tên:</label> <input type="text" required name="hoten"><br>
+				<br> <label>Tuổi:</label> <input type="number" min="18"
+					name="age" required><br>
+				<label>Căn cước công dân:</label> <input type="text" name="cccd"
 					required> <br> <label>Giới tính:</label> <select
-					required name = "gender">
+					required name="gender">
 					<option value="Nam">Nam</option>
 					<option value="Nữ">Nữ</option>
 					<option value="Khác">Khác</option>
 				</select><br> <br> <label>Trình độ học vấn:</label> <select
-					required name = "trinhdo">
+					required name="trinhdo">
 					<option value="THPT">Tốt nghiệp THPT</option>
 					<option value="Cao Đẳng">Cao Đẳng</option>
-					<option value="Đại học">Đại học</option>
-					<option value="Thạc sĩ">Thạc sĩ</option>
-					<option value="Tiến sĩ">Tiến sĩ</option>
 				</select><br> <br> <label>Số tài khoản:</label> <input type="text"
-					required name = "soTaiKhoan"><br> <br> <label>Nhập mã
-					captcha:</label> <input type="text" id="captchaInput" required><br>
+					required name="soTaiKhoan"><br> <br> <label>Nhập
+					mã captcha:</label> <input type="text" id="captchaInput" required><br>
 				<span id="captchaCode"></span>
 				<button type="button" onclick="generateCaptcha()">Tạo mã
 					mới</button>
@@ -1296,22 +1293,58 @@ body {
 		</div>
 	</div>
 	<c:if test="${check4 == true}">
-	<div class="modal" id="successModal">
-				<div class="modal-content">
-					<img
-						src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
-						alt="Notify Icon" style="width: 100px; height: 50px" />
-					<h3>${baoLoi}</h3>
-					<button class="btn-close" onclick="closeModal()" name="action"
-						value="xacThuc">Đóng</button>
-				</div>
+		<div class="modal" id="successModal">
+			<div class="modal-content">
+				<img
+					src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
+					alt="Notify Icon" style="width: 100px; height: 50px" />
+				<h3>${baoLoi}</h3>
+				<button class="btn-close" onclick="closeModal()" name="action"
+					value="xacThuc">Đóng</button>
 			</div>
-			</c:if>
+		</div>
+	</c:if>
+	<c:if test="${check10 == true}">
+	<div class="modal" id="successModal">
+			<div class="modal-content">
+				<img
+					src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
+					alt="Notify Icon" style="width: 100px; height: 50px" />
+				<h3>${baoLoi}</h3>
+				<button class="btn-close" onclick="closeModal()" name="action"
+					value="xacThuc">Đóng</button>
+			</div>
+		</div>
+		</c:if>
+    <c:if test="${check11 == true}">
+	<div class="form-container">
+		<h2>Nạp Tiền</h2>
+		<form action="tienHanhNapTienCtv" method="post">
+			<input type="text" value="${nganHang}" readonly> <input
+				type="text" value="${soTaiKhoan}" readonly> <input
+				type="password" id="pin" placeholder="Nhập mã PIN"
+				oninput="toggleButton()">
+			<button id="submitBtn" disabled>Nạp Tiền</button>
+		</form>
+	</div>
+	</c:if>
+	<script>
+        function toggleButton() {
+            let pinInput = document.getElementById('pin');
+            let submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = pinInput.value.trim() === '';
+        }
+    </script>
 
 	<script>
+	
         function openRegistrationForm() {
             document.getElementById("registrationWrapper").style.display = "flex";
         }
+        function closeModal() {
+    		document.getElementById("successModal").style.display = "none";
+    		
+    	}
         
         function openSignupForm() {
             document.getElementById("signupForm").style.display = "flex";
