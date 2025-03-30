@@ -21,7 +21,7 @@
 	content="create ecommerce website template for your online store, responsive mobile templates">
 <meta name="keywords"
 	content="ecommerce website templates, online store,">
-<title>Index</title>
+<title>Duy Anh Lập trình Web</title>
 <!-- Bootstrapppppp -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Style CSS -->
@@ -237,9 +237,12 @@
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
 								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
+									href="load-product?page=1">Điện
 										thoại</a></li>
 								<li><a href="go-to-blog">Thông tin</a></li>
+								<li><a
+									href="load-product?page=1">Phụ kiện
+										</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
 								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
 							</ul>
