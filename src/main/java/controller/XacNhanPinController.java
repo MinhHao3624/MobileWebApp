@@ -69,7 +69,7 @@ public class XacNhanPinController extends HttpServlet {
 			for (Map.Entry<String, SoTaiKhoan> m : nganHang.getMap().entrySet()) {
 				if(m.getKey().equalsIgnoreCase(bank)) {
 					if(m.getValue().getStk().equalsIgnoreCase(stk)) {
-					if(m.getValue().getMaPin() == Integer.parseInt(maPin)) {
+					if(m.getValue().getMaPin().equalsIgnoreCase(maPin)) {
 						double soDuCur = m.getValue().getSoDu();
 						double soTienDb = Double.parseDouble(soTien);
 						m.getValue().setSoDu(soDuCur - soTienDb);

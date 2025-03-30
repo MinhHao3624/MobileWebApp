@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +11,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.CustomerFeedBackDAO;
+import database.AtmRechargeHistoryDAO;
+import database.CardRechargeDAO;
 import database.ProductFavoriteDAO;
-import model.CustomerFeedback;
+import database.UserDao;
+import model.AtmRechargeHistory;
+import model.CardRechargeHistory;
 import model.ListOrderDetailsItem;
 import model.User;
 
 /**
- * Servlet implementation class XemChiTietFeedBackControl
+ * Servlet implementation class XemLichSuNapController
  */
-@WebServlet("/xem-chi-tiet-feedback")
-public class XemChiTietFeedBackControl extends HttpServlet {
+@WebServlet("/xem-lich-su-nap")
+public class XemLichSuNapController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public XemChiTietFeedBackControl() {
+    public XemLichSuNapController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,14 +40,16 @@ public class XemChiTietFeedBackControl extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		try {
-			HttpSession session = request.getSession(false);
-			User us = (User) session.getAttribute("khachHang");
-			CustomerFeedBackDAO cusDAO = new CustomerFeedBackDAO();
-			String fbID = request.getParameter("feedbackID");
-			CustomerFeedback cusFB = cusDAO.selectByIDFB(fbID);
+	     try {
+	    	HttpSession session = request.getSession(false);
+	    	User us = (User) session.getAttribute("khachHang"); 
+			String userID = request.getParameter("userID");
+			AtmRechargeHistoryDAO atmRechargeHistoryDAO = new AtmRechargeHistoryDAO();
+			CardRechargeDAO cardRechargeDAO = new CardRechargeDAO();
+			List<AtmRechargeHistory> li1 = atmRechargeHistoryDAO.selectListAtmByID(userID);
+			List<CardRechargeHistory> li2 = cardRechargeDAO.selectListCardByID(userID);
 			ProductFavoriteDAO proFaDao = new ProductFavoriteDAO();
-			int soLuongSanPhamLike = proFaDao.getSoLuong2(us.getUserID().trim());
+			int soLuongSanPhamLike = proFaDao.getSoLuong2(userID);
 			ListOrderDetailsItem li = (ListOrderDetailsItem) session.getAttribute("listItem");
 			String slSP = "";
 			if (li != null) {
@@ -52,10 +58,13 @@ public class XemChiTietFeedBackControl extends HttpServlet {
 			} else {
 				slSP = "0";
 			}
-			request.setAttribute("feedback", cusFB);
 			request.setAttribute("soLuongSanPhamLike", soLuongSanPhamLike);
 			request.setAttribute("soLuongSP", slSP);
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/profile-feedback-details.jsp");
+			request.setAttribute("kiemTra1", true);
+			request.setAttribute("list1", li1);
+			request.setAttribute("list2", li2);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/nangcap.jsp");
 			rd.forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
