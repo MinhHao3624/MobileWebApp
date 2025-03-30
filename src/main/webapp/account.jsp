@@ -1,12 +1,10 @@
-<%@page import="model.User"%>
+<%@page import="com.projectttweb.webphone.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
-
-
 
 <head>
 <meta charset="utf-8">
@@ -400,8 +398,12 @@
 										class="fas fa-money-check"></i><span>Quản lý đơn hàng</span></li></a>
 							   <a href="go-to-phan-hoi?page=1"><li class="slide-bar"><i
 										class="fas fa-money-check"></i><span>Phản hồi</span></li></a>
+							   <a href="go-to-so-du?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Số dư</span></li></a>
+							   <a href="go-to-nang-cap?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Nâng cấp</span></li></a>
 								<!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
-								<a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}">
+							   <a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}">
 									<li class="slide-bar"><i class="fas fa-lock"></i><span>
 											Đổi mật khẩu</span></li>
 								</a>

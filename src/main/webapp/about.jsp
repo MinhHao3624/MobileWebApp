@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -161,7 +159,7 @@
 				<!-- logo -->
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
 					<div class="logo">
-						<a href="index.html"><img src="images/logo.png" alt="">
+						<a href="index.jsp"><img src="images/logo.png" alt="">
 						</a>
 					</div>
 				</div>
@@ -200,10 +198,10 @@
 							</c:if>
 							<c:if test="${not empty sessionScope.khachHang}">
 								<li><a
-									href="http://localhost:8080/MobileWebApp/account-login?userID=${sessionScope.khachHang.userID}"
+									href="account-login?userID=${sessionScope.khachHang.userID}"
 									class="title hidden-xs">Hi <c:out
 											value="${sessionScope.khachHang.userName}" /></a>|</li>
-								<li><a href="http://localhost:8080/MobileWebApp/dang-xuat"
+								<li><a href="dang-xuat"
 									class="title hidden-xs">Log out </a></li>
 								<li><a href="load-page-favorite-list?userID=${sessionScope.khachHang.userID}"><i class="fa fa-heart"></i><sup class="cart-quantity">${soLuongSanPhamLike}</sup></a></li>
 								<li><a href="go-to-cart" class="title"><i
@@ -227,11 +225,11 @@
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
 								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
+									href="load-product?page=1">Điện
 										thoại</a></li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
-								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
+								<li><a href="go-to-contactus">Liên hệ, hỗ trợ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -541,11 +539,11 @@
                 <div class="footer-widget">
                     <h3 class="footer-title">Tiện ích</h3>
                     <ul class="arrow">
-                        <li><a href="index.html">Trang chủ </a></li>
-                        <li><a href="product-list.html">Điện thoại</a></li>
-                        <li><a href="about.html">Thông tin</a></li>
-                        <li><a href="blog-default.html">Bài viết</a></li>
-                        <li><a href="contact-us.html">Liên hệ, hỗ trợ</a></li>
+                        <li><a href="index.jsp">Trang chủ </a></li>
+                        <li><a href="product-list.jsp">Điện thoại</a></li>
+                        <li><a href="about.jsp">Thông tin</a></li>
+                        <li><a href="blog-default.jsp">Bài viết</a></li>
+                        <li><a href="contact-us.jsp">Liên hệ, hỗ trợ</a></li>
                     </ul>
                 </div>
             </div>

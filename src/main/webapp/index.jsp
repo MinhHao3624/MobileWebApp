@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Product"%>
+<%@page import="com.projectttweb.webphone.model.Product"%>
 <%@page import="java.util.List"%>
-<%@page import="model.User"%>
+<%@page import="com.projectttweb.webphone.model.User"%>
 <%@page import="java.nio.file.attribute.UserDefinedFileAttributeView"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

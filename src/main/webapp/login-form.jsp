@@ -1,4 +1,4 @@
-<%@page import="util.NgonNguDAO"%>
+<%@page import="com.projectttweb.webphone.util.NgonNguDAO"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -15,7 +15,7 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="keywords" content="">
-<title>Duy Anh Lập trình Web</title>
+<title>Login</title>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Style CSS -->
@@ -197,10 +197,10 @@
 	<!-- top-header-->
 	<!-- top-header-->
 	<%
-	Map<String, String> m = (Map<String, String>) request.getAttribute("map");
-	if (m == null) {
-		m = new NgonNguDAO().vietnameseLanguage();
-	}
+	    Map<String, String> m = (Map<String, String>) request.getAttribute("map");
+	    if(m == null) {
+	    	m = new NgonNguDAO().vietnameseLanguage();
+	    }
 	%>
 	<div class="top-header">
 		<div class="container">
@@ -358,11 +358,9 @@
 								boolean check4 = false;
 								boolean check5 = false;
 								String msg = "";
-								String error = request.getAttribute("error") + "";
-								error = error.equals("null") ? "" : error;
 								if (sourceServlet.equals("loginController")) {
-									/* String error = request.getAttribute("error") + "";
-									error = error.equals("null") ? "" : error; */
+									String error = request.getAttribute("error") + "";
+									error = error.equals("null") ? "" : error;
 									String thongBao = request.getAttribute("thongBao") + "";
 									thongBao = thongBao.equals("null") ? "" : thongBao;
 									if (error.equals("taiKhoanChuaXacNhan")) {
@@ -410,8 +408,7 @@
 											<label class="control-label sr-only"></label>
 											<div class="login-input">
 												<input name="password" type="password" class="form-control"
-													placeholder="<%=m.get("Login.MatKhau")%>"
-													required="required">
+													placeholder="<%= m.get("Login.MatKhau") %>" required="required">
 												<div class="login-icon">
 													<i class="fa fa-lock"></i>
 												</div>

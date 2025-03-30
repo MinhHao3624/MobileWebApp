@@ -1,4 +1,4 @@
-<%@page import="model.User"%>
+<%@page import="com.projectttweb.webphone.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -457,7 +457,7 @@
         function closeModal() {
             document.getElementById("successModal").style.display = "none";
         }
-        
+
         // Đếm ngược thời gian nếu có
         <%if (lastAttemptTime != null) {%>
             var timeLeft = <%=Math.max(0, 10000 - (System.currentTimeMillis() - lastAttemptTime)) / 1000%>;
@@ -472,10 +472,10 @@
                 }
             }, 1000);
         <%}%>
-        
+
         // Gán sự kiện click cho nút đóng
         document.getElementById("closeButton")?.addEventListener("click", closeModal);
-        
+
         // Phần xử lý tìm kiếm giữ nguyên
         const searchBox = document.getElementById("searchBox");
         const suggestionsList = document.getElementById("product-suggestions");

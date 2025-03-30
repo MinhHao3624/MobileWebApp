@@ -11,7 +11,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="create ecommerce website template for your online store, responsive mobile templates">
     <meta name="keywords" content="ecommerce website templates, online store,">
-    <title>No Acount</title>
+    <title>Duy Anh Lập trình Web</title>
     <!-- Bootstrapppppp -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Style CSS -->

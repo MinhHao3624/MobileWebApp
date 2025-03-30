@@ -1,6 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="model.ProductFavorite"%>
+<%@page import="com.projectttweb.webphone.model.ProductFavorite"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
