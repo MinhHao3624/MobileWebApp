@@ -1,4 +1,4 @@
-package controller;
+package com.projectttweb.webphone.controller;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -12,18 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.AtmRechargeHistoryDAO;
-import database.CardRechargeDAO;
-import database.OrderDetailsDAO;
-import database.OrdersDAO;
-import database.ProductDao;
-import database.ProductFavoriteDAO;
-import database.TypeUserDAO;
-import database.UserDao;
-import model.AtmRechargeHistory;
-import model.ListOrderDetailsItem;
-import model.Product;
-import model.User;
+import com.projectttweb.webphone.database.AtmRechargeHistoryDAO;
+import com.projectttweb.webphone.database.CardRechargeDAO;
+import com.projectttweb.webphone.database.OrderDetailsDAO;
+import com.projectttweb.webphone.database.OrdersDAO;
+import com.projectttweb.webphone.database.ProductDao;
+import com.projectttweb.webphone.database.ProductFavoriteDAO;
+import com.projectttweb.webphone.database.TypeUserDAO;
+import com.projectttweb.webphone.database.UserDao;
+import com.projectttweb.webphone.model.AtmRechargeHistory;
+import com.projectttweb.webphone.model.ListOrderDetailsItem;
+import com.projectttweb.webphone.model.Product;
+import com.projectttweb.webphone.model.User;
 
 /**
  * Servlet implementation class GoToNangCap

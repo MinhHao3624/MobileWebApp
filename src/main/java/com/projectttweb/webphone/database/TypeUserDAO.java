@@ -1,11 +1,11 @@
-package database;
+package com.projectttweb.webphone.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.TypeUser;
+import com.projectttweb.webphone.model.TypeUser;
 
 public class TypeUserDAO implements DAOInterface<TypeUser>{
 

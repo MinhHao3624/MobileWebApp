@@ -1,11 +1,11 @@
-package database;
+package com.projectttweb.webphone.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.SoTaiKhoan;
+import com.projectttweb.webphone.model.SoTaiKhoan;
 
 public class SoTaiKhoanDAO implements DAOInterface<SoTaiKhoan>{
 

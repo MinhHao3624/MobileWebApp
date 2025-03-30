@@ -1,4 +1,4 @@
-package controller;
+package com.projectttweb.webphone.controller;
 
 import java.io.IOException;
 import java.time.Year;
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.SoTaiKhoanDAO;
-import database.UserDao;
-import model.SoTaiKhoan;
-import model.User;
+import com.projectttweb.webphone.database.SoTaiKhoanDAO;
+import com.projectttweb.webphone.database.UserDao;
+import com.projectttweb.webphone.model.SoTaiKhoan;
+import com.projectttweb.webphone.model.User;
 
 /**
  * Servlet implementation class DangKiCTVControl

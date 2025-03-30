@@ -1,4 +1,4 @@
-package controller;
+package com.projectttweb.webphone.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import database.ProductDao;
-import database.UserDao;
-import model.Product;
-import model.User;
+import com.projectttweb.webphone.database.ProductDao;
+import com.projectttweb.webphone.database.UserDao;
+import com.projectttweb.webphone.model.Product;
+import com.projectttweb.webphone.model.User;
 
 /**
  * Servlet implementation class XemSoSanPhamDangBan

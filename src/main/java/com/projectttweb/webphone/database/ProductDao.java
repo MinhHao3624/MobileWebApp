@@ -1,4 +1,4 @@
-package database;
+package com.projectttweb.webphone.database;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import model.InformationProduct;
-import model.Product;
-import model.ProductCategories;
+import com.projectttweb.webphone.model.InformationProduct;
+import com.projectttweb.webphone.model.Product;
+import com.projectttweb.webphone.model.ProductCategories;
 
 public class ProductDao implements DAOInterface<Product> {
 

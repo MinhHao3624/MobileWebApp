@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.projectttweb.webphone.model.OrderDetails;
 import com.projectttweb.webphone.model.Orders;
+import com.projectttweb.webphone.model.Product;
 
 public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 

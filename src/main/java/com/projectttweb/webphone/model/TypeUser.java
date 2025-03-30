@@ -1,4 +1,4 @@
-package model;
+package com.projectttweb.webphone.model;
 
 public class TypeUser {
 	private String iD;

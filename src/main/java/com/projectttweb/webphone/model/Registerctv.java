@@ -1,4 +1,4 @@
-package model;
+package com.projectttweb.webphone.model;
 
 import java.sql.Date;
 

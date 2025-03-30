@@ -1,4 +1,4 @@
-package controller;
+package com.projectttweb.webphone.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.AtmRechargeHistoryDAO;
-import database.CardRechargeDAO;
-import database.ProductFavoriteDAO;
-import database.UserDao;
-import model.AtmRechargeHistory;
-import model.CardRechargeHistory;
-import model.ListOrderDetailsItem;
-import model.User;
+import com.projectttweb.webphone.database.AtmRechargeHistoryDAO;
+import com.projectttweb.webphone.database.CardRechargeDAO;
+import com.projectttweb.webphone.database.ProductFavoriteDAO;
+import com.projectttweb.webphone.database.UserDao;
+import com.projectttweb.webphone.model.AtmRechargeHistory;
+import com.projectttweb.webphone.model.CardRechargeHistory;
+import com.projectttweb.webphone.model.ListOrderDetailsItem;
+import com.projectttweb.webphone.model.User;
 
 /**
  * Servlet implementation class XemLichSuNapController

@@ -1,8 +1,8 @@
-package database;
+package com.projectttweb.webphone.database;
 
 import java.util.ArrayList;
 
-import model.Registerctv;
+import com.projectttweb.webphone.model.Registerctv;
 
 public class RegisterCtvDAO implements DAOInterface<Registerctv> {
 

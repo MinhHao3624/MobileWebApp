@@ -3,7 +3,7 @@ package com.projectttweb.webphone.database;
 import java.util.ArrayList;
 
 import com.projectttweb.webphone.model.LogAction;
-import model.LogAction;
+import com.projectttweb.webphone.model.LogAction;
 
 public class LogActionDAO implements DAOInterface<LogAction>{
 

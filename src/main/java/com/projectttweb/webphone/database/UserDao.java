@@ -755,27 +755,6 @@ public class UserDao implements DAOInterface<User> {
 		return res;
 	}
 
-	public String getSoDu(String userID) {
-		// TODO Auto-generated method stub
-		String ans = "";
-		try {
-			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID.trim());
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
-				ans = rs.getString("soDu");
-				break;
-			}
-			JDBCUtil.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return ans;
-	}
-
 	public String isCTV(String userID) {
 		// TODO Auto-generated method stub
 		String res = "";
@@ -837,7 +816,6 @@ public class UserDao implements DAOInterface<User> {
 		}
 		return res;
 	}
-
 
 	public String getSoDu(String userID) {
 		// TODO Auto-generated method stub
