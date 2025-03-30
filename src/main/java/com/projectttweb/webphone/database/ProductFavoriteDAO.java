@@ -80,8 +80,9 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 		try {
 			ArrayList<ProductFavorite> li = selectAll();
 			for (ProductFavorite productFavorite : li) {
-				if(productFavorite.getUser().getUserID().equalsIgnoreCase(userID.trim()));
-				lstAns.add(productFavorite);
+				if (productFavorite.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
+					lstAns.add(productFavorite);
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -89,6 +90,7 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 		}
 		return lstAns;
 	}
+
 	public static void main(String[] args) {
 		ProductFavoriteDAO proDao = new ProductFavoriteDAO();
 		List<ProductFavorite> li = proDao.getLstProFavorite("1733249055174");
@@ -115,6 +117,7 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 		}
 		return res;
 	}
+
 	public boolean selectProductFavorite(String productID, String userID) {
 		boolean res = false;
 		try {
@@ -124,7 +127,7 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 			stm.setString(1, productID);
 			stm.setString(2, userID);
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				res = true;
 				break;
 			}
@@ -221,6 +224,7 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 		}
 		return count;
 	}
+
 	public int getSoLuong2(String userID) {
 		int res = 0;
 		try {
@@ -229,7 +233,7 @@ public class ProductFavoriteDAO implements DAOInterface<ProductFavorite> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID);
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				res++;
 			}
 			JDBCUtil.closeConnection(con);

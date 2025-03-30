@@ -12,7 +12,7 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="keywords" content="">
-<title>Duy Anh LT WEB</title>
+<title>Profile reset password</title>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Style CSS -->

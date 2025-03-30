@@ -5,26 +5,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<title>Check OTP</title>
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- Style CSS -->
-<link href="css/style.css" rel="stylesheet">
-<!-- Google Fonts -->
-<link
-	href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i"
-	rel="stylesheet">
-<!-- FontAwesome CSS -->
-<link href="css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>DuyAnh LT WEB</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- FontAwesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -457,7 +456,7 @@
         function closeModal() {
             document.getElementById("successModal").style.display = "none";
         }
-        
+
         // Đếm ngược thời gian nếu có
         <%if (lastAttemptTime != null) {%>
             var timeLeft = <%=Math.max(0, 10000 - (System.currentTimeMillis() - lastAttemptTime)) / 1000%>;
@@ -472,10 +471,10 @@
                 }
             }, 1000);
         <%}%>
-        
+
         // Gán sự kiện click cho nút đóng
         document.getElementById("closeButton")?.addEventListener("click", closeModal);
-        
+
         // Phần xử lý tìm kiếm giữ nguyên
         const searchBox = document.getElementById("searchBox");
         const suggestionsList = document.getElementById("product-suggestions");

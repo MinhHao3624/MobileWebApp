@@ -2,5 +2,5 @@
 - Thành viên:
 -             22130063 - Trần Anh Duy
               22130074 - Nguyễn Võ Minh Hào
-              22130306 - Trần Nhật Tường
+              22130306 - Trần Nhật Trường
             

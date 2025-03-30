@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import com.mysql.cj.jdbc.Driver;
 
 public class JDBCUtil {
-	//private static final String DB_URL = "jdbc:sqlserver://localhost:1752;databaseName=ManagementPhoneWeb;integratedSecurity=true;";
+	private static final String DB_URL = "jdbc:sqlserver://localhost:1752;databaseName=ManagementPhoneWeb;integratedSecurity=true;";
     private static final String USER = "sa"; // Tên đăng nhập SQL Server
     private static final String PASSWORD = "duyvlm10"; // Mật khẩu SQL Server
 	public static Connection getConnection() throws ClassNotFoundException  {

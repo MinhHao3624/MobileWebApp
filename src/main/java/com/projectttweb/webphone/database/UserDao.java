@@ -313,8 +313,10 @@ public class UserDao implements DAOInterface<User> {
 				int status = rs.getInt("status");
 				String image = rs.getString("image");
 				String key = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
 				us = new User(userID, userName, passWord, fullName, email, phoneNum, role, dateOfBirth, sex, addRess,
-						date, maXacNhan, thoiGianXacNhan, status, image, key);
+						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu, typeUser);
 				break;
 			}
 			JDBCUtil.closeConnection(con);
@@ -355,8 +357,9 @@ public class UserDao implements DAOInterface<User> {
 				String image = rs.getString("image");
 				String key = rs.getString("isKey");
 				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
 				us = new User(userID, userName, passWord, fullName, email, phoneNum, role, dateOfBirth, sex, addRess,
-						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu);
+						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu, typeUser);
 				break;
 			}
 			JDBCUtil.closeConnection(con);
@@ -415,8 +418,10 @@ public class UserDao implements DAOInterface<User> {
 				int status = rs.getInt("status");
 				String img = rs.getString("image");
 				String key = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
 				us = new User(userID, userName, passWord, fullName, email, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key);
+						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
 				System.out.println("okok");
 				break;
 			}
@@ -575,8 +580,10 @@ public class UserDao implements DAOInterface<User> {
 				int status = rs.getInt("status");
 				String img = rs.getString("image");
 				String key = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
 				user = new User(userID, userName, passWord, fullName, gmail, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key);
+						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
 				System.out.println("okok");
 				break;
 			}
@@ -747,6 +754,90 @@ public class UserDao implements DAOInterface<User> {
 		}
 		return res;
 	}
+
+	public String getSoDu(String userID) {
+		// TODO Auto-generated method stub
+		String ans = "";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				ans = rs.getString("soDu");
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public String isCTV(String userID) {
+		// TODO Auto-generated method stub
+		String res = "";
+		User user = selectById3(userID);
+		if(user.getRole().getRoleID() == 3) {
+			res = "ok";
+		}else {
+			res = "notok";
+		}
+		return res;
+	}
+
+	public boolean kiemTraHoTen(String name, String userID) {
+		// TODO Auto-generated method stub
+		boolean check = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID);
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				String name2 = rs.getString("fullName");
+				if(name.equalsIgnoreCase(name2)) {
+					check = true;
+					break;
+				}else {
+					break;
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return check;
+	}
+
+	public boolean updateCTV(String age, String cccd, String gender, String degree, String stk,String nh, String userID) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET age = ?, cccd = ?, degree = ?, numbank = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1, Integer.valueOf(age));
+			stm.setString(2, cccd);
+			stm.setString(3, degree);
+			stm.setString(4, stk);
+			stm.setString(5, userID);
+			int res2 = stm.executeUpdate();
+			if(res2 > 0) {
+				res = true;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 
 	public String getSoDu(String userID) {
 		// TODO Auto-generated method stub

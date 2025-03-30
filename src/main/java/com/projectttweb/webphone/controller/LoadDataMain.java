@@ -59,7 +59,6 @@ public class LoadDataMain extends HttpServlet {
 
 		    // Lấy thông tin user từ session
 		    User user = (User) session.getAttribute("khachHang");
-
 		    ProductDao proDao = new ProductDao();
 		    List<Product> lstPro1 = proDao.getProductMain();
 		    List<Product> lstPro2 = proDao.getProductMain();
@@ -142,7 +141,6 @@ public class LoadDataMain extends HttpServlet {
 		System.out.println(df.format(res));
 		System.out.println(ansInt);
 		System.out.println(priceDis);
-
 	}
 
 }

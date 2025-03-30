@@ -1,53 +1,51 @@
-package com.projectttweb.webphone.database;
+package database;
 
 import java.util.ArrayList;
 
-import com.projectttweb.webphone.model.LogAction;
-import model.LogAction;
+import model.Registerctv;
 
-public class LogActionDAO implements DAOInterface<LogAction>{
+public class RegisterCtvDAO implements DAOInterface<Registerctv> {
 
 	@Override
-	public ArrayList<LogAction> selectAll() {
+	public ArrayList<Registerctv> selectAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LogAction selectById(LogAction t) {
+	public Registerctv selectById(Registerctv t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insert(LogAction t) {
+	public int insert(Registerctv t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int insertAll(ArrayList<LogAction> arr) {
+	public int insertAll(ArrayList<Registerctv> arr) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int delete(LogAction t) {
+	public int delete(Registerctv t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteAll(ArrayList<LogAction> arr) {
+	public int deleteAll(ArrayList<Registerctv> arr) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(LogAction t) {
+	public int update(Registerctv t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 
 }

@@ -5,12 +5,14 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import com.projectttweb.webphone.model.OrderDetails;
 import com.projectttweb.webphone.model.Orders;
 
-public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
+public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 
 	@Override
 	public ArrayList<OrderDetails> selectAll() {
@@ -23,13 +25,14 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 			ResultSet rs = stm.executeQuery();
 			OrdersDAO orderDAO = new OrdersDAO();
 			ProductDao proDao = new ProductDao();
-			while(rs.next()) {
+			while (rs.next()) {
 				String orderDetailsID = rs.getString("orderDetailsID");
 				int quantity = rs.getInt("quantity");
 				String orderID = rs.getString("orderID");
 				String productID = rs.getString("productID");
 				double unitPrice = rs.getDouble("unitPrice");
-				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity, proDao.selectProByID(productID), orderDAO.selectOrderByID(orderID), unitPrice);
+				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity, proDao.selectProByID(productID),
+						orderDAO.selectOrderByID(orderID), unitPrice);
 				lst.add(orderDetails);
 			}
 			JDBCUtil.closeConnection(con);
@@ -39,8 +42,6 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 		}
 		return lst;
 	}
-	
-	
 
 	@Override
 	public OrderDetails selectById(OrderDetails t) {
@@ -86,16 +87,16 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 			String sql = "SELECT * FROM orderdetails ORDER BY orderDetailsID DESC LIMIT 1";
 			PreparedStatement stm = con.prepareStatement(sql);
 			ResultSet rs = stm.executeQuery();
-			//ProductDao proDAO = new ProductDao();
-			//OrdersDAO orderDAO = new OrdersDAO();
-			while(rs.next()) {
+			// ProductDao proDAO = new ProductDao();
+			// OrdersDAO orderDAO = new OrdersDAO();
+			while (rs.next()) {
 				String orderDetailsID = rs.getString("orderDetailsID");
 //				int quantity = rs.getInt("quantity");
 //				String orderID = rs.getString("orderID");
 //				String productID = rs.getString("productID");
 //				double unitPrice = rs.getDouble("unitPrice");
 //				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity, proDAO.selectProByID(productID), orderDAO.selectOrderByID(orderID), unitPrice);
-       			ans = orderDetailsID;
+				ans = orderDetailsID;
 				break;
 			}
 			JDBCUtil.closeConnection(con);
@@ -104,7 +105,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 			e.printStackTrace();
 		}
 		return ans;
-		
+
 	}
 
 	public int insertOrderDetailsInDB(OrderDetails orderDetails) {
@@ -134,7 +135,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 		try {
 			ArrayList<OrderDetails> lst = selectAll();
 			for (OrderDetails orderDetails : lst) {
-				if(orderDetails.getOrder().getOrderID().equalsIgnoreCase(orderID.trim())) {
+				if (orderDetails.getOrder().getOrderID().equalsIgnoreCase(orderID.trim())) {
 					lstAns.add(orderDetails);
 				}
 			}
@@ -144,7 +145,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 		}
 		return lstAns;
 	}
-	
+
 	public List<OrderDetails> getListOrderDetails2(String orderID2) {
 		List<OrderDetails> lst = new ArrayList<OrderDetails>();
 		try {
@@ -155,13 +156,14 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 			OrdersDAO orderDAO = new OrdersDAO();
 			ProductDao proDao = new ProductDao();
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				String orderDetailsID = rs.getString("orderDetailsID");
 				int quantity = rs.getInt("quantity");
 				String orderID = rs.getString("orderID");
 				String productID = rs.getString("productID");
 				double unitPrice = rs.getDouble("unitPrice");
-				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity, proDao.selectProByID2(productID), orderDAO.selectOrderByID(orderID), unitPrice);
+				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity, proDao.selectProByID2(productID),
+						orderDAO.selectOrderByID(orderID), unitPrice);
 				lst.add(orderDetails);
 			}
 			JDBCUtil.closeConnection(con);
@@ -171,8 +173,48 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 		}
 		return lst;
 	}
-		
-	
-	
+
+	public List<Product> selectSoSPDaBanTrongThang(String userID, Date todaysDate) {
+		// TODO Auto-generated method stub
+		List<Product> li = new ArrayList<Product>();
+		List<OrderDetails> list = new ArrayList<OrderDetails>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orderdetails";
+			PreparedStatement stm = con.prepareStatement(sql);
+			ResultSet rs = stm.executeQuery();
+			OrdersDAO ordersDAO = new OrdersDAO();
+			ProductDao productDAO = new ProductDao();
+			while (rs.next()) {
+				String orderDetailsID = rs.getString("orderDetailsID");
+				int quantity = rs.getInt("quantity");
+				String orderID = rs.getString("orderID");
+				String productID = rs.getString("productID");
+				double unitPrice = rs.getDouble("unitPrice");
+				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity,
+						productDAO.selectProByID2(productID), ordersDAO.selectOrderByID2(orderID), unitPrice);
+				list.add(orderDetails);
+			}
+			int count = 0;
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(todaysDate);
+			cal.add(Calendar.MONTH, -1); // Trừ 1 tháng
+
+			// Lấy ngày tháng năm mới
+			Date previousMonthDate = new Date(cal.getTimeInMillis());
+			for (OrderDetails orderDetails : list) {
+				if (orderDetails.getOrder().getUser().getUserID().equalsIgnoreCase(userID)) {
+					if(orderDetails.getOrder().getOrdersDate().getTime() >= previousMonthDate.getTime() && orderDetails.getOrder().getOrdersDate().getTime() <= todaysDate.getTime()) {
+						li.add(orderDetails.getProduct());
+					}
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return li;
+	}
 
 }

@@ -19,10 +19,15 @@ private Date confirmationTime;
 private int status;
 private String imageAvatar;
 private String isKey;
-public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role,
-		Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime,
-		int status, String imageAvatar, String isKey) {
-	super();
+private String soDu;
+private String typeUser;
+private int age;
+private String cccd;
+private String degree;
+private SoTaiKhoan soTaiKhoan;
+public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
+		Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode,
+		Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser) {
 	this.userID = userID;
 	this.userName = userName;
 	this.passWord = passWord;
@@ -39,7 +44,42 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.status = status;
 	this.imageAvatar = imageAvatar;
 	this.isKey = isKey;
+	this.soDu = soDu;
+	this.typeUser = typeUser;
 }
+
+
+
+
+public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
+		Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode,
+		Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, int age,
+		String cccd, String degree, SoTaiKhoan numBank) {
+	this.userID = userID;
+	this.userName = userName;
+	this.passWord = passWord;
+	this.fullName = fullName;
+	this.email = email;
+	this.phoneNumber = phoneNumber;
+	this.role = role;
+	this.dateOfBirth = dateOfBirth;
+	this.sex = sex;
+	this.address = address;
+	this.createAt = createAt;
+	this.authenticationCode = authenticationCode;
+	this.confirmationTime = confirmationTime;
+	this.status = status;
+	this.imageAvatar = imageAvatar;
+	this.isKey = isKey;
+	this.soDu = soDu;
+	this.typeUser = typeUser;
+	this.age = age;
+	this.cccd = cccd;
+	this.degree = degree;
+	this.soTaiKhoan = numBank;
+}
+
+
 
 
 public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role,
@@ -58,6 +98,8 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.createAt = createAt;
 	this.imageAvatar = imageAvatar;
 	this.isKey = "Hoạt động";
+	this.soDu = "0";
+	this.typeUser = "1";
 }
 public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role,
 		Date dateOfBirth, String sex, String address, Date createAt, String imageAvatar, String isKey) {
@@ -75,6 +117,8 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.createAt = createAt;
 	this.imageAvatar = imageAvatar;
 	this.isKey = isKey;
+	this.soDu = "0";
+	this.typeUser = "1";
 }
 
 public User() {
@@ -208,6 +252,91 @@ public String getIsKey() {
 public void setIsKey(String isKey) {
 	this.isKey = isKey;
 }
+
+
+public String getSoDu() {
+	return soDu;
+}
+
+
+public void setSoDu(String soDu) {
+	this.soDu = soDu;
+}
+
+
+
+public String getTypeUser() {
+	return typeUser;
+}
+
+
+
+public void setTypeUser(String typeUser) {
+	this.typeUser = typeUser;
+}
+
+
+
+
+public int getAge() {
+	return age;
+}
+
+
+
+
+public void setAge(int age) {
+	this.age = age;
+}
+
+
+
+
+public String getCccd() {
+	return cccd;
+}
+
+
+
+
+public void setCccd(String cccd) {
+	this.cccd = cccd;
+}
+
+
+
+
+public String getDegree() {
+	return degree;
+}
+
+
+
+
+public void setDegree(String degree) {
+	this.degree = degree;
+}
+
+
+
+
+public SoTaiKhoan getSoTaiKhoan() {
+	return soTaiKhoan;
+}
+
+
+
+
+public void setSoTaiKhoan(SoTaiKhoan soTaiKhoan) {
+	this.soTaiKhoan = soTaiKhoan;
+}
+
+
+
+
+
+
+
 
 
 

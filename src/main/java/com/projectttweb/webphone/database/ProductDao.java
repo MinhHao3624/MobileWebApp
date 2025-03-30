@@ -1,4 +1,4 @@
-package com.projectttweb.webphone.database;
+package database;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.projectttweb.webphone.model.InformationProduct;
-import com.projectttweb.webphone.model.Product;
-import com.projectttweb.webphone.model.ProductCategories;
+import model.InformationProduct;
+import model.Product;
+import model.ProductCategories;
 
 public class ProductDao implements DAOInterface<Product> {
 
@@ -2231,6 +2231,7 @@ public class ProductDao implements DAOInterface<Product> {
 					}
 				}
 			} else {
+				// dưới đây sẽ xử lý cho các điện thoại khác iphone , e xử lý cho iphone các điện thoại khác tương tự
 
 			}
 		} catch (Exception e) {
@@ -2490,5 +2491,77 @@ public class ProductDao implements DAOInterface<Product> {
 			e.printStackTrace();
 		}
 		return ans.size();
+	}
+
+	public List<Product> selectSoSPDaDangBan(String userID) {
+		// TODO Auto-generated method stub
+		List<Product> liPro = new ArrayList<Product>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM product WHERE userID = ? AND status = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			stm.setString(2, "còn hàng");
+			ResultSet rs = stm.executeQuery();
+			InformationproductDAO inforDAO = new InformationproductDAO();
+			ProductCategoriesDAO proCateDAO = new ProductCategoriesDAO();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String productID = rs.getString("productID");
+				String name = rs.getString("name");
+				String price = rs.getString("price");
+				int stock = rs.getInt("stockQuantity");
+				String des = rs.getString("description");
+				String img = rs.getString("image");
+				Date createAt = rs.getDate("createAt");
+				String proCateID = rs.getString("productCategoriesID");
+				String infoProID = rs.getString("informationProductID");
+				String usID = rs.getString("userID");
+				String status = rs.getString("status");
+				Product pro = new Product(productID, name, price, price, stock, des, img, createAt, proCateDAO.getProCateByID(proCateID), inforDAO.selectByIDNew(infoProID), userDAO.selectById3(userID), status);
+				liPro.add(pro);
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return liPro;
+	}
+
+	public List<Product> selectSoSPDaThuHoi(String userID) {
+		// TODO Auto-generated method stub
+		List<Product> liPro = new ArrayList<Product>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM product WHERE userID = ? AND status = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			stm.setString(2, "thu hồi");
+			ResultSet rs = stm.executeQuery();
+			InformationproductDAO inforDAO = new InformationproductDAO();
+			ProductCategoriesDAO proCateDAO = new ProductCategoriesDAO();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String productID = rs.getString("productID");
+				String name = rs.getString("name");
+				String price = rs.getString("price");
+				int stock = rs.getInt("stockQuantity");
+				String des = rs.getString("description");
+				String img = rs.getString("image");
+				Date createAt = rs.getDate("createAt");
+				String proCateID = rs.getString("productCategoriesID");
+				String infoProID = rs.getString("informationProductID");
+				String usID = rs.getString("userID");
+				String status = rs.getString("status");
+				Product pro = new Product(productID, name, price, price, stock, des, img, createAt, proCateDAO.getProCateByID(proCateID), inforDAO.selectByIDNew(infoProID), userDAO.selectById3(userID), status);
+				liPro.add(pro);
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return liPro;
 	}
 }
