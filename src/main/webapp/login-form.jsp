@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <!-- Mirrored from easetemplate.com/free-website-templates/mobistore/login-form.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:41:05 GMT -->
 
 <head>
@@ -291,13 +290,14 @@
 						<!-- navigations-->
 						<div id="navigation">
 							<ul>
-								<li class="active"><a href="LoadDataMain"><%= m.get("Login.TrangChu") %></a></li>
+								<li class="active"><a href="LoadDataMain"><%=m.get("Login.TrangChu")%></a></li>
 								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1"><%= m.get("Login.DienThoai") %>
-										</a></li>
-								<li><a href="go-to-blog"><%= m.get("Login.ThongTin") %></a></li>
-								<li><a href="go-to-about"><%= m.get("Login.BaiViet") %></a></li>
-								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus"><%= m.get("Login.LienHe") %></a></li>
+									href="http://localhost:8080/MobileWebApp/load-product?page=1"><%=m.get("Login.DienThoai")%>
+								</a></li>
+								<li><a href="go-to-blog"><%=m.get("Login.ThongTin")%></a></li>
+								<li><a href="go-to-about"><%=m.get("Login.BaiViet")%></a></li>
+								<li><a
+									href="http://localhost:8080/MobileWebApp/go-to-contactus"><%=m.get("Login.LienHe")%></a></li>
 							</ul>
 						</div>
 					</div>
@@ -395,8 +395,8 @@
 											<label class="control-label sr-only" for="email"></label>
 											<div class="login-input">
 												<input id="email" type="text" class="form-control"
-													placeholder="<%= m.get("Login.TenDangNhap") %>" required="required"
-													name="userName">
+													placeholder="<%=m.get("Login.TenDangNhap")%>"
+													required="required" name="userName">
 												<div class="login-icon">
 													<i class="fa fa-user"></i>
 												</div>
@@ -419,18 +419,24 @@
 										</div>
 									</div>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20 ">
-										<button class="btn btn-primary btn-block mb10"><%= m.get("Login.DangNhap") %>
-											</button>
+										<%-- <button class="btn btn-primary btn-block mb10"><%= m.get("Login.DangNhap") %>
+											</button> --%>
+										<button id="loginButton"
+											class="btn btn-primary btn-block mb10"
+											<%="errorAccountEqualsFive".equals(error) ? "disabled" : ""%>>
+											<%=m.get("Login.DangNhap")%>
+										</button>
 										<div style="margin: 0 auto; width: 50%">
 											<a href="signup-form.jsp" style="margin-right: 40px;"
-												class="text-blue"><%= m.get("Login.DangKy") %></a> <a href="forgot-password.jsp"
-												class="text-blue"><%= m.get("Login.QuenMK") %> </a>
+												class="text-blue"><%=m.get("Login.DangKy")%></a> <a
+												href="forgot-password.jsp" class="text-blue"><%=m.get("Login.QuenMK")%>
+											</a>
 										</div>
 									</div>
 								</form>
 
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-									<h4 class="mb20"><%= m.get("Login.Other1") %></h4>
+									<h4 class="mb20"><%=m.get("Login.Other1")%></h4>
 									<div class="social-media">
 										<a href="#" class="btn-social-rectangle btn-facebook"><i
 											class="fa fa-facebook"></i><span class="social-text">Facebook</span></a>
@@ -453,8 +459,8 @@
 									<img src="images/feature_icon_1.png" alt="">
 								</div>
 								<div class="feature-content">
-									<h4><%= m.get("Login.MucDoUyTin") %></h4>
-									<p><%= m.get("Login.text1") %></p>
+									<h4><%=m.get("Login.MucDoUyTin")%></h4>
+									<p><%=m.get("Login.text1")%></p>
 								</div>
 							</div>
 							<div class="feature-left">
@@ -462,8 +468,8 @@
 									<img src="images/feature_icon_2.png" alt="">
 								</div>
 								<div class="feature-content">
-									<h4><%= m.get("Login.Other2") %></h4>
-									<p><%= m.get("Login.text2") %></p>
+									<h4><%=m.get("Login.Other2")%></h4>
+									<p><%=m.get("Login.text2")%></p>
 								</div>
 							</div>
 							<div class="feature-left">
@@ -471,8 +477,8 @@
 									<img src="images/feature_icon_3.png" alt="">
 								</div>
 								<div class="feature-content">
-									<h4><%= m.get("Login.Other3") %></h4>
-									<p><%= m.get("Login.text3") %></p>
+									<h4><%=m.get("Login.Other3")%></h4>
+									<p><%=m.get("Login.text3")%></p>
 								</div>
 							</div>
 						</div>

@@ -10,7 +10,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <!-- Mirrored from easetemplate.com/free-website-templates/mobistore/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:40:15 GMT -->
 <head>
 <meta charset="utf-8">
@@ -237,6 +236,14 @@
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
 								<li><a href="load-product?page=1">Điện thoại</a></li>
+								<li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+									<ul>
+										<li><a href="load-accessories?category=phu-kien-di-dong&page=1">Phụ kiện di động</a></li>
+										<li><a href="load-accessories?category=camera-flycam-gimbal&page=1">Camera/Flycam/Gimbal</a></li>
+										<li><a href="load-accessories?category=phu-kien-laptop&page=1">Phụ kiện laptop</a></li>
+										<li><a href="load-accessories?category=thuong-hieu&page=1">Thương hiệu</a></li>
+									</ul>
+								</li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
 								<li><a href="go-to-contactus">Liên hệ, hỗ trợ</a></li>
@@ -863,7 +870,7 @@
 	            .then(data => {
 	                // Xóa các gợi ý cũ
 	                suggestionsList.innerHTML = "";
-                  
+
 	                // Thêm các gợi ý mới
 	                data.forEach(product => {
 	                    const suggestionItem = document.createElement("li");
@@ -879,7 +886,7 @@
 	                // Hiển thị danh sách gợi ý
 	                suggestionsList.classList.add("active");
 	            });
-	            
+
 	    } else {
 	        // Ẩn danh sách nếu không có từ khóa
 	        suggestionsList.innerHTML = "";
@@ -893,15 +900,15 @@
 	        suggestionsList.innerHTML = "";
 	        suggestionsList.classList.remove("active");
 	    }
-	}); 
-	
+	});
+
 	</script>
 	<script type="text/javascript">
 	function closeModal() {
 		document.getElementById("successModal").style.display = "none";
 
 	}
-	
+
 	</script>
 	<script type="text/javascript">
 	document.querySelectorAll('.add-to-cart').forEach(link => {

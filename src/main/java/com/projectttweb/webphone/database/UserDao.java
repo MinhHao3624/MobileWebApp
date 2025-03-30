@@ -332,7 +332,7 @@ public class UserDao implements DAOInterface<User> {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID=?";
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, userID1);
+			st.setString(1, userID1.trim());
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				String userID = rs.getString("userID");
@@ -354,8 +354,9 @@ public class UserDao implements DAOInterface<User> {
 				int status = rs.getInt("status");
 				String image = rs.getString("image");
 				String key = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
 				us = new User(userID, userName, passWord, fullName, email, phoneNum, role, dateOfBirth, sex, addRess,
-						date, maXacNhan, thoiGianXacNhan, status, image, key);
+						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu);
 				break;
 			}
 			JDBCUtil.closeConnection(con);
@@ -699,7 +700,7 @@ public class UserDao implements DAOInterface<User> {
 			e.printStackTrace();
 		}
 		return res;
-		
+
 	}
 
 	public boolean kiemTraNameUserHasBlock(String userName) {
@@ -725,6 +726,47 @@ public class UserDao implements DAOInterface<User> {
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public int capNhatSoDuMoi(User user, String menhGia) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			int soDuMoi = Integer.valueOf(user.getSoDu().trim()) + Integer.valueOf(menhGia.trim());
+			System.out.println(soDuMoi+"tktktk");
+			stm.setString(1, String.valueOf(soDuMoi));
+			stm.setString(2, user.getUserID());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public String getSoDu(String userID) {
+		// TODO Auto-generated method stub
+		String ans = "";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				ans = rs.getString("soDu");
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
 	}
 
 }

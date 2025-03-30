@@ -13,7 +13,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <title>Profile receipt</title>
+    <title>DuyAnh LT WEB</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Style CSS -->
@@ -269,6 +269,8 @@
                                 <a href="go-to-don-hang?page=1"><li class="slide-bar active"><i class="fas fa-money-check"></i><span>Quản lý đơn hàng</span></li></a>
                                 <a href="go-to-phan-hoi?page=1"><li class="slide-bar"><i
 										class="fas fa-money-check"></i><span>Phản hồi</span></li></a>
+								<a href="go-to-so-du?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Số dư</span></li></a>
                                 <!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
                                 <a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}"> <li class="slide-bar"><i class="fas fa-lock"></i><span> Đổi mật khẩu</span></li></a>
                             </ul>
