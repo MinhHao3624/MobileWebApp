@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Product"%>
+<%@page import="com.projectttweb.webphone.model.Product"%>
 <%@page import="java.util.List"%>
-<%@page import="model.User"%>
+<%@page import="com.projectttweb.webphone.model.User"%>
 <%@page import="java.nio.file.attribute.UserDefinedFileAttributeView"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -208,10 +208,10 @@
 							</c:if>
 							<c:if test="${not empty sessionScope.khachHang}">
 								<li><a
-									href="http://localhost:8080/MobileWebApp/account-login?userID=${sessionScope.khachHang.userID}"
+									href="account-login?userID=${sessionScope.khachHang.userID}"
 									class="title hidden-xs">Hi <c:out
 											value="${sessionScope.khachHang.userName}" /></a>|</li>
-								<li><a href="http://localhost:8080/MobileWebApp/dang-xuat"
+								<li><a href="dang-xuat"
 									class="title hidden-xs">Log out </a></li>
 								<li><a
 									href="load-page-favorite-list?userID=${sessionScope.khachHang.userID}"><i
@@ -236,12 +236,10 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
-										thoại</a></li>
+								<li><a href="load-product?page=1">Điện thoại</a></li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
-								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
+								<li><a href="go-to-contactus">Liên hệ, hỗ trợ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -273,8 +271,7 @@
 									Dedicated microSD card slot Snapdragon 435 octa-core processor
 								</p>
 								<p class="slider-price">$138.99</p>
-								<a href="cart.html" class="btn btn-primary btn-lg hidden-xs">Buy
-									Now</a>
+								<a href="cart.jsp" class="btn btn-primary btn-lg hidden-xs">Buy Now</a>
 							</div>
 						</div>
 					</div>
@@ -296,8 +293,7 @@
 									processor | Water-resistant metal unibody | Up to 7 hours of
 									battery.</p>
 								<p class="slider-price">$ 938.10</p>
-								<a href="cart.html" class="btn btn-primary btn-lg hidden-xs">Buy
-									Now</a>
+								<a href="cart.jsp" class="btn btn-primary btn-lg hidden-xs">Buy Now</a>
 							</div>
 						</div>
 					</div>
@@ -737,11 +733,11 @@
 					<div class="footer-widget">
 						<h3 class="footer-title">Tiện ích</h3>
 						<ul class="arrow">
-							<li><a href="index.html">Home </a></li>
-							<li><a href="product-list.html">Mobie</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="blog-default.html">Blog</a></li>
-							<li><a href="contact-us.html">Contact</a></li>
+							<li><a href="index.jsp">Home </a></li>
+							<li><a href="product-list.jsp">Mobie</a></li>
+							<li><a href="about.jsp">About</a></li>
+							<li><a href="blog-default.jsp">Blog</a></li>
+							<li><a href="contact-us.jsp">Contact</a></li>
 						</ul>
 					</div>
 				</div>
