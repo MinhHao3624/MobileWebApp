@@ -14,6 +14,8 @@ private String image;
 private Date createAt;
 private ProductCategories categories;
 private InformationProduct informationPro;
+private User userID;
+private String status;
 public Product(String productID, String name, String price, int stockQuantity, String description, String image,
 		Date createAt, ProductCategories categories, InformationProduct informationPro) {
 	this.productID = productID;
@@ -27,6 +29,29 @@ public Product(String productID, String name, String price, int stockQuantity, S
 	this.categories = categories;
 	this.informationPro = informationPro;
 }
+
+
+
+
+
+public Product(String productID, String name, String price, String priceDis, int stockQuantity, String description,
+		String image, Date createAt, ProductCategories categories, InformationProduct informationPro, User userID,
+		String status) {
+	super();
+	this.productID = productID;
+	this.name = name;
+	this.price = price;
+	this.priceDis = capNhat(price);
+	this.stockQuantity = stockQuantity;
+	this.description = description;
+	this.image = image;
+	this.createAt = createAt;
+	this.categories = categories;
+	this.informationPro = informationPro;
+	this.userID = userID;
+	this.status = status;
+}
+
 
 
 
@@ -145,6 +170,39 @@ public String getPriceDis() {
 public void setPriceDis(String priceDis) {
 	this.priceDis = priceDis;
 }
+
+
+
+
+
+public User getUserID() {
+	return userID;
+}
+
+
+
+
+
+public void setUserID(User userID) {
+	this.userID = userID;
+}
+
+
+
+
+
+public String getStatus() {
+	return status;
+}
+
+
+
+
+
+public void setStatus(String status) {
+	this.status = status;
+}
+
 
 
 
