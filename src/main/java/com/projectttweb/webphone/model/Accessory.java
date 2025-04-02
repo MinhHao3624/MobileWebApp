@@ -1,4 +1,4 @@
-package com.projectttweb.webphone.database;
+package com.projectttweb.webphone.model;
 
 import java.sql.Timestamp;
 
