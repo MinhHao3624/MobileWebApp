@@ -197,10 +197,14 @@
 	<!-- top-header-->
 	<!-- top-header-->
 	<%
-	    Map<String, String> m = (Map<String, String>) request.getAttribute("map");
-	    if(m == null) {
-	    	m = new NgonNguDAO().vietnameseLanguage();
-	    }
+		Map<String, String> m = (Map<String, String>) request.getAttribute("map");
+		if (m == null) {
+			m = new NgonNguDAO().vietnameseLanguage();
+		}
+		String error = (String) request.getAttribute("error");
+		if (error == null) {
+			error = ""; // Giá trị mặc định nếu error không được thiết lập
+		}
 	%>
 	<div class="top-header">
 		<div class="container">
@@ -359,8 +363,6 @@
 								boolean check5 = false;
 								String msg = "";
 								if (sourceServlet.equals("loginController")) {
-									String error = request.getAttribute("error") + "";
-									error = error.equals("null") ? "" : error;
 									String thongBao = request.getAttribute("thongBao") + "";
 									thongBao = thongBao.equals("null") ? "" : thongBao;
 									if (error.equals("taiKhoanChuaXacNhan")) {
