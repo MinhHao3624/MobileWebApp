@@ -127,7 +127,18 @@
 	background-color: #c9302c;
 	/*CSS form xác nhận thành công */
 }
-    
+
+	#navigation li:hover > ul > li {
+		height: 50px;
+		border: 1px solid white;
+	}
+
+	#navigation ul li.has-sub ul li a {
+		color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+		text-decoration: none; /* Bỏ gạch chân */
+		display: block;
+		font-size: 14px; /* Kích thước chữ */
+	}
     
     </style>
 </head>
@@ -222,9 +233,17 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
-										thoại</a></li>
+								<li><a href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện thoại</a></li>
+								<li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+									<ul>
+										<li><a href="load-accessories?type=op-lung&page=1">Ốp lưng - Bao da</a></li>
+										<li><a href="load-accessories?type=sac-cap&page=1">Sạc - Cáp</a></li>
+										<li><a href="load-accessories?type=tai-nghe&page=1">Tai nghe</a></li>
+										<li><a href="load-accessories?type=pin-sac-du-phong&page=1">Pin sạc dự phòng</a></li>
+										<li><a href="load-accessories?type=dan-man-hinh&page=1">Dán màn hình</a></li>
+										<li><a href="load-accessories?type=hub-chuyen-doi&page=1">Hub chuyển đổi</a></li>
+									</ul>
+								</li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
 								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
