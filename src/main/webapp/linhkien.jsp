@@ -59,7 +59,7 @@
                 <!-- logo -->
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
                     <div class="logo">
-                        <a href="index.html"><img src="images/logo.png" alt=""> </a>
+                        <a href="index.jsp"><img src="images/logo.png" alt=""> </a>
                     </div>
                 </div>
                 <!-- /.logo -->
@@ -75,11 +75,11 @@
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <div class="account-section">
                         <ul>
-                            <li><a href="account.html" class="title hidden-xs">Tài khoản</a></li>
+                            <li><a href="account.jsp" class="title hidden-xs">Tài khoản</a></li>
                             <li class="hidden-xs">|</li>
-                            <li><a href="login-form.html" class="title hidden-xs">Đăng Nhập</a></li>
-                            <li><a href="favorite-list.html"><i class="fa fa-heart"></i></a></li>
-                            <li><a href="cart.html" class="title"><i class="fa fa-shopping-cart"></i><sup class="cart-quantity">1</sup></a>
+                            <li><a href="login-form.jsp" class="title hidden-xs">Đăng Nhập</a></li>
+                            <li><a href="favorite-list.jsp"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="cart.jsp" class="title"><i class="fa fa-shopping-cart"></i><sup class="cart-quantity">1</sup></a>
                             </li>
                         </ul>
                     </div>
@@ -96,14 +96,23 @@
                         <!-- navigations-->
                         <div id="navigation">
                             <ul>
-                                <li class="active"><a href="index.html">Trang chủ</a></li>
-                                <li><a href="product-list.html">Điện thoại</a>
+                                <li class="active"><a href="index.jsp">Trang chủ</a></li>
+                                <li><a href="product-list.jsp">Điện thoại</a></li>
+                                <li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+                                    <ul>
+                                        <li><a href="load-accessories?type=op-lung&page=1">Ốp lưng - Bao da</a></li>
+                                        <li><a href="load-accessories?type=sac-cap&page=1">Sạc - Cáp</a></li>
+                                        <li><a href="load-accessories?type=tai-nghe&page=1">Tai nghe</a></li>
+                                        <li><a href="load-accessories?type=pin-sac-du-phong&page=1">Pin sạc dự phòng</a></li>
+                                        <li><a href="load-accessories?type=dan-man-hinh&page=1">Dán màn hình</a></li>
+                                        <li><a href="load-accessories?type=hub-chuyen-doi&page=1">Hub chuyển đổi</a></li>
+                                    </ul>
                                 </li>
-                                <li><a href="blog-default.html">Bài viết</a> </li>
-                                <li><a href="about.html">Thông tin</a>
+                                <li><a href="blog-default.jsp">Bài viết</a> </li>
+                                <li><a href="about.jsp">Thông tin</a>
                                 </li>
 
-                                <li><a href="contact-us.html">Liên hệ</a>
+                                <li><a href="contact-us.jsp">Liên hệ</a>
                                 </li>
                             </ul>
                         </div>
@@ -120,7 +129,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="page-breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="index.html">Trang chủ</a></li>
+                            <li><a href="index.jsp">Trang chủ</a></li>
                             <li>Điện thoại</li>
                         </ol>
                     </div>
@@ -342,7 +351,7 @@
                     <div class="row">
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_1.png" alt=""></div>
                                     <div class="product-content">
@@ -364,7 +373,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_2.png" alt=""></div>
                                     <div class="product-content">
@@ -387,7 +396,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_3.png" alt=""></div>
                                     <div class="product-content">
@@ -408,7 +417,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
 
                                     <div class="product-img"><img src="images/product_img_3.png" alt=""></div>
@@ -432,7 +441,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_4.png" alt=""></div>
                                     <div class="product-content">
@@ -455,7 +464,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_2.png" alt=""></div>
                                     <div class="product-content">
@@ -478,7 +487,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_2.png" alt=""></div>
                                     <div class="product-content">
@@ -501,7 +510,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_3.png" alt=""></div>
                                     <div class="product-content">
@@ -522,7 +531,7 @@
                         <!-- /.product -->
                         <!-- product -->
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30">
-                            <a href="product-single.html">
+                            <a href="product-single.jsp">
                                 <div class="product-block">
                                     <div class="product-img"><img src="images/product_img_2.png" alt=""></div>
                                     <div class="product-content">
@@ -594,11 +603,11 @@
                     <div class="footer-widget">
                         <h3 class="footer-title">Truy cập nhanh</h3>
                         <ul class="arrow">
-                            <li><a href="index.html">Trang chủ</a></li>
-                            <li><a href="product-list.html">Điện thoại</a></li>
-                            <li><a href="about.html">Thông tin</a></li>
-                            <li><a href="blog-default.html">Bài viết</a></li>
-                            <li><a href="contact-us.html">Liên hệ</a></li>
+                            <li><a href="index.jsp">Trang chủ</a></li>
+                            <li><a href="product-list.jsp">Điện thoại</a></li>
+                            <li><a href="about.jsp">Thông tin</a></li>
+                            <li><a href="blog-default.jsp">Bài viết</a></li>
+                            <li><a href="contact-us.jsp">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>

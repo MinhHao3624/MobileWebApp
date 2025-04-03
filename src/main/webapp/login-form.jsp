@@ -190,6 +190,18 @@
 	border-radius: 2px;
 	border: 1px solid #ccc;
 }
+
+#navigation li:hover > ul > li {
+	height: 50px;
+	border: 1px solid white;
+}
+
+#navigation ul li.has-sub ul li a {
+	color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+	text-decoration: none; /* Bỏ gạch chân */
+	display: block;
+	font-size: 14px; /* Kích thước chữ */
+}
 </style>
 </head>
 
@@ -197,10 +209,14 @@
 	<!-- top-header-->
 	<!-- top-header-->
 	<%
-	    Map<String, String> m = (Map<String, String>) request.getAttribute("map");
-	    if(m == null) {
-	    	m = new NgonNguDAO().vietnameseLanguage();
-	    }
+		Map<String, String> m = (Map<String, String>) request.getAttribute("map");
+		if (m == null) {
+			m = new NgonNguDAO().vietnameseLanguage();
+		}
+		String error = (String) request.getAttribute("error");
+		if (error == null) {
+			error = ""; // Giá trị mặc định nếu error không được thiết lập
+		}
 	%>
 	<div class="top-header">
 		<div class="container">
@@ -291,8 +307,7 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain"><%=m.get("Login.TrangChu")%></a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1"><%=m.get("Login.DienThoai")%>
+								<li><a href="http://localhost:8080/MobileWebApp/load-product?page=1"><%=m.get("Login.DienThoai")%>
 								</a></li>
 								<li><a href="go-to-blog"><%=m.get("Login.ThongTin")%></a></li>
 								<li><a href="go-to-about"><%=m.get("Login.BaiViet")%></a></li>
@@ -359,8 +374,6 @@
 								boolean check5 = false;
 								String msg = "";
 								if (sourceServlet.equals("loginController")) {
-									String error = request.getAttribute("error") + "";
-									error = error.equals("null") ? "" : error;
 									String thongBao = request.getAttribute("thongBao") + "";
 									thongBao = thongBao.equals("null") ? "" : thongBao;
 									if (error.equals("taiKhoanChuaXacNhan")) {
