@@ -50,6 +50,9 @@
 	position: relative;
 	width: 90%;
 	max-width: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .modal-content img {
@@ -78,6 +81,8 @@
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 16px;
+	width: 100px;
+	text-align: center;
 }
 
 .btn-close:hover {
@@ -145,10 +150,10 @@
 }
 
 #navigation ul li.has-sub ul li a {
-	color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
-	text-decoration: none; /* Bỏ gạch chân */
+	color: #fff;
+	text-decoration: none;
 	display: block;
-	font-size: 14px; /* Kích thước chữ */
+	font-size: 14px;
 }
 </style>
 </head>
@@ -456,8 +461,10 @@
 			<%
 			}
 			%>
-			<button class="btn-close" id="closeButton"
-				style="display: <%=showCloseButton ? "block" : "none"%>">Đóng</button>
+<%--			<button class="btn-close" id="closeButton"--%>
+<%--				style="display: <%=showCloseButton ? "block" : "none"%>">Đóng</button>--%>
+				<button class="btn-close" id="closeButton"
+					style="display: <%=showCloseButton ? "block" : "none"%>; margin: 20px auto 0;">Đóng</button>
 		</div>
 	</div>
 	<%
@@ -478,19 +485,21 @@
         }
 
         // Đếm ngược thời gian nếu có
-        <%if (lastAttemptTime != null) {%>
-            var timeLeft = <%=Math.max(0, 10000 - (System.currentTimeMillis() - lastAttemptTime)) / 1000%>;
-            var countdown = setInterval(function() {
-                timeLeft--;
-                document.getElementById("time").textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    document.getElementById("countdown").style.display = "none";
-                    // Hiển thị nút đóng khi hết thời gian
-                    document.getElementById("closeButton").style.display = "block";
-                }
-            }, 1000);
-        <%}%>
+		<%if (lastAttemptTime != null) {%>
+		var timeLeft = <%=Math.max(0, 10000 - (System.currentTimeMillis() - lastAttemptTime)) / 1000%>;
+		var countdown = setInterval(function() {
+			timeLeft--;
+			document.getElementById("time").textContent = timeLeft;
+			if (timeLeft <= 0) {
+				clearInterval(countdown);
+				document.getElementById("countdown").style.display = "none";
+				// Hiển thị nút đóng khi hết thời gian và căn giữa
+				var closeButton = document.getElementById("closeButton");
+				closeButton.style.display = "block";
+				closeButton.style.margin = "20px auto 0"; /* Thêm margin để căn giữa */
+			}
+		}, 1000);
+		<%}%>
 
         // Gán sự kiện click cho nút đóng
         document.getElementById("closeButton")?.addEventListener("click", closeModal);
