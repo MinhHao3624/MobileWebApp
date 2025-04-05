@@ -20,22 +20,23 @@ import database.ProductDao;
 import database.ProductFavoriteDAO;
 import database.TypeUserDAO;
 import database.UserDao;
-import model.AtmRechargeHistory;
 import model.ListOrderDetailsItem;
 import model.Product;
 import model.User;
+import util.Email;
+import util.SoNgauNhien;
 
 /**
- * Servlet implementation class GoToNangCap
+ * Servlet implementation class AgainCodeConfirmControl
  */
-@WebServlet("/go-to-nang-cap")
-public class GoToNangCap extends HttpServlet {
+@WebServlet("/gui-lai-ma-xac-nhan")
+public class AgainCodeConfirmControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToNangCap() {
+    public AgainCodeConfirmControl() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,9 +49,24 @@ public class GoToNangCap extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			User us = (User) session.getAttribute("khachHang");
-			String userID = request.getParameter("userID");
+			ProductDao proDAO = new ProductDao();
 			UserDao userDAO = new UserDao();
-			User user = userDAO.selectById3(userID);
+			User user = userDAO.selectById3(us.getUserID());
+			String baoLoi = "";
+			boolean check20 = false;
+			baoLoi = "Chúc mừng bạn đã gửi yêu cầu thành công. Mã xác nhận mới đã được gửi về gmail của bạn";
+			boolean check21 = false;
+			String soNgauNhien = SoNgauNhien.getSoNgauNhien();
+			if (Email.sendEmail(user.getEmail(), "Duy Shop gửi mã xác nhận cho bạn " + user.getUserName(),
+					getNoiDung(user, soNgauNhien))) {
+				check20 = true;
+				check21 = true;
+				request.setAttribute("check21", check21);
+				request.setAttribute("soNgauNhien", soNgauNhien);
+				request.setAttribute("check20", check20);
+				request.setAttribute("baoLoi", baoLoi);
+			}
+			String userID = request.getParameter("userID");
 			TypeUserDAO typeUserDAO = new TypeUserDAO();
 			//
 			//
@@ -65,13 +81,13 @@ public class GoToNangCap extends HttpServlet {
 			String typeUser = "";
 			User user2 = null;
 			if(tongSoTien < 2000000) {
-				if(userDAO.updateTypeUser(userID, 1) > 0) {
-					user2 = userDAO.selectById3(userID);
+				if(userDAO.updateTypeUser(us.getUserID(), 1) > 0) {
+					user2 = userDAO.selectById3(us.getUserID());
 				     typeUser = typeUserDAO.selectNameTypeUs(user2.getTypeUser());
 				}
 			}else {
-				if(userDAO.updateTypeUser(userID, 2) > 0) {
-					user2 = userDAO.selectById3(userID);
+				if(userDAO.updateTypeUser(us.getUserID(), 2) > 0) {
+					user2 = userDAO.selectById3(us.getUserID());
 					typeUser = typeUserDAO.selectNameTypeUs(user2.getTypeUser());
 				}
 			}
@@ -94,7 +110,7 @@ public class GoToNangCap extends HttpServlet {
 			List<Product> li4 = null;
 			if(ctv.equalsIgnoreCase("Cộng tác viên bán hàng")) {
 				OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-				li4 = orderDetailsDAO.selectSoSPDaBanTrongThang(userID, todaysDate);
+				li4 = orderDetailsDAO.selectSoSPDaBanTrongThang(user2.getUserID(), todaysDate);
 				size3 = li4.size();
 			}else {
 				size3 = 0;
@@ -130,31 +146,12 @@ public class GoToNangCap extends HttpServlet {
 			request.setAttribute("dsSoSPDaDangBan", soSPDaDangBan);
 			request.setAttribute("dsSoSPDaThuHoi", soSPDaThuHoi);
 			request.setAttribute("soSPDaBanTrongThang", li4);
-			String check3 =  request.getAttribute("check3")+"";
-			check3 = (check3.equals("null")) ? "false" : "true";
-			
-			request.setAttribute("check3", check3);
-			
-			String check4 = request.getAttribute("check4") +"";
-			check4 = (check4.equals("null")) ? "false" : "true";
-			
-			request.setAttribute("check4", check4);
-			
-			String check5 = request.getAttribute("check5") + "";
-			check5 = (check5.equals("null")) ? "false" : "true";
-			
-			request.setAttribute("check5", check5);
-			
-			
-			
-			
-			
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/nangcap.jsp");
-			rd.forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/nangcap.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -164,5 +161,12 @@ public class GoToNangCap extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	private String getNoiDung(User user, String soNgauNhien) {
+		// TODO Auto-generated method stub
+		String noiDung = "<p>Duy Shop xin chào bạn <span>" + user.getUserName()
+				+ "</span> đây là mã xác nhận hủy đăng ký ctv của bạn: " + soNgauNhien + "</p>\r\n";
+		return noiDung;
+	}
+
 
 }

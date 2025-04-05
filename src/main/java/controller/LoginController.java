@@ -131,6 +131,35 @@ public class LoginController extends HttpServlet {
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 					rd.forward(request, response);
 				}
+			}else if(us.getRole().getRoleID() == 3) {
+				HttpSession session = request.getSession();
+				session.setAttribute("khachHang", us);
+				User user2 = (User) session.getAttribute("khachHang");
+				url = "/index.jsp";
+				int soLuongSanPhamLike = proFaDao.getSoLuong2(user2.getUserID().trim());
+				ListOrderDetailsItem li = (ListOrderDetailsItem) session.getAttribute("listItem");
+				String slSP = "";
+				if (li != null) {
+					slSP = li.getList().size() + "";
+					slSP = (slSP == "0") ? "0" : slSP;
+				} else {
+					slSP = "0";
+				}
+				ProductDao proDao = new ProductDao();
+				List<Product> lstPro1 = proDao.getProductMain();
+				List<Product> lstPro2 = proDao.getProductMain();
+				List<Product> lstPro3 = proDao.getProductMain();
+				request.setAttribute("uri", "/LoadDataMain");
+				request.setAttribute("soLuongSP", slSP);
+				request.setAttribute("danhSachMain1", lstPro1);
+				request.setAttribute("danhSachMain2", lstPro2);
+				request.setAttribute("danhSachMain3", lstPro3);
+				System.out.println("ok");
+				request.setAttribute("sourceServlet", "loginController");
+				request.setAttribute("soLuongSanPhamLike", soLuongSanPhamLike);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+				rd.forward(request, response);
+				
 			} else {
 				HttpSession session = request.getSession();
 				session.setAttribute("admin", us);

@@ -65,7 +65,7 @@ public class NapTienBankController extends HttpServlet {
 				System.out.println(m.getKey());
 				if(m.getKey().equalsIgnoreCase(bank)) {
 					if(m.getValue().getStk().equalsIgnoreCase(stk)) {
-						if(m.getValue().getSoDu() >= amountDB) {
+						if(Double.valueOf(m.getValue().getSoDu()) >= amountDB) {
 							check2 = true;
 							error = "Mời bạn nhập mã pin";
 							request.setAttribute("soTien", String.valueOf(amountDB));
