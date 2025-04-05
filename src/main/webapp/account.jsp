@@ -403,7 +403,13 @@
 							   <a href="go-to-so-du?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
 										class="fas fa-money-check"></i><span>Số dư</span></li></a>
 							   <a href="go-to-nang-cap?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
-										class="fas fa-money-check"></i><span>Nâng cấp</span></li></a>				
+										class="fas fa-money-check"></i><span>Nâng cấp</span></li></a>	
+							   <c:if test="${sessionScope.khachHang.role.roleID == 3}">		
+							   <a href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Quản lí sản phẩm</span></li></a>
+							    <a href="go-to-quan-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Quản lí đơn hàng</span></li></a>
+								</c:if>			
 								<!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
 							   <a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}">
 									<li class="slide-bar"><i class="fas fa-lock"></i><span>
