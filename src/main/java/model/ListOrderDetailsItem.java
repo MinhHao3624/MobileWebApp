@@ -29,7 +29,7 @@ public double getTotalAmount() {
 	// TODO Auto-generated method stub
 	double res = 0;
 	for (OrderDetails orderDetails : list) {
-		res += orderDetails.getUnitPrice();
+		res += orderDetails.getUnitPrice() * orderDetails.getQuantity();
 	}
 	return res;
 }

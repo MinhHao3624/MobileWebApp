@@ -1,17 +1,23 @@
 package model;
 
-public class SoTaiKhoan {
+public class NumBank {
 private String iD;
 private String stk;
 private String soDu;
 private String maPin;
 private String nganHang;
-public SoTaiKhoan(String iD,String stk, String soDu, String maPin, String nganHang) {
+public NumBank(String iD, String stk, String soDu, String maPin, String nganHang) {
 	this.iD = iD;
 	this.stk = stk;
 	this.soDu = soDu;
 	this.maPin = maPin;
 	this.nganHang = nganHang;
+}
+public String getiD() {
+	return iD;
+}
+public void setiD(String iD) {
+	this.iD = iD;
 }
 public String getStk() {
 	return stk;
@@ -19,8 +25,6 @@ public String getStk() {
 public void setStk(String stk) {
 	this.stk = stk;
 }
-
-
 public String getSoDu() {
 	return soDu;
 }
@@ -39,15 +43,6 @@ public String getNganHang() {
 public void setNganHang(String nganHang) {
 	this.nganHang = nganHang;
 }
-public String getiD() {
-	return iD;
-}
-public void setiD(String iD) {
-	this.iD = iD;
-}
-
-
-
 
 
 }

@@ -10,8 +10,9 @@ public class Registerctv {
 	private int sospdathuhoi;
 	private int sospbantrongthang;
 	private String soTienKiemDuoc;
+	private Date dateEnd;
 	public Registerctv(String iD, User userID, Date dateRegister, int sospdadangban, int sospdathuhoi,
-			int sospbantrongthang, String soTienKiemDuoc) {
+			int sospbantrongthang, String soTienKiemDuoc, Date dateEnd) {
 		this.iD = iD;
 		this.userID = userID;
 		this.dateRegister = dateRegister;
@@ -19,6 +20,7 @@ public class Registerctv {
 		this.sospdathuhoi = sospdathuhoi;
 		this.sospbantrongthang = sospbantrongthang;
 		this.soTienKiemDuoc = soTienKiemDuoc;
+		this.dateEnd = dateEnd;
 	}
 	public String getiD() {
 		return iD;
@@ -62,6 +64,13 @@ public class Registerctv {
 	public void setSoTienKiemDuoc(String soTienKiemDuoc) {
 		this.soTienKiemDuoc = soTienKiemDuoc;
 	}
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+	
 	
 	
 	
