@@ -141,7 +141,7 @@ public class TienHanhThanhToan extends HttpServlet {
 						if (entry.getKey().equalsIgnoreCase(hinhThucThanhToan)) {
 							if (entry.getValue().getStk().equalsIgnoreCase(stk)) {
 								double soTienThanhToanReal = Double.parseDouble(soTienThanhToan);
-								double soTienConLai = entry.getValue().getSoDu() - soTienThanhToanReal;
+								double soTienConLai = Double.valueOf(entry.getValue().getSoDu()) - soTienThanhToanReal;
 								if (soTienConLai > 0) {
 									if (oDAO.capNhatDaThanhToan(orderID) > 0) {
 										String tranIDCur = transDAO.getTranIDCur();
