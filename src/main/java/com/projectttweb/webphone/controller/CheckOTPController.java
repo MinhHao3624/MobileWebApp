@@ -53,6 +53,10 @@ public class CheckOTPController extends HttpServlet {
 			if (attemptCount >= 1) {
 				if (captchaInput == null || !captchaInput.equals(generatedCaptcha)) {
 					baoLoi = "Mã captcha không chính xác.";
+					// Tạo captcha mới khi nhập sai
+					String newCaptcha = generateCaptcha();
+					session.setAttribute("captcha", newCaptcha);
+
 					request.setAttribute("soNgauNhien", soNgauNhien);
 					request.setAttribute("sourceServlet", "checkOTPController");
 					request.setAttribute("baoLoi", baoLoi);
@@ -76,11 +80,9 @@ public class CheckOTPController extends HttpServlet {
 			session.setAttribute("otpAttemptCount", attemptCount);
 			session.setAttribute("lastAttemptTime", currentTime);
 
-			// Tạo captcha nếu đây là lần nhập sai thứ 2 trở đi
-			if (attemptCount >= 1) {
-				String captcha = generateCaptcha();
-				session.setAttribute("captcha", captcha);
-			}
+			// Tạo captcha mới mỗi lần nhập sai
+			String newCaptcha = generateCaptcha();
+			session.setAttribute("captcha", newCaptcha);
 
 			baoLoi = "Mã OTP không chính xác. " + (attemptCount >= 1 ? "Vui lòng đợi 10 giây trước khi thử lại." : "");
 			request.setAttribute("soNgauNhien", soNgauNhien);
