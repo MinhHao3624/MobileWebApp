@@ -22,7 +22,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			ResultSet rs = stm.executeQuery();
 			UserDao userDAO = new UserDao();
-			while(rs.next()) {
+			while (rs.next()) {
 				String ordersID = rs.getString("ordersID");
 				Date date = rs.getDate("ordersDate");
 				String userID = rs.getString("userID");
@@ -30,7 +30,8 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				double totalAmount = rs.getDouble("totalAmount");
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
-				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone);
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount,
+						shippingAddress, phone);
 				res.add(orders);
 			}
 			JDBCUtil.closeConnection(con);
@@ -40,6 +41,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return res;
 	}
+
 	public boolean deleteOrder(String orderid) {
 		boolean ans = false;
 		try {
@@ -48,7 +50,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, orderid);
 			int res = stm.executeUpdate();
-			if(res > 0) {
+			if (res > 0) {
 				ans = true;
 			}
 			JDBCUtil.closeConnection(con);
@@ -58,6 +60,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return ans;
 	}
+
 	public static void main(String[] args) {
 		OrdersDAO dao = new OrdersDAO();
 		System.out.println(dao.deleteOrder("0007"));
@@ -108,7 +111,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			ResultSet rs = stm.executeQuery();
 			UserDao userDAO = new UserDao();
-			while(rs.next()) {
+			while (rs.next()) {
 				String ordersID = rs.getString("ordersID");
 //				Date date = rs.getDate("ordersDate");
 //				String userID = rs.getString("userID");
@@ -116,7 +119,8 @@ public class OrdersDAO implements DAOInterface<Orders> {
 //				double totalAmount = rs.getDouble("totalAmount");
 //				String shippingAddress = rs.getString("shippingAddress");
 //				String phone = rs.getString("phone");
-	//			Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone);
+				// Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID),
+				// status, totalAmount, shippingAddress, phone);
 				ans = ordersID;
 				break;
 			}
@@ -126,7 +130,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			e.printStackTrace();
 		}
 		return ans;
-		
+
 	}
 
 	public Orders selectOrderByID(String orderID) {
@@ -135,7 +139,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		try {
 			ArrayList<Orders> lst = selectAll();
 			for (Orders orders2 : lst) {
-				if(orders2.getOrderID().equalsIgnoreCase(orderID)) {
+				if (orders2.getOrderID().equalsIgnoreCase(orderID)) {
 					orders = orders2;
 					break;
 				}
@@ -146,6 +150,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return orders;
 	}
+
 	public Orders selectOrderByID2(String orderID) {
 		Orders orders = null;
 		try {
@@ -155,7 +160,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			stm.setString(1, orderID.trim());
 			ResultSet rs = stm.executeQuery();
 			UserDao userDAO = new UserDao();
-			while(rs.next()) {
+			while (rs.next()) {
 				String ordersID = rs.getString("ordersID");
 				Date date = rs.getDate("ordersDate");
 				String userID = rs.getString("userID");
@@ -163,12 +168,13 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				double totalAmount = rs.getDouble("totalAmount");
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
-				Orders orders2 = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone);
+				Orders orders2 = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount,
+						shippingAddress, phone);
 				orders = orders2;
 				break;
 			}
 			JDBCUtil.closeConnection(con);
- 		} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -209,7 +215,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				lstRevert.add(lst.get(i));
 			}
 			for (Orders orders : lstRevert) {
-				if(orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
+				if (orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
 					lstReal.add(orders);
 				}
 			}
@@ -219,7 +225,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			for (int i = start; i < lstReal.size(); i++) {
 				ans.add(lstRevert.get(i));
 				count++;
-				if(count == 4) {
+				if (count == 4) {
 					break;
 				}
 			}
@@ -236,7 +242,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		try {
 			ArrayList<Orders> lst = selectAll();
 			for (Orders orders : lst) {
-				if(orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
+				if (orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
 					res = true;
 					break;
 				}
@@ -247,6 +253,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return res;
 	}
+
 	public boolean kiemTraUserIsOrder(String userID) {
 		boolean res = false;
 		try {
@@ -255,7 +262,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID);
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				res = true;
 				break;
 			}
@@ -273,7 +280,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		try {
 			ArrayList<Orders> lst = selectAll();
 			for (Orders orders : lst) {
-				if(orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
+				if (orders.getUser().getUserID().equalsIgnoreCase(userID.trim())) {
 					ans++;
 				}
 			}
@@ -283,6 +290,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return ans;
 	}
+
 	public int getTongSoOrder(String userID) {
 		int res = 0;
 		try {
@@ -291,7 +299,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID);
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				res++;
 			}
 			JDBCUtil.closeConnection(con);
@@ -301,7 +309,6 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return res;
 	}
-	
 
 	public Orders getOrdersByID(String orderID) {
 		// TODO Auto-generated method stub
@@ -309,7 +316,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		try {
 			ArrayList<Orders> lst = selectAll();
 			for (Orders orders : lst) {
-				if(orders.getOrderID().equalsIgnoreCase(orderID.trim())) {
+				if (orders.getOrderID().equalsIgnoreCase(orderID.trim())) {
 					or = orders;
 					break;
 				}
@@ -320,7 +327,6 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return or;
 	}
-	
 
 	public int updateStatus(Orders order) {
 		// TODO Auto-generated method stub
@@ -342,11 +348,11 @@ public class OrdersDAO implements DAOInterface<Orders> {
 
 	public ArrayList<Orders> getListOrdersCancel() {
 		// TODO Auto-generated method stub
-	    ArrayList<Orders> ans = new ArrayList<Orders>();
-	    try {
+		ArrayList<Orders> ans = new ArrayList<Orders>();
+		try {
 			ArrayList<Orders> lst = selectAll();
 			for (Orders orders : lst) {
-				if(orders.getStatus().equalsIgnoreCase("đã hủy")) {
+				if (orders.getStatus().equalsIgnoreCase("đã hủy")) {
 					ans.add(orders);
 				}
 			}
@@ -354,26 +360,27 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-	    return ans;
+		return ans;
 	}
 
 	public int capNhatDaThanhToan(String orderID) {
 		// TODO Auto-generated method stub
-	   int res = 0;
-	   try {
-		Connection con = JDBCUtil.getConnection();
-		String sql = "UPDATE orders SET status = ? WHERE ordersID = ?";
-		PreparedStatement stm = con.prepareStatement(sql);
-		stm.setString(1, "Đã thanh toán");
-		stm.setString(2, orderID.trim());
-		res = stm.executeUpdate();
-		JDBCUtil.closeConnection(con);
-	} catch (Exception e) {
-		// TODO: handle exception
-		e.printStackTrace();
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE orders SET status = ? WHERE ordersID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, "Đã thanh toán");
+			stm.setString(2, orderID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
 	}
-	   return res;
-	}
+
 	public double getTongSoTienBanDuoc(String userID) {
 		// TODO Auto-generated method stub
 		double res = 0;
@@ -383,23 +390,26 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			String sql = "SELECT * FROM orders WHERE userID = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID.trim());
-		    ResultSet rs = stm.executeQuery();
-		    UserDao userDAO = new UserDao();
-		    while(rs.next()) {
-		    	String ordersID = rs.getString("ordersID");
-		    	Date date = rs.getDate("ordersDate");
-		    	String userID2 = rs.getString("userID");
-		    	String status = rs.getString("status");
-		    	double totalAmount = rs.getDouble("totalAmount");
-		    	String shippingAddress = rs.getString("shippingAddress");
-		    	String phone = rs.getString("phone");
-		    	Orders orders = new Orders(ordersID, date, userDAO.selectById3(userID2), status, totalAmount, shippingAddress, phone);
-		    	lst.add(orders);
-		    }
-		    for (Orders orders : lst) {
-				res += orders.getTotalAmount();
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while (rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID2 = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				Orders orders = new Orders(ordersID, date, userDAO.selectById3(userID2), status, totalAmount,
+						shippingAddress, phone);
+				lst.add(orders);
 			}
-		    JDBCUtil.closeConnection(con);
+			for (Orders orders : lst) {
+				if (orders.getStatus().equalsIgnoreCase("Đã thanh toán")) {
+					res += orders.getTotalAmount();
+				}
+			}
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -407,5 +417,28 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		return res;
 	}
 
-	
+	public boolean kiemTraProductIsOrderByCus(String productID) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders \r\n"
+			           + "INNER JOIN orderdetails ON orders.ordersID = orderdetails.orderID \r\n"
+			           + "WHERE orders.status != 'Đã thanh toán' \r\n"
+			           + "AND orderdetails.productID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, productID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				res = true;
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }

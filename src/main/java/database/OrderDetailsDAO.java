@@ -186,6 +186,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 			ResultSet rs = stm.executeQuery();
 			OrdersDAO ordersDAO = new OrdersDAO();
 			ProductDao productDAO = new ProductDao();
+			String orderID2 = "";
 			while (rs.next()) {
 				String orderDetailsID = rs.getString("orderDetailsID");
 				int quantity = rs.getInt("quantity");
@@ -194,19 +195,23 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 				double unitPrice = rs.getDouble("unitPrice");
 				OrderDetails orderDetails = new OrderDetails(orderDetailsID, quantity,
 						productDAO.selectProByID2(productID), ordersDAO.selectOrderByID2(orderID), unitPrice);
+				orderID2 = orderID;
 				list.add(orderDetails);
 			}
-			int count = 0;
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(todaysDate);
 			cal.add(Calendar.MONTH, -1); // Trừ 1 tháng
 
 			// Lấy ngày tháng năm mới
 			Date previousMonthDate = new Date(cal.getTimeInMillis());
-			for (OrderDetails orderDetails : list) {
-				if (orderDetails.getOrder().getUser().getUserID().equalsIgnoreCase(userID)) {
-					if(orderDetails.getOrder().getOrdersDate().getTime() >= previousMonthDate.getTime() && orderDetails.getOrder().getOrdersDate().getTime() <= todaysDate.getTime()) {
-						li.add(orderDetails.getProduct());
+			Orders orders = ordersDAO.selectOrderByID2(orderID2);
+			if (orders.getStatus().equalsIgnoreCase("Đã thanh toán")) {
+				for (OrderDetails orderDetails : list) {
+					if (orderDetails.getOrder().getUser().getUserID().equalsIgnoreCase(userID)) {
+						if (orderDetails.getOrder().getOrdersDate().getTime() >= previousMonthDate.getTime()
+								&& orderDetails.getOrder().getOrdersDate().getTime() <= todaysDate.getTime()) {
+							li.add(orderDetails.getProduct());
+						}
 					}
 				}
 			}

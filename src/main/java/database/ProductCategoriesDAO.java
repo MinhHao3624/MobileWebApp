@@ -83,7 +83,20 @@ public class ProductCategoriesDAO implements DAOInterface<ProductCategories> {
 	@Override
 	public int update(ProductCategories t) {
 		// TODO Auto-generated method stub
-		return 0;
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE productcategories SET nameCategories = ? WHERE productCategoriesID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, t.getNameCategories());
+			stm.setString(2, t.getProductCategoriesID());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	public String getIDCate(String nameCate) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.Product;
 import model.Roles;
+import model.SoTaiKhoan;
 import model.User;
 import util.MaHoa;
 
@@ -327,14 +328,15 @@ public class UserDao implements DAOInterface<User> {
 		return us;
 
 	}
-	public User selectById3(String  userID1) {
+
+	public User selectById3(String userID1) {
 		// TODO Auto-generated method stub
 		User us = null;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID=?";
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, userID1.trim());
+			st.setString(1, userID1);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				String userID = rs.getString("userID");
@@ -421,7 +423,8 @@ public class UserDao implements DAOInterface<User> {
 				String soDu = rs.getString("soDu");
 				String typeUser = rs.getString("typeuser");
 				us = new User(userID, userName, passWord, fullName, email, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
+						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu,
+						typeUser);
 				System.out.println("okok");
 				break;
 			}
@@ -583,7 +586,8 @@ public class UserDao implements DAOInterface<User> {
 				String soDu = rs.getString("soDu");
 				String typeUser = rs.getString("typeuser");
 				user = new User(userID, userName, passWord, fullName, gmail, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
+						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu,
+						typeUser);
 				System.out.println("okok");
 				break;
 			}
@@ -678,7 +682,7 @@ public class UserDao implements DAOInterface<User> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userName.trim());
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				res = true;
 				break;
 			}
@@ -707,7 +711,7 @@ public class UserDao implements DAOInterface<User> {
 			e.printStackTrace();
 		}
 		return res;
-		
+
 	}
 
 	public boolean kiemTraNameUserHasBlock(String userName) {
@@ -720,9 +724,9 @@ public class UserDao implements DAOInterface<User> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userName);
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				mess = rs.getString("isKey");
-				if(mess.equalsIgnoreCase("Bị khóa")) {
+				if (mess.equalsIgnoreCase("Bị khóa")) {
 					res = true;
 				}
 				break;
@@ -743,7 +747,7 @@ public class UserDao implements DAOInterface<User> {
 			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			int soDuMoi = Integer.valueOf(user.getSoDu().trim()) + Integer.valueOf(menhGia.trim());
-			System.out.println(soDuMoi+"tktktk");
+			System.out.println(soDuMoi + "tktktk");
 			stm.setString(1, String.valueOf(soDuMoi));
 			stm.setString(2, user.getUserID());
 			res = stm.executeUpdate();
@@ -764,7 +768,7 @@ public class UserDao implements DAOInterface<User> {
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID.trim());
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				ans = rs.getString("soDu");
 				break;
 			}
@@ -780,9 +784,9 @@ public class UserDao implements DAOInterface<User> {
 		// TODO Auto-generated method stub
 		String res = "";
 		User user = selectById3(userID);
-		if(user.getRole().getRoleID() == 3) {
+		if (user.getRole().getRoleID() == 3) {
 			res = "ok";
-		}else {
+		} else {
 			res = "notok";
 		}
 		return res;
@@ -795,14 +799,16 @@ public class UserDao implements DAOInterface<User> {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID);
+			stm.setString(1, userID.trim());
 			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				String name2 = rs.getString("fullName");
-				if(name.equalsIgnoreCase(name2)) {
+				System.out.println(name2 + "abcxyz");
+				System.out.println(name + "thnhhhhh");
+				if (name.equalsIgnoreCase(name2)) {
 					check = true;
 					break;
-				}else {
+				} else {
 					break;
 				}
 			}
@@ -814,7 +820,8 @@ public class UserDao implements DAOInterface<User> {
 		return check;
 	}
 
-	public boolean updateCTV(String age, String cccd, String gender, String degree, String stk,String nh, String userID) {
+	public boolean updateCTV(String age, String cccd, String gender, String degree, SoTaiKhoan soTaiKhoan,
+			String userID) {
 		// TODO Auto-generated method stub
 		boolean res = false;
 		try {
@@ -824,10 +831,10 @@ public class UserDao implements DAOInterface<User> {
 			stm.setInt(1, Integer.valueOf(age));
 			stm.setString(2, cccd);
 			stm.setString(3, degree);
-			stm.setString(4, stk);
+			stm.setString(4, soTaiKhoan.getiD());
 			stm.setString(5, userID);
 			int res2 = stm.executeUpdate();
-			if(res2 > 0) {
+			if (res2 > 0) {
 				res = true;
 			}
 			JDBCUtil.closeConnection(con);
@@ -837,6 +844,164 @@ public class UserDao implements DAOInterface<User> {
 		}
 		return res;
 	}
-	
+
+	public boolean kiemTraCCCD(String cccd) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE cccd = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, cccd.trim());
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				res = true;
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int setUpRolesAndDesposit(String userID) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET roleID = ?, isDesposit = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1, 3);
+			stm.setString(2, "Đang cọc");
+			stm.setString(3, userID);
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int updateTypeUser(String userID, int i) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET typeuser = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, String.valueOf(i));
+			stm.setString(2, userID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public String selectSoTaiKhoan(String userID) {
+		// TODO Auto-generated method stub
+		String ans = "";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID);
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				ans = rs.getString("numbank");
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int hoanTienLaiChoCtv(String userID, String valueOf) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, valueOf.trim());
+			stm.setString(2, userID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public String selectSoDuHienTai(String userID) {
+		// TODO Auto-generated method stub
+		String ans = "";
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				ans = rs.getString("soDu");
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int restartCtvIsNullAndReturnCus(String userID) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET roleID = ?, age = ?, cccd = ?, degree = ?, numbank = ?, isDesposit = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1, 2);
+			stm.setInt(2, 0);
+			stm.setString(3, null);
+			stm.setString(4, null);
+			stm.setString(5, null);
+			stm.setString(6, null);
+			stm.setString(7, userID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int capNhatSoDuMoiKhiThemSP(User user, String valueOf) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, valueOf.trim());
+			stm.setString(2, user.getUserID());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 }
