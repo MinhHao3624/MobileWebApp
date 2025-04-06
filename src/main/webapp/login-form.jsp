@@ -1,11 +1,10 @@
-<%@page import="util.NgonNguDAO"%>
+<%@page import="com.projectttweb.webphone.util.NgonNguDAO"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
-
 
 <!-- Mirrored from easetemplate.com/free-website-templates/mobistore/login-form.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:41:05 GMT -->
 
@@ -16,7 +15,7 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="keywords" content="">
-<title>Duy Anh Lập trình Web</title>
+<title>Login</title>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Style CSS -->
@@ -191,6 +190,18 @@
 	border-radius: 2px;
 	border: 1px solid #ccc;
 }
+
+#navigation li:hover > ul > li {
+	height: 50px;
+	border: 1px solid white;
+}
+
+#navigation ul li.has-sub ul li a {
+	color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+	text-decoration: none; /* Bỏ gạch chân */
+	display: block;
+	font-size: 14px; /* Kích thước chữ */
+}
 </style>
 </head>
 
@@ -198,10 +209,14 @@
 	<!-- top-header-->
 	<!-- top-header-->
 	<%
-	Map<String, String> m = (Map<String, String>) request.getAttribute("map");
-	if (m == null) {
-		m = new NgonNguDAO().vietnameseLanguage();
-	}
+		Map<String, String> m = (Map<String, String>) request.getAttribute("map");
+		if (m == null) {
+			m = new NgonNguDAO().vietnameseLanguage();
+		}
+		String error = (String) request.getAttribute("error");
+		if (error == null) {
+			error = ""; // Giá trị mặc định nếu error không được thiết lập
+		}
 	%>
 	<div class="top-header">
 		<div class="container">
@@ -292,8 +307,7 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain"><%=m.get("Login.TrangChu")%></a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1"><%=m.get("Login.DienThoai")%>
+								<li><a href="http://localhost:8080/MobileWebApp/load-product?page=1"><%=m.get("Login.DienThoai")%>
 								</a></li>
 								<li><a href="go-to-blog"><%=m.get("Login.ThongTin")%></a></li>
 								<li><a href="go-to-about"><%=m.get("Login.BaiViet")%></a></li>
@@ -359,11 +373,7 @@
 								boolean check4 = false;
 								boolean check5 = false;
 								String msg = "";
-								String error = request.getAttribute("error") + "";
-								error = error.equals("null") ? "" : error;
 								if (sourceServlet.equals("loginController")) {
-									/* String error = request.getAttribute("error") + "";
-									error = error.equals("null") ? "" : error; */
 									String thongBao = request.getAttribute("thongBao") + "";
 									thongBao = thongBao.equals("null") ? "" : thongBao;
 									if (error.equals("taiKhoanChuaXacNhan")) {
@@ -411,8 +421,7 @@
 											<label class="control-label sr-only"></label>
 											<div class="login-input">
 												<input name="password" type="password" class="form-control"
-													placeholder="<%=m.get("Login.MatKhau")%>"
-													required="required">
+													placeholder="<%= m.get("Login.MatKhau") %>" required="required">
 												<div class="login-icon">
 													<i class="fa fa-lock"></i>
 												</div>

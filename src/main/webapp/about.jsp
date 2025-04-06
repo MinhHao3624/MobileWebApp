@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -130,7 +128,17 @@
 	background-color: #c9302c;
 	/*CSS form xác nhận thành công */
 }
-	
+    #navigation li:hover > ul > li {
+        height: 50px;
+        border: 1px solid white;
+    }
+
+    #navigation ul li.has-sub ul li a {
+        color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+        text-decoration: none; /* Bỏ gạch chân */
+        display: block;
+        font-size: 14px; /* Kích thước chữ */
+    }
 	
 	</style>
 </head>
@@ -161,7 +169,7 @@
 				<!-- logo -->
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
 					<div class="logo">
-						<a href="index.html"><img src="images/logo.png" alt="">
+						<a href="index.jsp"><img src="images/logo.png" alt="">
 						</a>
 					</div>
 				</div>
@@ -200,10 +208,10 @@
 							</c:if>
 							<c:if test="${not empty sessionScope.khachHang}">
 								<li><a
-									href="http://localhost:8080/MobileWebApp/account-login?userID=${sessionScope.khachHang.userID}"
+									href="account-login?userID=${sessionScope.khachHang.userID}"
 									class="title hidden-xs">Hi <c:out
 											value="${sessionScope.khachHang.userName}" /></a>|</li>
-								<li><a href="http://localhost:8080/MobileWebApp/dang-xuat"
+								<li><a href="dang-xuat"
 									class="title hidden-xs">Log out </a></li>
 								<li><a href="load-page-favorite-list?userID=${sessionScope.khachHang.userID}"><i class="fa fa-heart"></i><sup class="cart-quantity">${soLuongSanPhamLike}</sup></a></li>
 								<li><a href="go-to-cart" class="title"><i
@@ -226,12 +234,20 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
-										thoại</a></li>
+								<li><a href="load-product?page=1">Điện thoại</a></li>
+                                <li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+                                    <ul>
+                                        <li><a href="load-accessories?type=op-lung&page=1">Ốp lưng - Bao da</a></li>
+                                        <li><a href="load-accessories?type=sac-cap&page=1">Sạc - Cáp</a></li>
+                                        <li><a href="load-accessories?type=tai-nghe&page=1">Tai nghe</a></li>
+                                        <li><a href="load-accessories?type=pin-sac-du-phong&page=1">Pin sạc dự phòng</a></li>
+                                        <li><a href="load-accessories?type=dan-man-hinh&page=1">Dán màn hình</a></li>
+                                        <li><a href="load-accessories?type=hub-chuyen-doi&page=1">Hub chuyển đổi</a></li>
+                                    </ul>
+                                </li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
-								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
+								<li><a href="go-to-contactus">Liên hệ, hỗ trợ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -541,11 +557,11 @@
                 <div class="footer-widget">
                     <h3 class="footer-title">Tiện ích</h3>
                     <ul class="arrow">
-                        <li><a href="index.html">Trang chủ </a></li>
-                        <li><a href="product-list.html">Điện thoại</a></li>
-                        <li><a href="about.html">Thông tin</a></li>
-                        <li><a href="blog-default.html">Bài viết</a></li>
-                        <li><a href="contact-us.html">Liên hệ, hỗ trợ</a></li>
+                        <li><a href="index.jsp">Trang chủ </a></li>
+                        <li><a href="product-list.jsp">Điện thoại</a></li>
+                        <li><a href="about.jsp">Thông tin</a></li>
+                        <li><a href="blog-default.jsp">Bài viết</a></li>
+                        <li><a href="contact-us.jsp">Liên hệ, hỗ trợ</a></li>
                     </ul>
                 </div>
             </div>

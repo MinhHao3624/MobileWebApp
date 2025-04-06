@@ -361,8 +361,6 @@
 	margin-bottom: 15px;
 }
 
-/////
-///
 /* Bọc tất cả CSS trong class .custom-modal để tránh ảnh hưởng */
 /* Nền mờ overlay (phủ toàn màn hình) */
 .custom-modal-overlay {
@@ -443,7 +441,7 @@
 	color: white;
 }
 
-//
+
 /* Nền mờ overlay (phủ toàn màn hình) */
 /* Nền mờ overlay phủ toàn màn hình */
 /* Nền mờ overlay phủ toàn màn hình */
@@ -530,7 +528,6 @@
 	color: white;
 }
 
-//////
 body {
 	margin: 0;
 	background-color: #f4f4f4;
@@ -589,7 +586,6 @@ body {
 	color: white;
 }
 
-///////
 body {
 	margin: 0;
 	background-color: #f4f4f4;
@@ -643,7 +639,6 @@ body {
 	color: white;
 }
 
-/////
 .modal {
 	display: flex; /* Ẩn modal ban đầu */
 	position: fixed;
@@ -700,251 +695,18 @@ body {
 	/*CSS form xác nhận thành công */
 }
 
-///
-.atm-deposit-wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	background-color: #f4f4f4;
-	width: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
+#navigation li:hover > ul > li {
+	height: 50px;
+	border: 1px solid white;
 }
 
-.atm-deposit-container {
-	background: white;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 300px;
-	text-align: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+#navigation ul li.has-sub ul li a {
+	color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+	text-decoration: none; /* Bỏ gạch chân */
+	display: block;
+	font-size: 14px; /* Kích thước chữ */
 }
-
-.atm-deposit-container h2 {
-	margin-bottom: 20px;
-}
-
-.atm-deposit-container input {
-	width: 100%;
-	padding: 10px;
-	margin-bottom: 15px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-}
-
-.atm-deposit-container input[readonly] {
-	background: #e9ecef;
-	cursor: not-allowed;
-}
-
-.atm-deposit-container button {
-	width: 100%;
-	padding: 10px;
-	background: #28a745;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.atm-deposit-container button:disabled {
-	background: #ccc;
-	cursor: not-allowed;
-}
-
-////////////////////////
-/* Định dạng chung cho modal của form hủy CTV */
-/* Định dạng chung cho modal */
-/* Định dạng chung cho modal */
-/* Định dạng modal hủy cộng tác viên */
-/* Định dạng modal */
-/* Modal - căn giữa màn hình */
-.cancel-ctv-modal {
-	position: fixed; /* Đặt modal cố định trên màn hình */
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-	display: flex;
-	justify-content: center; /* Căn giữa theo chiều ngang */
-	align-items: center; /* Căn giữa theo chiều dọc */
-	z-index: 9999; /* Đảm bảo modal hiển thị trên các phần tử khác */
-}
-
-.cancel-ctv-modal-content {
-	background: #fff;
-	padding: 20px;
-	max-width: 500px; /* Đặt kích thước tối đa của modal */
-	width: 100%;
-	border-radius: 8px; /* Bo góc cho modal */
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho modal */
-	overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung dài */
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* Căn giữa chính xác modal */
-}
-
-.cancel-ctv-buttons {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 20px;
-}
-
-.cancel-ctv-btn {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
-}
-
-.cancel-ctv-btn-danger {
-	background-color: #f44336; /* Màu đỏ cho nút đồng ý */
-	color: white;
-}
-
-.cancel-ctv-btn-cancel {
-	background-color: #9e9e9e; /* Màu xám cho nút hủy bỏ */
-	color: white;
-}
-
-h2 {
-	margin-top: 0;
-	font-size: 24px;
-}
-
-p {
-	font-size: 16px;
-	line-height: 1.6;
-}
-
-/////////////////////////////////
-/* Modal container */
-/* Modal container */
-/* Modal container */
-.confirm-modal-container {
-	position: fixed; /* Đặt modal cố định trên màn hình */
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-	display: flex;
-	justify-content: center; /* Căn giữa theo chiều ngang */
-	align-items: center; /* Căn giữa theo chiều dọc */
-	z-index: 9999; /* Đảm bảo modal hiển thị trên các phần tử khác */
-}
-
-.confirm-modal {
-	background: #fff;
-	padding: 20px;
-	max-width: 500px; /* Đặt kích thước tối đa của modal */
-	width: 100%;
-	border-radius: 8px; /* Bo góc cho modal */
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho modal */
-	overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung dài */
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* Căn giữa chính xác modal */
-}
-}
-
-/* Tiêu đề modal */
-.confirm-modal h2 {
-	font-size: 24px;
-	margin-bottom: 15px;
-}
-
-/* Nội dung modal */
-.confirm-modal p {
-	font-size: 16px;
-	margin-bottom: 20px;
-	color: #333;
-}
-
-/* Form nhập mã xác nhận */
-.confirm-modal form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 15px; /* Khoảng cách giữa các phần tử trong form */
-}
-
-/* Input mã xác nhận */
-.confirm-input {
-	width: 100%;
-	padding: 12px;
-	font-size: 16px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	outline: none;
-	transition: border-color 0.3s;
-}
-
-.confirm-input:focus {
-	border-color: #4caf50; /* Màu xanh khi input được focus */
-}
-
-/* Các nút xác nhận */
-.confirm-buttons {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	gap: 10px;
-}
-
-.confirm-btn {
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	cursor: pointer;
-	width: 48%; /* Đảm bảo các nút chiếm 48% chiều rộng */
-}
-
-.confirm-btn-submit {
-	background-color: #4caf50; /* Màu xanh cho nút xác nhận */
-	color: white;
-}
-
-.confirm-btn-cancel {
-	background-color: #f44336; /* Màu đỏ cho nút hủy */
-	color: white;
-}
-
-/* Nút gửi lại mã */
-.confirm-btn-resend {
-	background-color: #9e9e9e; /* Màu xám cho nút gửi lại mã */
-	color: white;
-	padding: 10px 15px;
-	border-radius: 5px;
-	margin-top: 20px;
-	width: 100%;
-}
-
-/* Hiệu ứng hover cho các nút */
-.confirm-btn:hover {
-	opacity: 0.8;
-}
-
-/* Đảm bảo modal có thể cuộn nếu nội dung quá dài */
-.confirm-modal-content {
-	max-height: 80vh; /* Giới hạn chiều cao modal */
-	overflow-y: auto; /* Cho phép cuộn dọc */
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* Căn giữa nội dung */
-	width: 100%; /* Đảm bảo modal nội dung chiếm hết chiều rộng */
-}
+	
 </style>
 </head>
 
@@ -1040,14 +802,20 @@ p {
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
-										thoại</a></li>
+								<li><a href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện thoại</a></li>
+								<li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+									<ul>
+										<li><a href="load-accessories?type=op-lung&page=1">Ốp lưng - Bao da</a></li>
+										<li><a href="load-accessories?type=sac-cap&page=1">Sạc - Cáp</a></li>
+										<li><a href="load-accessories?type=tai-nghe&page=1">Tai nghe</a></li>
+										<li><a href="load-accessories?type=pin-sac-du-phong&page=1">Pin sạc dự phòng</a></li>
+										<li><a href="load-accessories?type=dan-man-hinh&page=1">Dán màn hình</a></li>
+										<li><a href="load-accessories?type=hub-chuyen-doi&page=1">Hub chuyển đổi</a></li>
+									</ul>
+								</li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên
-										hệ, hỗ trợ</a></li>
+								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -1126,14 +894,12 @@ p {
 									VIP, mỗi tháng phải nạp trên 2 triệu VND nếu không sẽ bị hạ
 									cấp.</div>
 
-								<a
-									href="go-to-nang-cap?userID = ${sessionScope.khachHang.userID}"></a>
 								<button class="user-upgrade-button primary">Nạp tiền
 									ngay</button>
 							</div>
 							<div class="user-upgrade-right">
-								<label>Đăng ký cộng tác viên:</label> <label></label>
-								<div class="user-upgrade-info" id="isPartner">${ctv}</div>
+								<label>Đăng ký cộng tác viên:</label> <label>${ctv}</label>
+								<div class="user-upgrade-info" id="isPartner">Chưa đăng ký</div>
 
 								<label>Số sản phẩm đã đăng bán:</label>
 								<div class="user-upgrade-info" id="productsPosted">${soSPDaDangBan}</div>
@@ -1156,10 +922,8 @@ p {
 
 								<button class="user-upgrade-button primary"
 									onclick="openRegistrationForm()">Đăng ký cộng tác viên</button>
-								<c:if test="${sessionScope.khachHang.role.roleID == 3}">
-								<button class="user-upgrade-button danger"
-									onclick="openCancelCtvModal()">Hủy làm cộng tác viên</button>
-									</c:if>
+								<button class="user-upgrade-button danger">Hủy làm cộng
+									tác viên</button>
 							</div>
 						</div>
 					</div>
@@ -1464,7 +1228,7 @@ p {
 									<td>${item.name}</td>
 									<td>${item.price}VND</td>
 									<td>${item.stockQuantity}</td>
-									<td>${item.getCreateAt()}</td>
+									<td>${item.createAt}</td>
 									<td>${item.categories.nameCategories}</td>
 									<td>${item.informationPro.info_ID}</td>
 									<td>${item.userID.userID}</td>
@@ -1477,8 +1241,8 @@ p {
 			</div>
 		</div>
 	</c:if>
-	<!-- <button class="user-upgrade-button primary"
-		onclick="openRegistrationForm()">Đăng ký cộng tác viên</button> -->
+	<button class="user-upgrade-button primary"
+		onclick="openRegistrationForm()">Đăng ký cộng tác viên</button>
 
 	<div class="registration-wrapper" id="registrationWrapper">
 		<div class="form-container">
@@ -1503,8 +1267,8 @@ p {
 			<div class="buttons">
 				<button class="btn btn-register" onclick="openSignupForm()">Đăng
 					ký</button>
-				<button class="btn btn-cancel" onclick="closeProductModal3()">Hủy
-					bỏ</button>
+				<button class="btn btn-cancel"
+					onclick="closeProductModal3()">Hủy bỏ</button>
 			</div>
 		</div>
 	</div>
@@ -1512,22 +1276,25 @@ p {
 	<div class="signup-form" id="signupForm">
 		<div class="form-container">
 			<h2>Tiến hành đăng ký</h2>
-			<form id="signupFormContent" action="dang-ky-ctv" method="POST">
-				<label>Họ và tên:</label> <input type="text" required name="hoten"><br>
-				<br> <label>Tuổi:</label> <input type="number" min="18"
-					name="age" required><br> <label>Căn cước công
-					dân:</label> <input type="text" name="cccd" required> <br> <label>Giới
-					tính:</label> <select required name="gender">
+			<form id="signupFormContent" action="dang-ky-ctv" method="post">
+				<label>Họ và tên:</label> <input type="text" required name = "hoten"><br>
+				<br> <label>Tuổi:</label> <input type="number" min="18" name = "age"
+					required><br><label>Căn cước công dân:</label> <input type="text" name = "cccd"
+					required> <br> <label>Giới tính:</label> <select
+					required name = "gender">
 					<option value="Nam">Nam</option>
 					<option value="Nữ">Nữ</option>
 					<option value="Khác">Khác</option>
 				</select><br> <br> <label>Trình độ học vấn:</label> <select
-					required name="trinhdo">
+					required name = "trinhdo">
 					<option value="THPT">Tốt nghiệp THPT</option>
 					<option value="Cao Đẳng">Cao Đẳng</option>
+					<option value="Đại học">Đại học</option>
+					<option value="Thạc sĩ">Thạc sĩ</option>
+					<option value="Tiến sĩ">Tiến sĩ</option>
 				</select><br> <br> <label>Số tài khoản:</label> <input type="text"
-					required name="soTaiKhoan"><br> <br> <label>Nhập
-					mã captcha:</label> <input type="text" id="captchaInput" required><br>
+					required name = "soTaiKhoan"><br> <br> <label>Nhập mã
+					captcha:</label> <input type="text" id="captchaInput" required><br>
 				<span id="captchaCode"></span>
 				<button type="button" onclick="generateCaptcha()">Tạo mã
 					mới</button>
@@ -1542,129 +1309,22 @@ p {
 		</div>
 	</div>
 	<c:if test="${check4 == true}">
-		<div class="modal" id="successModal">
-			<div class="modal-content">
-				<img
-					src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
-					alt="Notify Icon" style="width: 100px; height: 50px" />
-				<h3>${baoLoi}</h3>
-				<button class="btn-close" onclick="closeModal()" name="action"
-					value="xacThuc">Đóng</button>
+	<div class="modal" id="successModal">
+				<div class="modal-content">
+					<img
+						src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
+						alt="Notify Icon" style="width: 100px; height: 50px" />
+					<h3>${baoLoi}</h3>
+					<button class="btn-close" onclick="closeModal()" name="action"
+						value="xacThuc">Đóng</button>
+				</div>
 			</div>
-		</div>
-	</c:if>
-	<c:if test="${check10 == true}">
-		<div class="modal" id="successModal">
-			<div class="modal-content">
-				<img
-					src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
-					alt="Notify Icon" style="width: 100px; height: 50px" />
-				<h3>${baoLoi}</h3>
-				<button class="btn-close" onclick="closeModal()" name="action"
-					value="xacThuc">Đóng</button>
-			</div>
-		</div>
-	</c:if>
-	<c:if test="${check11 == true}">
-		<div class="atm-deposit-container">
-			<h2>Nạp Tiền</h2>
-			<form action="napTienCtv" method="POST">
-				<input type="text" value="${nganHang}" readonly name="nganHang">
-				<input type="text" value="${soTaiKhoan}" readonly name="soTaiKhoan">
-				<input type="password" id="pin" placeholder="Nhập mã PIN"
-					name="maPin" oninput="toggleButton()">
-				<button id="submitBtn" disabled>Nạp Tiền</button>
-			</form>
-		</div>
-	</c:if>
-	<div class="cancel-ctv-modal" id="cancelCtvModal"
-		style="display: none;">
-		<div class="cancel-ctv-modal-content">
-			<h2>Hủy làm cộng tác viên</h2>
-			<p>Sau khi hủy làm CTV của web, bạn cần gỡ bỏ các sản phẩm đang
-				đăng bán trên trang web.</p>
-			<p>
-				Bạn sẽ nhận lại được <strong>2.000.000 VND</strong> từ số tiền <strong>10.000.000
-					VND</strong> cọc mỗi tháng cho trang web.
-			</p>
-			<p>
-				Chọn <strong>Đồng ý</strong> để tiếp tục, hệ thống sẽ gửi mail xác
-				nhận về Gmail bạn đã đăng ký. Hoặc chọn <strong>Hủy bỏ</strong> để
-				thoát.
-			</p>
-			<div class="cancel-ctv-buttons">
-				<a href="kiem-tra-huy-ctv?userID=${sessionScope.khachHang.userID}">
-					<button class="cancel-ctv-btn cancel-ctv-btn-danger">Đồng
-						ý</button>
-				</a>
-				<button class="cancel-ctv-btn cancel-ctv-btn-cancel"
-					onclick="closeCancelCtvModal()">Hủy bỏ</button>
-			</div>
-		</div>
-	</div>
-
-	<!-- Modal nhập mã xác nhận -->
-	<!-- Modal nhập mã xác nhận -->
-	<c:if test="${check20 == true}">
-	<div class="confirm-modal-container">
-		<div class="confirm-modal" id="confirmModal">
-			<div class="confirm-modal-content">
-				<h2>Nhập mã xác nhận</h2>
-				<p>Vui lòng nhập mã xác nhận đã gửi đến email của bạn.</p>
-				<c:if test="${check21 == true}">
-				<span style="color: red;">${baoLoi}</span>
-				</c:if>
-
-				Form nhập mã xác nhận
-				<form id="confirmForm" action="xac-nhan-huy-lam-ctv" method="POST">
-					<input type="text" id="inputCode" class="confirm-input"
-						placeholder="Nhập mã xác nhận" required name = "maXacNhan"> 
-						 <input type="hidden" name="soNgauNhien" value="${soNgauNhien}">
-
-					<div class="confirm-buttons">
-						<button type="submit" class="confirm-btn confirm-btn-submit">Xác
-							nhận</button>
-						<button type="button" class="confirm-btn confirm-btn-cancel"
-							id = "cancelBtn">Hủy xác nhận</button>
-					</div>
-				</form>
-
-				
-				<a href="gui-lai-ma-xac-nhan?userID=${sessionScope.khachHang.userID}"><button type="button" class="confirm-btn confirm-btn-resend"
-					>Gửi lại mã</button></a>
-			</div>
-		</div>
-	</div>
-	</c:if>
+			</c:if>
 
 	<script>
-        function toggleButton() {
-            let pinInput = document.getElementById('pin');
-            let submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = pinInput.value.trim() === '';
-        }
-        document.getElementById("cancelBtn").onclick = function() {
-            document.getElementById("confirmModal").style.display = "none";
-        }
-    </script>
-	<script>
-        function openCancelCtvModal() {
-            document.getElementById("cancelCtvModal").style.display = "flex";
-        }
-        function closeCancelCtvModal() {
-            document.getElementById("cancelCtvModal").style.display = "none";
-        }
-    </script>
-
-	<script>
-	
         function openRegistrationForm() {
             document.getElementById("registrationWrapper").style.display = "flex";
         }
-        function closeModal() {
-    		document.getElementById("successModal").style.display = "none";
-    		
-    	}
         
         function openSignupForm() {
             document.getElementById("signupForm").style.display = "flex";

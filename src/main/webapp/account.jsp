@@ -1,4 +1,4 @@
-<%@page import="model.User"%>
+<%@page import="com.projectttweb.webphone.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -6,15 +6,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="keywords" content="">
-<title>Duy Anh LTW</title>
+<title>Account</title>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Style CSS -->
@@ -132,6 +130,17 @@
 .suggestions-list li:hover {
 	background-color: #f9f9f9;
 }
+#navigation li:hover > ul > li {
+	height: 50px;
+	border: 1px solid white;
+}
+
+#navigation ul li.has-sub ul li a {
+	color: #fff; /* Màu chữ trắng để nổi trên nền xanh */
+	text-decoration: none; /* Bỏ gạch chân */
+	display: block;
+	font-size: 14px; /* Kích thước chữ */
+}
 </style>
 
 </head>
@@ -236,9 +245,17 @@
 						<div id="navigation">
 							<ul>
 								<li class="active"><a href="LoadDataMain">Trang chủ</a></li>
-								<li><a
-									href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
-										thoại</a></li>
+								<li><a href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện thoại</a></li>
+								<li class="has-sub"><a href="load-accessories">Phụ kiện</a>
+									<ul>
+										<li><a href="load-accessories?type=op-lung&page=1">Ốp lưng - Bao da</a></li>
+										<li><a href="load-accessories?type=sac-cap&page=1">Sạc - Cáp</a></li>
+										<li><a href="load-accessories?type=tai-nghe&page=1">Tai nghe</a></li>
+										<li><a href="load-accessories?type=pin-sac-du-phong&page=1">Pin sạc dự phòng</a></li>
+										<li><a href="load-accessories?type=dan-man-hinh&page=1">Dán màn hình</a></li>
+										<li><a href="load-accessories?type=hub-chuyen-doi&page=1">Hub chuyển đổi</a></li>
+									</ul>
+								</li>
 								<li><a href="go-to-blog">Thông tin</a></li>
 								<li><a href="go-to-about">Bài viết</a></li>
 								<li><a href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên hệ, hỗ trợ</a></li>
@@ -403,13 +420,7 @@
 							   <a href="go-to-so-du?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
 										class="fas fa-money-check"></i><span>Số dư</span></li></a>
 							   <a href="go-to-nang-cap?userID=${sessionScope.khachHang.userID}"><li class="slide-bar"><i
-										class="fas fa-money-check"></i><span>Nâng cấp</span></li></a>	
-							   <c:if test="${sessionScope.khachHang.role.roleID == 3}">		
-							   <a href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
-										class="fas fa-money-check"></i><span>Quản lí sản phẩm</span></li></a>
-							    <a href="go-to-quan-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
-										class="fas fa-money-check"></i><span>Quản lí đơn hàng</span></li></a>
-								</c:if>			
+										class="fas fa-money-check"></i><span>Nâng cấp</span></li></a>
 								<!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
 							   <a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}">
 									<li class="slide-bar"><i class="fas fa-lock"></i><span>
