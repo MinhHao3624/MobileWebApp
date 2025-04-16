@@ -70,9 +70,9 @@ public class XacNhanPinController extends HttpServlet {
 				if(m.getKey().equalsIgnoreCase(bank)) {
 					if(m.getValue().getStk().equalsIgnoreCase(stk)) {
 					if(m.getValue().getMaPin().equalsIgnoreCase(maPin)) {
-						double soDuCur = m.getValue().getSoDu();
+						double soDuCur = Double.parseDouble(m.getValue().getSoDu());
 						double soTienDb = Double.parseDouble(soTien);
-						m.getValue().setSoDu(soDuCur - soTienDb);
+						m.getValue().setSoDu(String.valueOf(soDuCur - soTienDb));
 						String iD = "";
 						String iDCur = atmDAO.selectIDCur();
 						String soTienTrcKhiChuyen = user.getSoDu();

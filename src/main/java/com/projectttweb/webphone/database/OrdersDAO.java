@@ -406,6 +406,29 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		}
 		return res;
 	}
+	public boolean kiemTraProductIsOrderByCus(String productID) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders \r\n"
+					+ "INNER JOIN orderdetails ON orders.ordersID = orderdetails.orderID \r\n"
+					+ "WHERE orders.status != 'Đã thanh toán' \r\n"
+					+ "AND orderdetails.productID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, productID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				res = true;
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 	
 }
