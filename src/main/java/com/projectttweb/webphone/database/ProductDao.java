@@ -2564,4 +2564,86 @@ public class ProductDao implements DAOInterface<Product> {
 		}
 		return liPro;
 	}
+	public int insert2(Product t) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "INSERT INTO product (productID, name, price, stockQuantity, description, image, createAt, productCategoriesID, informationProductID, userID, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, t.getProductID());
+			stm.setString(2, t.getName());
+			stm.setString(3, t.getPrice());
+			stm.setInt(4, t.getStockQuantity());
+			stm.setString(5, t.getDescription());
+			stm.setString(6, null);
+			stm.setDate(7, t.getCreateAt());
+			stm.setString(8, t.getCategories().getProductCategoriesID());
+			stm.setString(9, t.getInformationPro().getInfo_ID());
+			stm.setString(10, t.getUserID().getUserID());
+			stm.setString(11, t.getStatus());
+			res = stm.executeUpdate();
+			System.out.println("bạn đã thực thi " + sql);
+			System.out.println("có kq " + res + " dòng change");
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+	public List<Product> selectProDangBan(String userID) {
+		// TODO Auto-generated method stub
+		List<Product> liPro = new ArrayList<Product>();
+		InformationproductDAO inforDAO = new InformationproductDAO();
+		ProductCategoriesDAO proCateDAO = new ProductCategoriesDAO();
+		UserDao userDAO = new UserDao();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM product WHERE userID = ? AND stockQuantity > 0 AND status = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			stm.setString(2, "còn hàng");
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				String productID = rs.getString("productID");
+				String name = rs.getString("name");
+				String price = rs.getString("price");
+				int stock = rs.getInt("stockQuantity");
+				String des = rs.getString("description");
+				String img = rs.getString("image");
+				Date createAt = rs.getDate("createAt");
+				String proCateID = rs.getString("productCategoriesID");
+				String infoProID = rs.getString("informationProductID");
+				String usID = rs.getString("userID");
+				String status = rs.getString("status");
+				Product pro = new Product(productID, name, price, price, stock, des, img, createAt, proCateDAO.getProCateByID(proCateID), inforDAO.selectByIDNew(infoProID), userDAO.selectById3(userID), status);
+				liPro.add(pro);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return liPro;
+	}
+	public boolean checkUserHasProInList(String userID) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM product WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				res = true;
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
 }

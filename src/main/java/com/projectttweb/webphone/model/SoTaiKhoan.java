@@ -3,10 +3,10 @@ package com.projectttweb.webphone.model;
 public class SoTaiKhoan {
 private String iD;
 private String stk;
-private double soDu;
+private String soDu;
 private String maPin;
 private String nganHang;
-public SoTaiKhoan(String iD,String stk, double soDu, String maPin, String nganHang) {
+public SoTaiKhoan(String iD,String stk, String soDu, String maPin, String nganHang) {
 	this.iD = iD;
 	this.stk = stk;
 	this.soDu = soDu;
@@ -19,14 +19,16 @@ public String getStk() {
 public void setStk(String stk) {
 	this.stk = stk;
 }
-public double getSoDu() {
-	return soDu;
-}
-public void setSoDu(double soDu) {
-	this.soDu = soDu;
-}
 
-public String getMaPin() {
+	public String getSoDu() {
+		return soDu;
+	}
+
+	public void setSoDu(String soDu) {
+		this.soDu = soDu;
+	}
+
+	public String getMaPin() {
 	return maPin;
 }
 public void setMaPin(String maPin) {

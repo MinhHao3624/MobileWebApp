@@ -91,6 +91,49 @@ public class SoTaiKhoanDAO implements DAOInterface<SoTaiKhoan>{
 		}
 		return res;
 	}
+	public int capNhatSoDu(String valueOf, String stk) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE numbank SET soDu = ? WHERE sotaikhoan = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, valueOf.trim());
+			stm.setString(2, stk.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+	public SoTaiKhoan selectSoTaiKhoan(String stk) {
+		// TODO Auto-generated method stub
+		SoTaiKhoan stk3 = null;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM numbank WHERE sotaikhoan = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, stk.trim());
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				String iD = rs.getString("id");
+				String stk2 = rs.getString("sotaikhoan");
+				String soDu = rs.getString("soDu");
+				String maPin = rs.getString("maPin");
+				String bank = rs.getString("nganHang");
+				stk3 = new SoTaiKhoan(iD, stk2, soDu, maPin, bank);
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return stk3;
+
+	}
 	
 	
 

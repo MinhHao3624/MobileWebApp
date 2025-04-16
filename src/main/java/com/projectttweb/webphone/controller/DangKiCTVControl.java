@@ -59,7 +59,7 @@ public class DangKiCTVControl extends HttpServlet {
 					if(kiemTraCCCD(cccd)) {
 						String iD = stkDAO.selectIDLast();
 						String iDNext = xuLyIDNext(iD);
-						SoTaiKhoan stk3 = new SoTaiKhoan(iDNext, stk2, 0, randomPin(), nganHang);
+						SoTaiKhoan stk3 = new SoTaiKhoan(iDNext, stk2, "20000000", randomPin(), nganHang);
 						if(stkDAO.insertSoTaiKhoan(stk3) > 0) {
 						if(userDAO.updateCTV(age, cccd, gender, degree, stk2,nganHang, us.getUserID())) {
 							check5 = true;
