@@ -90,6 +90,65 @@
 	/*CSS form xác nhận thành công */
 }
 
+
+
+/* Modal overlay */
+.custom-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Modal content */
+.custom-modal-content {
+	background: #fff;
+	width: 95%;
+	max-height: 90%;
+	padding: 20px;
+	border-radius: 10px;
+	overflow: hidden;
+	position: relative;
+}
+
+/* Scroll container */
+.custom-scroll-container {
+	overflow: auto;
+	max-height: 70vh;
+}
+
+/* Table */
+.custom-order-table {
+	width: 2000px; /* Đảm bảo đủ chỗ cho các cột */
+	border-collapse: collapse;
+}
+
+.custom-order-table th,
+.custom-order-table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: center;
+}
+
+.custom-order-table th {
+	background-color: #f2f2f2;
+}
+
+/* Close button */
+.custom-close-button {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 24px;
+	cursor: pointer;
+}
+
 /* Modal nền phủ toàn màn hình */
 /* Đảm bảo modal OTP hiển thị ở giữa màn hình, không bị ảnh hưởng bởi Bootstrap modal */
 /* Toàn màn hình và căn giữa */
@@ -288,7 +347,7 @@
 															<th>Họ tên</th>
 															<th>Số điện thoại</th>
 															<th>Địa chỉ mặc định</th>
-															<th>Trạng thái</th>
+															<th>Xem báo cáo</th>
 															<th>Email</th>
 															<th></th>
 														</tr>
@@ -300,7 +359,7 @@
 																<td>${user.fullName}</td>
 																<td>${user.phoneNumber}</td>
 																<td>${user.address}</td>
-																<td>${user.isKey}</td>
+																<td><button onclick="xemBaoCao('${user.userID}')">Xem báo cáo</button></td>
 																<td>${user.email}</td>
 																<td class="row" style="border: none;">
 																	<div style="margin: auto;">
@@ -361,6 +420,33 @@
 			</div>
 			<!-- /#page-content-wrapper -->
 		</div>
+		<div id="baoCaoModal" class="custom-modal-overlay" style="display: none;">
+			<div class="custom-modal-content">
+				<span class="custom-close-button" onclick="dongBaoCaoModal()">×</span>
+				<h3 style="text-align: center;">Báo cáo đơn hàng đã thống kê</h3>
+				<div class="custom-scroll-container">
+					<table class="custom-order-table">
+						<thead>
+						<tr>
+							<th>Mã đơn hàng</th>
+							<th>Tên khách hàng</th>
+							<th>Ngày đặt</th>
+							<th>Tổng tiền</th>
+							<th>Trạng thái</th>
+							<th>isCheck</th>
+							<th>isSendAdmin</th>
+							<th>idNV</th>
+							<th>Ngày thống kê</th>
+						</tr>
+						</thead>
+						<tbody id="baoCaoBody">
+						<!-- Dữ liệu từ JS đổ vào -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
 		<!-- Modal Thêm Nhân Viên -->
 		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
 			aria-labelledby="addUserModalLabel" aria-hidden="true">
@@ -512,6 +598,51 @@
 					modal.show();
 				});
 			});
+		</script>
+		<script>
+			function xemBaoCao(userID) {
+				fetch(`xem-bao-cao-cua-nv?userID=` + userID)
+						.then(response => response.json())
+						.then(data => {
+							const tbody = document.getElementById('baoCaoBody');
+							tbody.innerHTML = ''; // Clear dữ liệu cũ
+
+							data.forEach(order => {
+								const row = document.createElement('tr');
+								var oi = order.orderID;
+								var name = order.userName;
+								var date = order.orderDate;
+								var price = order.totalAmount;
+								var status = order.status;
+								var isCheck = order.isCheck;
+								var isSend = order.isSendAdmin;
+								var idNV = order.idNV;
+								var dateTK = order.dateTK;
+								row.innerHTML =
+										"<td>" + oi + "</td>" +
+										"<td>" + name + "</td>" +
+										"<td>" + date + "</td>" +
+										"<td>" + price + " VND</td>" +
+										"<td>" + status + "</td>" +
+										"<td>" + isCheck + "</td>" +
+										"<td>" + isSend + "</td>" +
+										"<td>" + idNV + "</td>" +
+										"<td>" + dateTK + "</td>";
+								tbody.appendChild(row);
+							});
+
+							document.getElementById('baoCaoModal').style.display = 'block';
+						})
+						.catch(err => {
+							console.error('Lỗi khi lấy dữ liệu báo cáo:', err);
+							alert('Không thể tải báo cáo.');
+						});
+			}
+
+			function dongBaoCaoModal() {
+				document.getElementById('baoCaoModal').style.display = 'none';
+			}
+
 		</script>
 		<!-- <script>
 document.addEventListener("DOMContentLoaded", function() {

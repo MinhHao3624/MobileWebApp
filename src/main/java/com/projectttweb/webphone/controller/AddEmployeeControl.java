@@ -21,6 +21,7 @@ import com.projectttweb.webphone.database.UserDao;
 import com.projectttweb.webphone.model.Roles;
 import com.projectttweb.webphone.model.User;
 import com.projectttweb.webphone.util.Email;
+import com.projectttweb.webphone.util.MaHoa;
 import com.projectttweb.webphone.util.SoNgauNhien;
 
 /**
@@ -85,6 +86,7 @@ public class AddEmployeeControl extends HttpServlet {
 			System.out.println("Trạng thái: " + status);
 			System.out.println("Loại người dùng: " + typeUser);
 			System.out.println("======================================");
+			String passWordMaHoa = MaHoa.toSHA1(pass);
 			Random rd = new Random();
 			UserDao userDAO = new UserDao();
 			String maXacThuc = SoNgauNhien.getSoNgauNhien();
@@ -94,7 +96,7 @@ public class AddEmployeeControl extends HttpServlet {
 			c.add(Calendar.DATE, 1);
 			Date thoiGianHieuLucXacThuc = new Date(c.getTimeInMillis());
 			String userID = System.currentTimeMillis() + rd.nextInt(1000) + "";
-			User user = new User(userID, username, pass, fullName, email, sdt, new Roles(4, "Employee"),
+			User user = new User(userID, username, passWordMaHoa, fullName, email, sdt, new Roles(4, "Employee"),
 					Date.valueOf(dob), sex, address, todaysDate, null, null, 0, "", "Chưa xử lý", "0", typeUser, 0, null,
 					null, null);
 			boolean check = false;

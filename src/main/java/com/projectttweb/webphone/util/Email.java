@@ -17,8 +17,8 @@ import javax.activation.DataSource;
 public class Email {
 	// Email: trananhduyvlm@gmail.com
 	// Password: nebeekfipcstxcox
-	static final String from = "nguyenvominhhao36@gmail.com";
-	static final String password = "avrt wftc gzvt gyew";
+	static final String from = "trananhduyvlm@gmail.com";
+	static final String password = "ruak ulut ktlu mlaa";
 
 	public static boolean sendEmail(String to, String tieuDe, String noiDung) {
 		// Properties : khai báo các thuộc tính

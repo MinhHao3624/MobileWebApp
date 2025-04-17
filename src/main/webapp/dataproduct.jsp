@@ -3,9 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
-
-
-
 <head>
 <meta charset="UTF-8">
 <meta charset="utf-8">
@@ -134,7 +131,7 @@
 	/*CSS form xác nhận thành công */
 }
 
-///////
+
 /* Đảm bảo CSS chỉ áp dụng cho trang danh sách sản phẩm */
 /* Định dạng bảng sản phẩm */
 .products-container {
@@ -255,7 +252,7 @@
 	background: #0056b3;
 }
 
-////////////////////
+
 /* CSS cho form thêm sản phẩm */
 /* Ẩn form ban đầu */
 /* Ẩn form ban đầu */
@@ -336,7 +333,7 @@ input, select, textarea {
 	background-color: #0056b3;
 }
 
-////////////////////////
+
 /* CSS cho form chỉnh sửa sản phẩm */
 /* Ẩn form chỉnh sửa ban đầu */
 #editProductForm {
@@ -423,7 +420,7 @@ input, select, textarea {
 	background-color: #0056b3;
 }
 
-//////////////////////////
+
 
 /* Đảm bảo modal nằm giữa màn hình */
 /* Đảm bảo modal nằm giữa màn hình */
@@ -657,6 +654,12 @@ input, select, textarea {
 									<a
 										href="go-to-quan-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li
 										class="slide-bar"><i class="fas fa-money-check"></i><span>Quản
+												lí đơn hàng</span></li></a>
+								</c:if>
+								<c:if test="${sessionScope.khachHang.role.roleID == 4}">
+									<a
+											href="go-to-xu-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li
+											class="slide-bar"><i class="fas fa-money-check"></i><span>Xử
 												lí đơn hàng</span></li></a>
 								</c:if>
 								<!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
