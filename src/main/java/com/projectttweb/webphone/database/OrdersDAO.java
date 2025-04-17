@@ -430,5 +430,184 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		return res;
 	}
 
-	
+
+    public ArrayList<Orders> selectOrdersInTime(Date todaysDate, Date previousMonthDate) {
+		ArrayList<Orders> res = new ArrayList<Orders>();
+		ArrayList<Orders> res2 = new ArrayList<Orders>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE status LIKE ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, "Đã thanh toán");
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				int isSendAdmin = rs.getInt("isSendAdmin");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin);
+				res.add(orders);
+			}
+			for (Orders orders : res) {
+				if(orders.getOrdersDate().getTime() >= previousMonthDate.getTime() && orders.getOrdersDate().getTime() <= todaysDate.getTime()) {
+					res2.add(orders);
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res2;
+    }
+
+	public int capNhatThongKe(String userID, String orderID) {
+		int res = 0;
+		Date todaysDate = new Date(new java.util.Date().getTime());
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE orders SET isCheck = ?, idNV = ?, dateTK = ? WHERE ordersID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1,1);
+			stm.setString(2, userID.trim());
+			stm.setDate(3, todaysDate);
+			stm.setString(4, orderID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<Orders> getListByNhanVienTK(String userID2, Date todaysDate, Date previousMonthDate) {
+		ArrayList<Orders> res = new ArrayList<Orders>();
+		ArrayList<Orders> res2 = new ArrayList<Orders>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE idNV = ? AND (isSendAdmin = 0 OR isSendAdmin = 1) AND isCheck = 1";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID2.trim());
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				int isSendAdmin = rs.getInt("isSendAdmin");
+				String idNV = rs.getString("idNV");
+				Date ngayTK = rs.getDate("dateTK");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				res.add(orders);
+			}
+			for (Orders orders : res) {
+				if(orders.getOrdersDate().getTime() >= previousMonthDate.getTime() && orders.getOrdersDate().getTime() <= todaysDate.getTime()) {
+					res2.add(orders);
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return res2;
+	}
+
+	public ArrayList<Orders> selectNotSendAdmin(String userID2, Date todaysDate, Date previousMonthDate) {
+		ArrayList<Orders> ans = new ArrayList<>();
+		ArrayList<Orders> ans2 = new ArrayList<>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE idNV = ? AND isSendAdmin = 0 AND isCheck = 1";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID2.trim());
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				int isSendAdmin = rs.getInt("isSendAdmin");
+				String idNV = rs.getString("idNV");
+				Date ngayTK = rs.getDate("dateTK");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				ans.add(orders);
+			}
+			for (Orders orders : ans) {
+				if(orders.getDateTK().getTime() <= todaysDate.getTime() && orders.getDateTK().getTime() >= previousMonthDate.getTime()) {
+					ans2.add(orders);
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return ans2;
+	}
+
+	public int updateSendAdminIsTrue(String orderID) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE orders SET isSendAdmin = 1 WHERE ordersID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, orderID);
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<Orders> getListByNhanVienTKBaoCao(String userID2, Date todaysDate, Date previousMonthDate) {
+		ArrayList<Orders> ans = new ArrayList<>();
+		ArrayList<Orders> ans2 = new ArrayList<>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE idNV = ? AND isSendAdmin = 1 AND isCheck = 1";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID2);
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while (rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				int isSendAdmin = rs.getInt("isSendAdmin");
+				String idNV = rs.getString("idNV");
+				Date ngayTK = rs.getDate("dateTK");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				ans.add(orders);
+			}
+			for (Orders orders : ans) {
+				if(orders.getDateTK().getTime() <= todaysDate.getTime() && orders.getDateTK().getTime() >= previousMonthDate.getTime()) {
+					ans2.add(orders);
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ans2;
+	}
 }

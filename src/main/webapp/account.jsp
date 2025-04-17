@@ -410,6 +410,10 @@
 								<a href="go-to-quan-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
 										class="fas fa-money-check"></i><span>Quản lí đơn hàng</span></li></a>
 							</c:if>
+							<c:if test="${sessionScope.khachHang.role.roleID == 4}">
+								<a href="go-to-xu-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1"><li class="slide-bar"><i
+										class="fas fa-money-check"></i><span>Quản lí đơn hàng</span></li></a>
+							</c:if>
 							<!-- <a href="address-deliver.html"><li class="slide-bar"><i class="fas fa-map-marker-alt"></i><span> Địa chỉ nhận hàng</span></li></a> -->
 							<a href="http://localhost:8080/MobileWebApp/profile-reset-password?userID=${sessionScope.khachHang.userID}">
 								<li class="slide-bar"><i class="fas fa-lock"></i><span>
