@@ -150,8 +150,25 @@
             margin-top: 5px;
         }
 
-    </style>
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
 
+        .captcha-box {
+            font-family: monospace;
+            letter-spacing: 3px;
+            min-width: 100px;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -178,8 +195,7 @@
             <!-- logo -->
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
                 <div class="logo">
-                    <a href="index.html"><img src="images/logo.png" alt="">
-                    </a>
+                    <a href="index.html"><img src="images/logo.png" alt=""> </a>
                 </div>
             </div>
             <!-- /.logo -->
@@ -207,11 +223,9 @@
                 <div class="account-section">
                     <ul>
                         <c:if test="${empty sessionScope.khachHang}">
-                            <li><a href="noAccount.jsp" class="title hidden-xs">Tài
-                                khoản</a></li>
+                            <li><a href="noAccount.jsp" class="title hidden-xs">Tài khoản</a></li>
                             <li class="hidden-xs">|</li>
-                            <li><a href="login-form.jsp" class="title hidden-xs">Đăng
-                                Nhập</a></li>
+                            <li><a href="login-form.jsp" class="title hidden-xs">Đăng Nhập</a></li>
                         </c:if>
                         <c:if test="${not empty sessionScope.khachHang}">
                             <li><a
@@ -239,7 +253,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
                     <div id="navigation">
                         <ul>
                             <li class="active"><a href="LoadDataMain">Trang chủ</a></li>
@@ -285,8 +298,7 @@
     <div class="container">
         <div class="box sing-form">
             <div class="row">
-                <div
-                        class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-12 col-xs-12 ">
+                <div class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-12 col-xs-12 ">
                     <!-- form -->
                     <div class="box-body">
                         <div class="row">
@@ -365,6 +377,10 @@
                                         msg = msg.equals("null") ? "" : msg;
                                         message = msg;
                                         dong = true;
+                                    } else if (hd.equals("locked")) {
+                                        kiemTra = true;
+                                        mo = true;
+                                        message = request.getAttribute("thongBao") + "";
                                     }
 
                                 } else if (sourceServlet.equals("RegisterImage")) {
@@ -528,34 +544,10 @@
 </div>
 
 <!-- Modal thông báo đăng ký thành công -->
-<%--<% if (kiemTra == true) { %>--%>
-<%--<div class="modal" id="signupSuccessModal">--%>
-<%--    <div class="modal-content">--%>
-<%--        <span class="close-btn" onclick="closeModal('signupSuccessModal')">&times;</span>--%>
-<%--        <img src="https://img.icons8.com/color/48/000000/checked--v1.png"--%>
-<%--             alt="Success Icon"/>--%>
-<%--        <h3>Đăng ký thành công</h3>--%>
-<%--        <p>Bạn vui lòng truy cập email để kích hoạt tài khoản.</p>--%>
-<%--        <% if (mo == true) { %>--%>
-<%--        <span class="error-message"><%=message%></span>--%>
-<%--        <% } %>--%>
-<%--        <form action="VerifyServlet" method="post">--%>
-<%--            <label for="verificationCode">Nhập mã xác nhận:</label>--%>
-<%--            <input type="text" name="maXacNhan" id="verificationCode"--%>
-<%--                   placeholder="Nhập mã xác nhận"/>--%>
-<%--            <button class="btn-close" name="action" value="confirm">Xác nhận</button>--%>
-<%--            <button class="btn-close" name="action" value="close">Đóng</button>--%>
-<%--        </form>--%>
-<%--    </div>--%>
-<%--</div>--%>
-<%--<% } %>--%>
-
-<%-- Trong phần modal --%>
-<% if (kiemTra == true) { %>
-<div class="modal" id="signupSuccessModal" style="display: flex;">
+<% if (kiemTra == true || (request.getAttribute("showVerifyForm") != null && (Boolean)request.getAttribute("showVerifyForm"))) { %>
+<div class="modal" id="signupSuccessModal" style="display: flex; z-index: 1000;">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModalAndRedirect()">&times;</span>
-        <img src="images/success-icon.png" alt="Success Icon"/>
         <h3>Đăng ký thành công</h3>
         <p>Vui lòng kiểm tra email để lấy mã xác nhận</p>
 
@@ -570,6 +562,8 @@
                        class="form-control" placeholder="Nhập mã OTP" required>
             </div>
 
+            <%-- Only show captcha if showCaptcha attribute is true --%>
+            <% if (request.getAttribute("showCaptcha") != null && (Boolean)request.getAttribute("showCaptcha")) { %>
             <div class="form-group mt-3">
                 <label for="captcha">Mã bảo mật:</label>
                 <div class="d-flex align-items-center gap-2">
@@ -580,6 +574,7 @@
                     </div>
                 </div>
             </div>
+            <% } %>
 
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" name="action" value="confirm"
@@ -590,55 +585,16 @@
         </form>
     </div>
 </div>
-
-<style>
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal-content {
-        background: white;
-        padding: 25px;
-        border-radius: 8px;
-        max-width: 500px;
-        width: 90%;
-    }
-    .captcha-box {
-        font-family: monospace;
-        letter-spacing: 3px;
-        min-width: 100px;
-    }
-</style>
-
-<script>
-    // Hiển thị modal khi trang tải
-    window.onload = function() {
-        document.getElementById('signupSuccessModal').style.display = 'flex';
-    };
-
-    function closeModalAndRedirect() {
-        window.location.href = 'login-form.jsp';
-    }
-</script>
 <% } %>
 
-<%-- Thêm modal cho trạng thái bị trì hoãn --%>
+<!-- Modal thông báo lỗi xác nhận -->
 <%
     String hd = request.getAttribute("hanhDong") + "";
     if (hd.equals("locked")) {
         long remainingTime = Long.parseLong(request.getAttribute("remainingTime") + "");
 %>
-<div class="modal" id="lockedModal" style="display: flex;">
+<div class="modal" id="lockedModal" style="display: flex; z-index: 1001;">
     <div class="modal-content">
-        <img src="images/notify-icon.png" alt="Notify Icon" style="width: 80px; margin-bottom: 15px;"/>
         <h3 style="color: #d9534f; margin-bottom: 15px;"><%=request.getAttribute("thongBao")%></h3>
         <div id="countdown" style="margin: 15px 0; font-size: 16px;">
             Bạn có thể thử lại sau: <span id="time" style="font-weight: bold;"><%=remainingTime/1000%></span> giây
@@ -650,112 +606,39 @@
         </div>
     </div>
 </div>
-
-<style>
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal-content {
-        background: white;
-        padding: 25px;
-        border-radius: 8px;
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .btn-close {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #d9534f;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        width: 100px;
-        text-align: center;
-    }
-    .btn-close:hover {
-        background-color: #c9302c;
-    }
-</style>
-
-<script>
-    // Hiển thị đếm ngược thời gian chờ
-    var remainingTime = <%=remainingTime%>;
-    var countdownElement = document.getElementById('countdown');
-    var unlockButton = document.getElementById('unlockButton');
-
-    function updateCountdown() {
-        var seconds = Math.ceil(remainingTime / 1000);
-        document.getElementById("time").textContent = seconds;
-
-        if (remainingTime <= 0) {
-            countdownElement.textContent = 'Bạn có thể thử lại ngay bây giờ';
-            unlockButton.style.display = 'block';
-            clearInterval(timer);
-        } else {
-            remainingTime -= 1000;
-        }
-    }
-
-    updateCountdown();
-    var timer = setInterval(updateCountdown, 1000);
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = "none";
-    }
-</script>
 <%
     }
 %>
 
+<!-- Modal xác thực thành công -->
 <% if (xacThuc == true) { %>
-<div class="modal" id="verifySuccessModal">
+<div class="modal" id="verifySuccessModal" style="display: flex; z-index: 1000;">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('verifySuccessModal')">&times;</span>
-        <img src="https://img.icons8.com/color/48/000000/checked--v1.png"
-             alt="Success Icon"/>
-        <h3><%=message%>
-        </h3>
-        <button class="btn-close" onclick="closeModal('verifySuccessModal')">Đóng</button>
+        <span class="close-btn" onclick="closeModalAndRedirect()">&times;</span>
+        <h3><%=message%></h3>
+        <button class="btn-close" onclick="closeModalAndRedirect()">Đăng nhập ngay</button>
     </div>
 </div>
 <% } %>
 
+<!-- Modal đóng -->
 <% if (dong == true) { %>
-<div class="modal" id="closeModal">
+<div class="modal" id="closeModal" style="display: flex; z-index: 1000;">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('closeModal')">&times;</span>
-        <img src="https://tse1.mm.bing.net/th?id=OIP.jZnEX7kzfh_5H-lln_XraAHaDt&pid=Api&P=0&h=180"
-             alt="Notify Icon" style="width: 100px; height: 50px"/>
-        <h3><%=message%>
-        </h3>
-        <button class="btn-close" onclick="closeModal('closeModal')">Đóng</button>
+        <span class="close-btn" onclick="closeModalAndRedirect()">&times;</span>
+        <h3><%=message%></h3>
+        <button class="btn-close" onclick="closeModalAndRedirect()">Đóng</button>
     </div>
 </div>
 <% } %>
 
+<!-- Modal upload ảnh -->
 <% if (xacThuc2 == true) { %>
-<div class="modal" id="uploadModal">
+<div class="modal" id="uploadModal" style="display: flex; z-index: 1000;">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('uploadModal')">&times;</span>
-        <img src="https://tse3.mm.bing.net/th?id=OIP.pAyRN_lNf6IPukCMXYcRcQAAAA&pid=Api&P=0&h=180"
-             alt="Avatar Icon"/>
-        <h3><%=message%>
-        </h3>
+        <img src="images/avatar-icon.png" alt="Avatar Icon"/>
+        <h3><%=message%></h3>
         <form action="up-Load-File" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="control-label sr-only" for="avatar">Ảnh đại diện</label>
@@ -771,15 +654,13 @@
 </div>
 <% } %>
 
+<!-- Modal hoàn tất -->
 <% if (xacThuc3 == true) { %>
-<div class="modal" id="finalSuccessModal">
+<div class="modal" id="finalSuccessModal" style="display: flex; z-index: 1000;">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('finalSuccessModal')">&times;</span>
-        <img src="https://img.icons8.com/color/48/000000/checked--v1.png"
-             alt="Success Icon"/>
-        <h3><%=message%>
-        </h3>
-        <button class="btn-close" onclick="closeModal('finalSuccessModal')">Đóng</button>
+        <span class="close-btn" onclick="closeModalAndRedirect()">&times;</span>
+        <h3><%=message%></h3>
+        <button class="btn-close" onclick="closeModalAndRedirect()">Đóng</button>
     </div>
 </div>
 <% } %>
@@ -844,7 +725,6 @@
     // Hàm đóng modal
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = "none";
-        //window.location.href = 'login-form.jsp'; // Chuyển hướng sang trang login
     }
 
     // Hàm hiển thị modal
@@ -854,22 +734,58 @@
 
     // Xử lý khi trang tải xong
     window.onload = function () {
-        <% if (kiemTra == true) { %>
+        <% if (kiemTra == true || (request.getAttribute("showVerifyForm") != null && (Boolean)request.getAttribute("showVerifyForm"))) { %>
         showModal('signupSuccessModal');
         <% } %>
+
+        <% if (hd.equals("locked")) { %>
+        showModal('lockedModal');
+        remainingTime = 10000
+        startCountdown(remainingTime);
+        <% } %>
+
         <% if (xacThuc == true) { %>
         showModal('verifySuccessModal');
         <% } %>
+
         <% if (dong == true) { %>
         showModal('closeModal');
         <% } %>
+
         <% if (xacThuc2 == true) { %>
         showModal('uploadModal');
         <% } %>
+
         <% if (xacThuc3 == true) { %>
         showModal('finalSuccessModal');
         <% } %>
     };
+
+    // Hàm đếm ngược thời gian chờ
+    function startCountdown(remainingTime) {
+        var countdownElement = document.getElementById('countdown');
+        var unlockButton = document.getElementById('unlockButton');
+
+        function updateCountdown() {
+            var seconds = Math.ceil(remainingTime / 1000);
+            document.getElementById("time").textContent = seconds;
+
+            if (remainingTime <= 0) {
+                countdownElement.textContent = 'Bạn có thể thử lại ngay bây giờ';
+                unlockButton.style.display = 'block';
+            } else {
+                remainingTime -= 1000;
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        updateCountdown();
+    }
+
+    // Hàm đóng modal và chuyển hướng
+    function closeModalAndRedirect() {
+        window.location.href = 'login-form.jsp';
+    }
 
     // Kiểm tra mật khẩu nhập lại
     function xacNhanMatKhau() {
@@ -892,13 +808,6 @@
             document.getElementById("msg").innerHTML = "Mật khẩu nhập lại không khớp!";
         }
     });
-
-    // Hàm đóng modal và chuyển hướng
-    function closeModalAndRedirect() {
-        document.getElementById("signupSuccessModal").style.display = "none";
-        window.location.href = 'login-form.jsp'; // Chuyển hướng sang trang login
-    }
-
 </script>
 
 </body>
