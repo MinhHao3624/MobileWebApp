@@ -19,6 +19,7 @@ public class VertifyController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final long LOCK_TIME = 10000; // 10 seconds
     private Map<String, Long> lockTimes = new HashMap<>();
+    private Map<String, Integer> failedAttempts = new HashMap<>(); // Track failed attempts
 
     public VertifyController() {
         super();
@@ -38,7 +39,7 @@ public class VertifyController extends HttpServlet {
 
             if (isLocked(sessionId)) {
                 long remainingTime = getRemainingLockTime(sessionId);
-                msg = "Bạn đã nhập sai. Vui lòng thử lại sau " + (remainingTime/1000) + " giây.";
+                msg = "Bạn đã nhập sai. Vui lòng thử lại sau " + (remainingTime / 1000) + " giây.";
                 hd = "locked";
                 request.setAttribute("thongBao", msg);
                 request.setAttribute("hanhDong", hd);
@@ -64,22 +65,44 @@ public class VertifyController extends HttpServlet {
                     User us = userDao.selectById2(user);
 
                     if (us.getStatus() == 0) {
+                        // Check if OTP is correct
+                        if (!us.getAuthenticationCode().equals(maXacNhan)) {
+                            // Increment failed attempts
+                            int attempts = failedAttempts.getOrDefault(sessionId, 0) + 1;
+                            failedAttempts.put(sessionId, attempts);
 
-                        if ((sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captchaInput)) ||
-                                !us.getAuthenticationCode().equals(maXacNhan)) {
+                            if (attempts >= 3) {
+                                // After 3 attempts, require captcha
+                                String newCaptcha = generateCaptcha();
+                                session.setAttribute("captcha", newCaptcha);
+                                request.setAttribute("showCaptcha", true);
+                                request.setAttribute("newCaptcha", newCaptcha);
+                            }
 
-                            lockTimes.put(sessionId, System.currentTimeMillis() + LOCK_TIME);
-
-                            session.setAttribute("captcha", generateCaptcha());
-
-                            msg = "Mã xác nhận hoặc captcha không chính xác. Vui lòng thử lại sau 10 giây";
+                            msg = "Mã xác nhận không chính xác. " + (attempts >= 3 ? "Vui lòng nhập cả mã captcha." : "");
                             hd = "locked";
+                            request.setAttribute("showVerifyForm", true);
                         }
-                        else if (us.getAuthenticationCode().equals(maXacNhan)) {
+                        // If captcha is required (after 3 attempts) and not valid
+                        else if (failedAttempts.getOrDefault(sessionId, 0) >= 3 &&
+                                (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captchaInput))) {
+                            msg = "Mã captcha không chính xác. Vui lòng thử lại.";
+                            hd = "locked";
+                            request.setAttribute("showVerifyForm", true);
+                            request.setAttribute("showCaptcha", true);
+                        }
+                        // If verification is successful
+                        else if (us.getAuthenticationCode().equals(maXacNhan) &&
+                                (failedAttempts.getOrDefault(sessionId, 0) < 3 ||
+                                        (failedAttempts.getOrDefault(sessionId, 0) >= 3 &&
+                                                sessionCaptcha != null &&
+                                                sessionCaptcha.equalsIgnoreCase(captchaInput)))) {
                             us.setStatus(1);
                             if (userDao.updateVertifyInformation2(us) > 0) {
                                 msg = "Chúc mừng bạn đã xác thực tài khoản thành công";
                                 isXacThuc = true;
+                                // Reset failed attempts on success
+                                failedAttempts.remove(sessionId);
                                 lockTimes.remove(sessionId);
                             }
                         }
@@ -97,6 +120,7 @@ public class VertifyController extends HttpServlet {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
                 rd.forward(request, response);
             } else {
+                // Rest of the existing code remains the same
                 session = request.getSession();
                 Object obj = session.getAttribute("user");
                 User user = null;
@@ -130,6 +154,7 @@ public class VertifyController extends HttpServlet {
         }
     }
 
+    // Rest of the existing methods remain the same
     private boolean isLocked(String sessionId) {
         if (lockTimes.containsKey(sessionId)) {
             return System.currentTimeMillis() < lockTimes.get(sessionId);
