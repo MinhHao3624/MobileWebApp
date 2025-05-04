@@ -455,13 +455,9 @@
 											class="fa fa-facebook"></i><span class="social-text">Facebook</span></a>
 										<a href="#" class="btn-social-rectangle btn-twitter"><i
 											class="fa fa-twitter"></i><span class="social-text">Twitter</span>
-										</a> <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid
-&redirect_uri=http://localhost:8080/Webphone/LoginGoogleHandler
-&response_type=code
-&client_id=376465340565-h50hl6rpf50vnh2ll5rh4e7qm3itk1i3.apps.googleusercontent.com
-&approval_prompt=force"><i
+										</a> <a href=""><i
 											class="fa fa-google-plus"></i><span class="social-text">Google
-												Plus</span></a>
+										Plus</span></a>
 									</div>
 								</div>
 								<!-- /.form -->
