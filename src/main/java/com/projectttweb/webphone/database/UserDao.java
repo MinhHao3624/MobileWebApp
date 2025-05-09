@@ -1044,6 +1044,14 @@ public class UserDao implements DAOInterface<User> {
 		}
 		return res;
 	}
+	/**
+	 * Resets a user's collaborator information and reassigns their role to customer.
+	 *
+	 * Sets the user's roleID to 2 (customer) and clears fields related to collaborator status, including age, cccd, degree, numbank, and isDesposit, for the specified userID.
+	 *
+	 * @param userID the unique identifier of the user to update
+	 * @return the number of affected rows in the database
+	 */
 	public int restartCtvIsNullAndReturnCus(String userID) {
 		// TODO Auto-generated method stub
 		int res = 0;
@@ -1068,6 +1076,12 @@ public class UserDao implements DAOInterface<User> {
 	}
 
 
+	/**
+	 * Checks if a user with the specified email and Google login flag exists in the database.
+	 *
+	 * @param user the user data transfer object containing the email to check
+	 * @return true if a user with the given email and Google login is found, false otherwise
+	 */
 	public boolean kiemTraTonTai(UserGoogleDto user) {
 		boolean res = false;
 		try {
@@ -1088,6 +1102,12 @@ public class UserDao implements DAOInterface<User> {
 		return res;
 	}
 
+	/**
+	 * Retrieves a user from the database by email where the user is authenticated via Google login.
+	 *
+	 * @param user a UserGoogleDto containing the email to search for
+	 * @return a User object with all user details if found; otherwise, null
+	 */
 	public User selectUserByEmailGoogle(UserGoogleDto user) {
 		User us = null;
 		try {
@@ -1129,6 +1149,14 @@ public class UserDao implements DAOInterface<User> {
 		return us;
 	}
 
+	/**
+	 * Inserts a new user into the database using information from a Google account.
+	 *
+	 * The user is created with fields populated from the provided {@code UserGoogleDto} object, default values for unspecified fields, and the Google login flag set.
+	 *
+	 * @param user the Google user data transfer object containing user details
+	 * @return the number of rows affected by the insert operation
+	 */
 	public int insertUserGoogle(UserGoogleDto user) {
 		int res = 0;
 		try {

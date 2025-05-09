@@ -23,21 +23,46 @@ import org.apache.http.client.fluent.Form;
 @WebServlet(urlPatterns = { "/LoginGoogleHandler" })
 public class LoginGoogleHandler extends HttpServlet {
 
-	// xử lý GET
+	/**
+	 * Handles HTTP GET requests for Google OAuth login by delegating to {@code processRequest}.
+	 *
+	 * @param request the HTTP request
+	 * @param response the HTTP response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	//  xử lý POST nếu cần
+	/**
+	 * Handles HTTP POST requests for Google OAuth login by delegating to {@code processRequest}.
+	 *
+	 * @param request the HTTP request
+	 * @param response the HTTP response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs
+	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	//  Xử lý chung cả GET và POST
+	/**
+	 * Handles Google OAuth login requests by processing the authorization code, retrieving user information,
+	 * managing user registration or login, and forwarding to the main data loading servlet.
+	 *
+	 * This method supports both GET and POST requests, sets appropriate encoding, and manages user session attributes
+	 * based on whether the user already exists in the database.
+	 *
+	 * @param request the HTTP request containing the OAuth authorization code
+	 * @param response the HTTP response for sending output or forwarding
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs during processing
+	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -75,6 +100,14 @@ public class LoginGoogleHandler extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Exchanges an OAuth authorization code for an access token from Google's token endpoint.
+	 *
+	 * @param code the authorization code received from Google's OAuth flow
+	 * @return the access token string obtained from Google
+	 * @throws ClientProtocolException if an HTTP protocol error occurs
+	 * @throws IOException if an I/O error occurs during the request
+	 */
 	public static String getToken(String code) throws ClientProtocolException, IOException {
 		// Gửi POST request đến Google để lấy access token
 		String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
@@ -91,6 +124,14 @@ public class LoginGoogleHandler extends HttpServlet {
 		return jobj.get("access_token").getAsString();
 	}
 
+	/**
+	 * Retrieves Google user profile information using the provided access token.
+	 *
+	 * @param accessToken the OAuth 2.0 access token obtained from Google
+	 * @return a UserGoogleDto object containing the user's Google profile details
+	 * @throws ClientProtocolException if an HTTP protocol error occurs
+	 * @throws IOException if an I/O error occurs during the request
+	 */
 	public static UserGoogleDto getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
 		String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
 		String response = Request.Get(link).execute().returnContent().asString();
