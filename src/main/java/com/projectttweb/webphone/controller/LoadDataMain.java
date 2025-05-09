@@ -35,9 +35,15 @@ public class LoadDataMain extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+		 * Handles HTTP GET requests to load main product data and user-related information for the main page.
+		 *
+		 * Retrieves or creates the user session, fetches main product lists, and sets relevant attributes for the view, including user favorites and cart item count if a user is logged in. Also processes request parameters to set flags for cart and stock status, and forwards the request to the main index page.
+		 *
+		 * @param request the HttpServletRequest containing client request data
+		 * @param response the HttpServletResponse for sending the response
+		 * @throws ServletException if a servlet-specific error occurs during processing
+		 * @throws IOException if an I/O error occurs during request forwarding
+		 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub

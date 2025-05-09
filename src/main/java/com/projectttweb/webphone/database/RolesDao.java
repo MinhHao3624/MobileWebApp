@@ -159,6 +159,11 @@ public class RolesDao implements DAOInterface<Roles> {
 		}
 		return ansWer;
 	}
+	/**
+	 * Demonstrates retrieving and printing all roles from the database using RolesDao.
+	 *
+	 * @param args command-line arguments (not used)
+	 */
 	public static void main(String[] args) {
 		RolesDao roleDao = new RolesDao();
 		ArrayList<Roles> list = roleDao.selectAll();
@@ -167,6 +172,12 @@ public class RolesDao implements DAOInterface<Roles> {
 		}
 	}
 
+    /**
+     * Retrieves a Roles object from the database by its role ID.
+     *
+     * @param roleID the unique identifier of the role to retrieve
+     * @return the Roles object if found, or null if no matching record exists
+     */
     public Roles selectById2(int roleID) {
 		Roles roles = null;
 		try {
