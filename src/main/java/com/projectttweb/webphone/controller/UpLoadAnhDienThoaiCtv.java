@@ -52,7 +52,7 @@ public class UpLoadAnhDienThoaiCtv extends HttpServlet {
 			for (FileItem fileItem : fileItems) {
 				if(!fileItem.isFormField()) {
 					if(fileItem.getFieldName().equals("file")) {
-					    file = new File("D:\\BaiHello\\MobileWebApp\\src\\main\\webapp\\imagesphone\\" + fileItem.getName());
+					    file = new File("D:\\MobileWebApp3\\src\\main\\webapp\\imagesphone\\" + fileItem.getName());
 						fileItem.write(file);
 //						request.setAttribute("duongDan", file.getName());
 //						RequestDispatcher rd = getServletContext().getRequestDispatcher("/insert-img");

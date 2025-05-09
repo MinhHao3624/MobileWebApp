@@ -25,9 +25,61 @@ private int age;
 private String cccd;
 private String degree;
 private SoTaiKhoan soTaiKhoan;
-public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
-		Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode,
-		Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser) {
+private String desposit;
+private String isLoginGoogle;
+
+	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, int age, String cccd, String degree, SoTaiKhoan soTaiKhoan, String desposit, String isLoginGoogle) {
+		this.userID = userID;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.dateOfBirth = dateOfBirth;
+		this.sex = sex;
+		this.address = address;
+		this.createAt = createAt;
+		this.authenticationCode = authenticationCode;
+		this.confirmationTime = confirmationTime;
+		this.status = status;
+		this.imageAvatar = imageAvatar;
+		this.isKey = isKey;
+		this.soDu = soDu;
+		this.typeUser = typeUser;
+		this.age = age;
+		this.cccd = cccd;
+		this.degree = degree;
+		this.soTaiKhoan = soTaiKhoan;
+		this.desposit = desposit;
+		this.isLoginGoogle = isLoginGoogle;
+	}
+
+	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, String isLoginGoogle) {
+		this.userID = userID;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.dateOfBirth = dateOfBirth;
+		this.sex = sex;
+		this.address = address;
+		this.createAt = createAt;
+		this.authenticationCode = authenticationCode;
+		this.confirmationTime = confirmationTime;
+		this.status = status;
+		this.imageAvatar = imageAvatar;
+		this.isKey = isKey;
+		this.soDu = soDu;
+		this.typeUser = typeUser;
+		this.isLoginGoogle = isLoginGoogle;
+	}
+
+	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
+				Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode,
+				Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser) {
 	this.userID = userID;
 	this.userName = userName;
 	this.passWord = passWord;
@@ -331,15 +383,19 @@ public void setSoTaiKhoan(SoTaiKhoan soTaiKhoan) {
 	this.soTaiKhoan = soTaiKhoan;
 }
 
+	public String getDesposit() {
+		return desposit;
+	}
 
+	public void setDesposit(String desposit) {
+		this.desposit = desposit;
+	}
 
+	public String getIsLoginGoogle() {
+		return isLoginGoogle;
+	}
 
-
-
-
-
-
-
-
-
+	public void setIsLoginGoogle(String isLoginGoogle) {
+		this.isLoginGoogle = isLoginGoogle;
+	}
 }

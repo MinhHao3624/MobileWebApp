@@ -167,4 +167,24 @@ public class RolesDao implements DAOInterface<Roles> {
 		}
 	}
 
+    public Roles selectById2(int roleID) {
+		Roles roles = null;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM roles WHERE roleID=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, roleID);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				int roleID2 = rs.getInt("roleID");
+				String roleName = rs.getString("roleName");
+				roles = new Roles(roleID, roleName);
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return roles;
+    }
 }

@@ -48,13 +48,13 @@ public class LoadDataMain extends HttpServlet {
 		        session = request.getSession(true); // Tạo session mới nếu không tồn tại
 		        session.setAttribute("firstVisit", false); // Đặt cờ lần đầu truy cập
 		    } else {
-		        Boolean firstVisit = (Boolean) session.getAttribute("firstVisit");
-		        if (firstVisit == null || firstVisit) {
-		        	System.out.println("doraemon kkkk");
-		            session.invalidate(); // Xóa session cũ
-		            session = request.getSession(true); // Tạo session mới
-		            session.setAttribute("firstVisit", false); // Đặt lại cờ
-		        }
+		        //Boolean firstVisit = (Boolean) session.getAttribute("firstVisit");
+		        //if (firstVisit == null || firstVisit) {
+		        	//System.out.println("doraemon kkkk");
+		           // session.invalidate(); // Xóa session cũ
+		            //session = request.getSession(true); // Tạo session mới
+		           // session.setAttribute("firstVisit", false); // Đặt lại cờ
+		        //}
 		    }
 
 		    // Lấy thông tin user từ session

@@ -455,9 +455,12 @@
 											class="fa fa-facebook"></i><span class="social-text">Facebook</span></a>
 										<a href="#" class="btn-social-rectangle btn-twitter"><i
 											class="fa fa-twitter"></i><span class="social-text">Twitter</span>
-										</a> <a href="#" class="btn-social-rectangle btn-googleplus"><i
+										</a> <a style="background-color: red;" class="btn-social-rectangle btn-google"
+												href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&
+												redirect_uri=http://localhost:8080/Webphone/LoginGoogleHandler&response_type=code
+		                                         &client_id=&approval_prompt=force"><i
 											class="fa fa-google-plus"></i><span class="social-text">Google
-												Plus</span></a>
+										Plus</span></a>
 									</div>
 								</div>
 								<!-- /.form -->
@@ -730,7 +733,7 @@
 	            .then(data => {
 	                // Xóa các gợi ý cũ
 	                suggestionsList.innerHTML = "";
-                  
+
 	                // Thêm các gợi ý mới
 	                data.forEach(product => {
 	                    const suggestionItem = document.createElement("li");
@@ -746,7 +749,7 @@
 	                // Hiển thị danh sách gợi ý
 	                suggestionsList.classList.add("active");
 	            });
-	            
+
 	    } else {
 	        // Ẩn danh sách nếu không có từ khóa
 	        suggestionsList.innerHTML = "";
@@ -760,8 +763,8 @@
 	        suggestionsList.innerHTML = "";
 	        suggestionsList.classList.remove("active");
 	    }
-	}); 
-	
+	});
+
 	</script>
 </body>
 

@@ -47,13 +47,13 @@ public class UpLoadFile extends HttpServlet {
 		try {
 			File file = null;
 			DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-			diskFileItemFactory.setRepository(new File("E:\\LaptrinhWeb\\MobileWebApp\\src\\main\\webapp"));
+			diskFileItemFactory.setRepository(new File("D:\\MobileWebApp3\\src\\main\\webapp"));
 			ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
 			List<FileItem> fileItems = fileUpload.parseRequest(request);
 			for (FileItem fileItem : fileItems) {
 				if(!fileItem.isFormField()) {
 					if(fileItem.getFieldName().equals("file")) {
-					    file = new File("E:\\LaptrinhWeb\\MobileWebApp\\src\\main\\webapp\\avatar\\" + fileItem.getName());
+					    file = new File("D:\\MobileWebApp3\\src\\main\\webapp\\avatar\\" + fileItem.getName());
 						fileItem.write(file);
 //						request.setAttribute("duongDan", file.getName());
 //						RequestDispatcher rd = getServletContext().getRequestDispatcher("/insert-img");

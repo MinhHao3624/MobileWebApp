@@ -10,6 +10,7 @@ import java.util.List;
 import com.projectttweb.webphone.model.Product;
 import com.projectttweb.webphone.model.Roles;
 import com.projectttweb.webphone.model.User;
+import com.projectttweb.webphone.service.UserGoogleDto;
 import com.projectttweb.webphone.util.MaHoa;
 
 public class UserDao implements DAOInterface<User> {
@@ -1067,4 +1068,103 @@ public class UserDao implements DAOInterface<User> {
 	}
 
 
+	public boolean kiemTraTonTai(UserGoogleDto user) {
+		boolean res = false;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE email = ? AND isLoginGoogle = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, user.getEmail());
+			stm.setString(2, "1");
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				res = true;
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public User selectUserByEmailGoogle(UserGoogleDto user) {
+		User us = null;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE email = ? AND isLoginGoogle = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, user.getEmail());
+			stm.setString(2, "1");
+			ResultSet rs = stm.executeQuery();
+			RolesDao rolesDao = new RolesDao();
+			while (rs.next()) {
+				String userID = rs.getString("userID");
+				String userName = rs.getString("userName");
+				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
+				String gmail = rs.getString("email");
+				String phone = rs.getString("phoneNumber");
+				int roleID = rs.getInt("roleID");
+				Roles roles = rolesDao.selectById2(roleID);
+				Date dateOfBir = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String addRess = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String maXacNhan = rs.getString("authenticationCode");
+				Date thoiGianXacNhan = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
+				String img = rs.getString("image");
+				String key = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				String isLoginGG = rs.getString("isLoginGoogle");
+				us = new User(userID, userName, passWord, fullName, gmail, phone, roles, dateOfBir,sex, addRess,createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser, isLoginGG);
+				break;
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return us;
+	}
+
+	public int insertUserGoogle(UserGoogleDto user) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "INSERT INTO user(userID, userName, passWord, fullName, email, phoneNumber, roleID, dateofbirth, sex, address, createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeuser, age, cccd, degree, numbank, isDesposit, isLoginGoogle) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, user.getId());
+			stm.setString(2, user.getGiven_name());
+			stm.setString(3, null);
+			stm.setString(4, user.getName());
+			stm.setString(5, user.getEmail());
+			stm.setString(6, null);
+			stm.setInt(7, 2);
+			stm.setDate(8, null);
+			stm.setString(9, null);
+			stm.setString(10, null);
+			stm.setDate(11, null);
+			stm.setString(12, null);
+			stm.setDate(13, null);
+			stm.setInt(14, 1);
+			stm.setString(15, null);
+			stm.setString(16, null);
+			stm.setString(17, null);
+			stm.setString(18, "1");
+			stm.setInt(19, 19);
+			stm.setString(20, null);
+			stm.setString(21, null);
+			stm.setString(22, null);
+			stm.setString(23, null);
+			stm.setString(24, "1");
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 }
