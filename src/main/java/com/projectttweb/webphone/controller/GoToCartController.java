@@ -20,7 +20,7 @@ import com.projectttweb.webphone.model.User;
 /**
  * Servlet implementation class GoToCartController
  */
-@WebServlet("/go-to-cart")
+//@WebServlet("/go-to-cart")
 public class GoToCartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -69,7 +69,6 @@ public class CartService {
         }
     }
 
-    // Bạn có thể thay thế các hàm này bằng logic sinh ID cụ thể tùy hệ thống
     private String generateNewCartID() {
         return "CART" + System.currentTimeMillis();
     }
@@ -77,4 +76,13 @@ public class CartService {
     private String generateNewCartItemID() {
         return "ITEM" + System.currentTimeMillis();
     }
+
+    public void updateCartItem(CartItem item) {
+        cartItemDAO.update(item);
+    }
+
+    public void deleteCartItem(CartItem item) {
+        cartItemDAO.delete(item);
+    }
+
 }

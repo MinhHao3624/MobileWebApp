@@ -307,7 +307,7 @@
 							<div class="product-title item-center">
 								<img src="imagesphone/${item.product.image}" alt="">
 								<div>
-									<p>${item.product.productName}</p>
+									<p>${item.product.name}</p>
 									<p>Màu sắc: ${item.product.informationPro.color}</p>
 								</div>
 							</div>
@@ -316,11 +316,12 @@
 						<td>
 							<div class="item-center">
 								<div class="quantity">
-									<input class="btn-quantity" type="button" value="-">
+									<a href="giam-so-luong-db?cartItemID=${item.cartItemID}" class="btn-quantity">-</a>
 									<input type="number" max="${item.product.stockQuantity}" min="1"
-										   name="quantity" value="${item.quantity}" class="quantity-input">
-									<input class="btn-quantity" type="button" value="+">
+										   name="quantity" value="${item.quantity}" class="quantity-input" readonly>
+									<a href="tang-so-luong-db?cartItemID=${item.cartItemID}" class="btn-quantity">+</a>
 								</div>
+
 							</div>
 						</td>
 						<td>
@@ -328,10 +329,11 @@
 								<fmt:formatNumber value="${item.price * item.quantity}" type="currency" />
 							</div>
 						</td>
-						<td>
+						<div>
 							<div class="item-center">
-								<a href="delete-cart-item?cartItemID=${item.cartItemID}"><i class="far fa-trash-alt"></i></a>
+								<a href="delete-orderDetails-in-cart?cartItemID=${item.cartItemID}"></a>
 							</div>
+						</div>
 						</td>
 					</tr>
 				</c:forEach>

@@ -1654,17 +1654,6 @@ public class ProductDao implements DAOInterface<Product> {
 		return res;
 	}
 
-//	public static void main(String[] args) {
-//		String s = "Điện thoại Samsung Galaxy S5";
-//		String s1 = "ĐiệnthoạiSamsung";
-//		String s2 = "SamsungS5";
-//		String s3 = "Samsung";
-//		String s4 = "Điện thoại giá rẻ IPhone";
-//		String s5 = "Điện thoại giá rẻ";
-//
-//		System.out.println(s5.toLowerCase().contains(s4.toLowerCase()));
-//	}
-
 	public ArrayList<Product> selectProductByNameSearchBox(String required, int page) {
 		// TODO Auto-generated method stub
 		ArrayList<Product> lstPro = new ArrayList<Product>();
@@ -1839,70 +1828,6 @@ public class ProductDao implements DAOInterface<Product> {
 					}
 				}
 			}
-
-//			String[] ans = { "Điện", "thoại", "giá", "rẻ thấp nhỏ" };
-//
-//			if (check_Lan_Mot(ans, required)) {
-//				String[] arrRequired = required.trim().split(" ");
-//				if (ans.length == arrRequired.length) {
-//					if (checkString_1(ans, arrRequired)) {
-//						for (Product pro : lstDB) {
-//							if (pro.getName().toLowerCase().contains("Điện thoại")) {
-//								lstPro.add(pro);
-//							}
-//						}
-//						Product[] arrPro = new Product[lstPro.size()];
-//						for (int i = 0; i < lstPro.size(); i++) {
-//							arrPro[i] = lstPro.get(i);
-//						}
-//						for (int i = 0; i < arrPro.length; i++) {
-//							for (int j = 0; j < arrPro.length-1; j++) {
-//								int soTien1 = xuLiPrice(arrPro[j].getPrice());
-//								int soTien2 = xuLiPrice(arrPro[j+1].getPrice());
-//								if(soTien1 >  soTien2) {
-//									Product tmp = arrPro[j];
-//									arrPro[j] = arrPro[j+1];
-//									arrPro[j+1] = tmp;
-//								}
-//							}
-//						}
-//						for (Product product : arrPro) {
-//							res.add(product);
-//						}
-//						return res;
-//					} else {
-//						String mess = "";
-//						kiemTra = true;
-//						String[] tmp = ans[ans.length-1].split(" ");
-//					aa:	for (String string : tmp) {
-//							for (String string2 : arrRequired) {
-//								if(string.equalsIgnoreCase(string2)) {
-//									mess = string2;
-//									break aa;
-//								}
-//							}
-//						}
-//					    ans[ans.length-1] = mess;
-//						int[] arrResNum = new int[ans.length];
-//						int index = 0;
-//					aa:	for (int i = 0; i < ans.length; i++) {
-//							for (int j = 0; j < arrRequired.length; j++) {
-//								if(ans[i].equalsIgnoreCase(arrRequired[j])) {
-//									arrResNum[index] = j;
-//									index++;
-//									continue aa;
-//								}
-//							}
-//						}
-//					for (int i = 0; i < ans.length; i++) {
-//						baoLoi += arrRequired[arrResNum[i]];
-//					}
-//					}
-//				} else {
-//					
-//
-//				}
-//			}
 			return ans1;
 		} catch (Exception e) {
 			// TODO: handle exception
