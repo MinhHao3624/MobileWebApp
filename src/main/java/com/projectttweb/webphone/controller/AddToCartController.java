@@ -28,7 +28,7 @@ import com.projectttweb.webphone.model.User;
 /**
  * Servlet implementation class AddToCartController
  */
-@WebServlet("/add-to-cart")
+//@WebServlet("/add-to-cart")
 public class AddToCartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ListOrderDetails list = new ListOrderDetails();

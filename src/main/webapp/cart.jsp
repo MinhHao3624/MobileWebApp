@@ -6,8 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -281,6 +279,7 @@
 		</div>
 	</div>
 	<!-- /.page-header-->
+	<c:set var="soLuongSP" value="${cartItems.size()}" />
 	<!-- cart-section -->
 
 	<div class="container">
@@ -288,140 +287,90 @@
 			<div class="title-header mb20">
 				<h2 class="title">Giỏ Hàng</h2>
 				<p>
-					<span class="text-blue">${size}</span> sản phẩm trong giỏ hàng của
-					bạn
+					<span class="text-blue">${cartItems.size()}</span> sản phẩm trong giỏ hàng của bạn
 				</p>
 			</div>
 			<table class="table">
 				<thead class="thead-light">
-					<tr>
-						<th>Sản phẩm</th>
-						<th scope="col">Đơn giá</th>
-						<th scope="col">Số lượng</th>
-						<th scope="col">Thành tiền</th>
-						<th scope="col"></th>
-
-					</tr>
+				<tr>
+					<th>Sản phẩm</th>
+					<th scope="col">Đơn giá</th>
+					<th scope="col">Số lượng</th>
+					<th scope="col">Thành tiền</th>
+					<th scope="col"></th>
+				</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="orderDetails"
-						items="${sessionScope.listItem.getList()}">
-						<tr>
-							<td>
-								<div class="product-title item-center">
-									<img src="imagesphone/${orderDetails.product.image}" alt="">
-									<div>
-										<p>${orderDetails.product.name}</p>
-										<p>Màu sắc: ${orderDetails.product.informationPro.color}</p>
-									</div>
+				<c:forEach var="item" items="${cartItems}">
+					<tr>
+						<td>
+							<div class="product-title item-center">
+								<img src="imagesphone/${item.product.image}" alt="">
+								<div>
+									<p>${item.product.productName}</p>
+									<p>Màu sắc: ${item.product.informationPro.color}</p>
 								</div>
-							</td>
-							<td>
-								<div class="item-center">${orderDetails.product.price}đ</div>
-							</td>
-							<td>
-								<div class="item-center">
-									<div class="quantity">
-										<a
-											href="giam-so-luong?productID=${orderDetails.product.productID}"><input
-											class="btn-quantity decrease-quantity" onclick="dcQuantity()"
-											type="button" value="-"></a> <input type="number"
-											max="${orderDetails.product.stockQuantity}" min="1"
-											name="quantity" value="${orderDetails.quantity}"
-											class="quantity-input" id="quantity-input"> <a
-											href="tang-so-luong?productID=${orderDetails.product.productID}"><input
-											class="btn-quantity increase-quantity" onclick="icQuantity()"
-											type="button" value="+"></a>
-									</div>
+							</div>
+						</td>
+						<td><div class="item-center">${item.price}đ</div></td>
+						<td>
+							<div class="item-center">
+								<div class="quantity">
+									<input class="btn-quantity" type="button" value="-">
+									<input type="number" max="${item.product.stockQuantity}" min="1"
+										   name="quantity" value="${item.quantity}" class="quantity-input">
+									<input class="btn-quantity" type="button" value="+">
 								</div>
-							</td>
-							<td>
-								<div class="item-center text-red">
-									<fmt:formatNumber value="${orderDetails.unitPrice * orderDetails.quantity}" type="currency" />
-								</div>
-
-							</td>
-							<td>
-								<div class="item-center pinside10">
-									<a href="delete-orderDetails-in-cart?orderDetailsID=${orderDetails.orderDetailsID}"><i class="far fa-trash-alt"></i></a>
-								</div>
-							</td>
-						</tr>
-					</c:forEach>
-
-					<!-- <tr>
-                        <td>
-                            <div class="item-center pdl10"><input type="checkbox" class="checkboxStyle"></div>
-                        </td>
-                        <td>
-                            <div class="product-title item-center">
-                                <img src="images/iphone11.png" alt="">
-                                <div>
-                                    <p>iPhone 11 Pro 128GB</p>
-                                    <p>Màu sắc: Xanh</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="item-center">17.000.000đ</div>
-                        </td>
-                        <td>
-                            <div class="item-center">
-                                <div class="quantity">
-                                    <input class="btn-quantity decrease-quantity" onclick="dcQuantity()" type="button"
-                                        value="-">
-                                    <input type="number" max="10" min="1" name="quantity" value="1"
-                                        class="quantity-input" id="quantity-input">
-                                    <input class="btn-quantity increase-quantity" onclick="icQuantity()" type="button"
-                                        value="+">
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="item-center text-red">17.000.000đ</div>
-                        </td>
-                        <td>
-                            <div class="item-center pinside10"><i class="far fa-trash-alt"></i></div>
-                        </td>
-                    </tr> -->
+							</div>
+						</td>
+						<td>
+							<div class="item-center text-red">
+								<fmt:formatNumber value="${item.price * item.quantity}" type="currency" />
+							</div>
+						</td>
+						<td>
+							<div class="item-center">
+								<a href="delete-cart-item?cartItemID=${item.cartItemID}"><i class="far fa-trash-alt"></i></a>
+							</div>
+						</td>
+					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
+
+			<c:set var="totalAmount" value="0" />
+			<c:forEach var="item" items="${cartItems}">
+				<c:set var="totalAmount" value="${totalAmount + (item.price * item.quantity)}" />
+			</c:forEach>
+
 			<div class="prices-summary">
 				<div class="left-content">
-					<a href="LoadDataMain" class="derection-product text-blue"><i
-						class="fas fa-long-arrow-alt-left"></i> Tiếp tục mua hàng</a>
+					<a href="LoadDataMain" class="derection-product text-blue"><i class="fas fa-long-arrow-alt-left"></i> Tiếp tục mua hàng</a>
 				</div>
 				<div class="right-con">
 					<div class="total-receipt">
-						<div class="promotion-code pinside20">
-							<input type="text" class="input-code"
-								placeholder="Nhập mã ưu đãi">
-							<button type="submit" class="submit-code btn-default">Áp
-								dụng</button>
-						</div>
 						<ul class="prices pinside20">
-							<li class="prices-item"><span class="prices-text">Tạm
-									tính</span> <span class="prices-value"><fmt:formatNumber
-										value="${totalAmount}"
-										type="currency" /></span></li>
-							<li class="prices-item"><span class="prices-text">Giảm
-									giá</span> <span class="prices-value">0đ</span></li>
+							<li class="prices-item"><span class="prices-text">Tạm tính</span>
+								<span class="prices-value">
+                                    <fmt:formatNumber value="${totalAmount}" type="currency" />
+                                </span>
+							</li>
+							<li class="prices-item"><span class="prices-text">Giảm giá</span> <span class="prices-value">0đ</span></li>
 						</ul>
 						<div class="prices-total pinside20">
-							<span class="price-text">Tổng cộng</span> <span
-								class="prices-value prices-final text-red"><fmt:formatNumber
-										value="${totalAmount}"
-										type="currency" /></span>
+							<span class="price-text">Tổng cộng</span>
+							<span class="prices-value prices-final text-red">
+                                <fmt:formatNumber value="${totalAmount}" type="currency" />
+                            </span>
 						</div>
 					</div>
-					<a href="go-to-checkout" class="btn-default btn-checkout">Mua
-						Hàng</a>
+					<a href="go-to-checkout" class="btn-default btn-checkout">Mua Hàng</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- /.cart-total -->
-	</div>
 
 	<!-- /.cart-section -->
 	<!-- footer -->
