@@ -39,7 +39,13 @@ public class UpLoadFile extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Processes file upload requests sent via POST and saves the uploaded file to the server.
+	 *
+	 * Extracts the file submitted with the form field named "file" from the multipart request,
+	 * saves it to the "avatar" directory under the web application's root, sets the file name as a request attribute,
+	 * and forwards the request to the "/insert-img" resource.
+	 *
+	 * If an error occurs during file upload or saving, the exception is printed to the server log.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

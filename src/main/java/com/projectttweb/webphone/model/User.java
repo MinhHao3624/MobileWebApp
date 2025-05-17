@@ -28,6 +28,34 @@ private SoTaiKhoan soTaiKhoan;
 private String desposit;
 private String isLoginGoogle;
 
+	/**
+	 * Constructs a User object with all available user attributes, including identification, personal details, role, account information, deposit, and Google login status.
+	 *
+	 * @param userID unique identifier for the user
+	 * @param userName username for authentication
+	 * @param passWord password for authentication
+	 * @param fullName user's full name
+	 * @param email user's email address
+	 * @param phoneNumber user's phone number
+	 * @param role user's role within the system
+	 * @param dateOfBirth user's date of birth
+	 * @param sex user's gender
+	 * @param address user's address
+	 * @param createAt account creation date
+	 * @param authenticationCode code used for user authentication
+	 * @param confirmationTime time when the account was confirmed
+	 * @param status account status indicator
+	 * @param imageAvatar URL or path to the user's avatar image
+	 * @param isKey status indicating if the user is active
+	 * @param soDu user's account balance
+	 * @param typeUser type or category of the user
+	 * @param age user's age
+	 * @param cccd user's identification number
+	 * @param degree user's degree or qualification
+	 * @param soTaiKhoan user's account information
+	 * @param desposit user's deposit amount
+	 * @param isLoginGoogle indicates if the user logged in via Google
+	 */
 	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, int age, String cccd, String degree, SoTaiKhoan soTaiKhoan, String desposit, String isLoginGoogle) {
 		this.userID = userID;
 		this.userName = userName;
@@ -55,6 +83,29 @@ private String isLoginGoogle;
 		this.isLoginGoogle = isLoginGoogle;
 	}
 
+	/**
+	 * Constructs a User with the specified identification, personal, role, account, and authentication details, including Google login status.
+	 *
+	 * @param userID the unique identifier for the user
+	 * @param userName the user's login name
+	 * @param passWord the user's password
+	 * @param fullName the user's full name
+	 * @param email the user's email address
+	 * @param phoneNumber the user's phone number
+	 * @param role the user's role
+	 * @param dateOfBirth the user's date of birth
+	 * @param sex the user's gender
+	 * @param address the user's address
+	 * @param createAt the account creation date
+	 * @param authenticationCode the code used for authentication
+	 * @param confirmationTime the time of account confirmation
+	 * @param status the user's account status
+	 * @param imageAvatar the user's avatar image
+	 * @param isKey indicates if the user is active
+	 * @param soDu the user's account balance
+	 * @param typeUser the type of user
+	 * @param isLoginGoogle indicates if the user logged in via Google
+	 */
 	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, String isLoginGoogle) {
 		this.userID = userID;
 		this.userName = userName;
@@ -77,7 +128,12 @@ private String isLoginGoogle;
 		this.isLoginGoogle = isLoginGoogle;
 	}
 
-	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
+	/**
+ * Constructs a User with the specified identification, personal, role, and account details.
+ *
+ * Initializes a User instance with provided values for user credentials, personal information, role, account status, and metadata.
+ */
+public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
 				Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode,
 				Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser) {
 	this.userID = userID;
@@ -379,22 +435,47 @@ public SoTaiKhoan getSoTaiKhoan() {
 
 
 
+/**
+ * Sets the user's associated account information.
+ *
+ * @param soTaiKhoan the account information to associate with the user
+ */
 public void setSoTaiKhoan(SoTaiKhoan soTaiKhoan) {
 	this.soTaiKhoan = soTaiKhoan;
 }
 
+	/**
+	 * Returns the deposit amount associated with the user.
+	 *
+	 * @return the user's deposit amount
+	 */
 	public String getDesposit() {
 		return desposit;
 	}
 
+	/****
+	 * Sets the deposit amount for the user.
+	 *
+	 * @param desposit the deposit amount to assign
+	 */
 	public void setDesposit(String desposit) {
 		this.desposit = desposit;
 	}
 
+	/****
+	 * Returns the Google login status of the user.
+	 *
+	 * @return a string indicating whether the user is logged in with Google
+	 */
 	public String getIsLoginGoogle() {
 		return isLoginGoogle;
 	}
 
+	/****
+	 * Sets the flag indicating whether the user is logged in via Google.
+	 *
+	 * @param isLoginGoogle a string representing the Google login status
+	 */
 	public void setIsLoginGoogle(String isLoginGoogle) {
 		this.isLoginGoogle = isLoginGoogle;
 	}
