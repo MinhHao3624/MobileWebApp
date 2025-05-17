@@ -65,7 +65,6 @@ public class XemBaoCaoCuaNV extends HttpServlet {
                 map.put("totalAmount", order.getTotalAmount());
                 map.put("status", order.getStatus());
                 map.put("isCheck", order.getIsCheck()+"");
-                map.put("isSendAdmin", order.getIsSendAdmin()+"");
                 map.put("idNV", order.getIdNV());
                 map.put("dateTK", order.getDateTK());
                 orderData.add(map);

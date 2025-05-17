@@ -41,7 +41,7 @@ public class XuLiDonHangPageControl extends HttpServlet {
         // TODO Auto-generated method stub
        try {
            HttpSession session = request.getSession(false);
-           User user = (User) session.getAttribute("khachHang");
+           User user = (User) session.getAttribute("employee");
            Date todaysDate = new Date(new java.util.Date().getTime());
            // Sử dụng Calendar để trừ đi 1 tháng
            String userID = request.getParameter("userID")+"";
@@ -68,28 +68,17 @@ public class XuLiDonHangPageControl extends HttpServlet {
            Date previousMonthDate = new Date(cal.getTimeInMillis());
            OrdersDAO ordersDAO = new OrdersDAO();
            List<Orders> lst = ordersDAO.selectOrdersInTime(todaysDate, previousMonthDate);
+           List<Orders> lst2 = ordersDAO.selectOrdersIsCheckNV(todaysDate, previousMonthDate, userID);
            double soTien = 0;
-           for(Orders o : lst) {
-               if (o.getIsCheck() == 1) {
+           for(Orders o : lst2) {
+               if (o.getIsCheck() == 1 && o.getIdNV().equalsIgnoreCase(userID)) {
                    soTien += o.getTotalAmount();
                }
            }
-           double soTien2 = 0;
-           for (Orders o : lst) {
-               if(o.getIsCheck() == 1 && o.getIsSendAdmin() == 0) {
-                   soTien2 += o.getTotalAmount();
-               }
-           }
            int numOrders = 0;
-           for(Orders o :lst) {
-               if(o.getIsCheck() == 1) {
+           for(Orders o :lst2) {
+               if(o.getIsCheck() == 1 && o.getIdNV().equalsIgnoreCase(userID)) {
                    numOrders++;
-               }
-           }
-           int numOrders2 = 0;
-           for(Orders o :lst) {
-               if(o.getIsCheck() == 1 && o.getIsSendAdmin() == 0) {
-                   numOrders2++;
                }
            }
            List<Orders> proAns = new ArrayList<Orders>();
@@ -120,26 +109,12 @@ public class XuLiDonHangPageControl extends HttpServlet {
                }
 
            }
-           ProductFavoriteDAO proFaDao = new ProductFavoriteDAO();
-           int soLuongSanPhamLike = proFaDao.getSoLuong2(user.getUserID().trim());
-           ListOrderDetailsItem li = (ListOrderDetailsItem) session.getAttribute("listItem");
-           String slSP = "";
-           if (li != null) {
-               slSP = li.getList().size() + "";
-               slSP = (slSP == "0") ? "0" : slSP;
-           } else {
-               slSP = "0";
-           }
            request.setAttribute("currentPage", page);
            request.setAttribute("tongSoTrang", tongSoTrang);
-           request.setAttribute("soLuongSanPhamLike", soLuongSanPhamLike);
-           request.setAttribute("soLuongSP", slSP);
            request.setAttribute("listOrders", proAns);
            request.setAttribute("soTien1", String.valueOf(soTien));
-           request.setAttribute("soTien2", String.valueOf(soTien2));
            request.setAttribute("numOrders", String.valueOf(numOrders));
-           request.setAttribute("numOrders2", String.valueOf(numOrders2));
-           RequestDispatcher rd = getServletContext().getRequestDispatcher("/dataorders.jsp");
+           RequestDispatcher rd = getServletContext().getRequestDispatcher("/Employee/employee-data-order-pay.jsp");
            rd.forward(request, response);
        }catch (Exception e) {
            e.printStackTrace();

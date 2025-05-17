@@ -41,7 +41,7 @@ public class ThongKeDonHangControl extends HttpServlet {
         // TODO Auto-generated method stub
         try {
           HttpSession session = request.getSession(false);
-          User user = (User) session.getAttribute("khachHang");
+          User user = (User) session.getAttribute("employee");
           OrdersDAO ordersDAO = new OrdersDAO();
           String orderID = request.getParameter("orderID");
           String userID = request.getParameter("userID");

@@ -38,6 +38,11 @@ public class LoadReciptDataControl extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("admin");
+			String url = "/Admin/admin-manager-recipt.jsp";
+			if(user == null) {
+				user = (User) session.getAttribute("employee");
+				url = "/Employee/admin-manager-recipt-employee.jsp";
+			}
 			if(user != null) {
 				OrdersDAO ordersDAO = new OrdersDAO();
 				ArrayList<Orders> listAll1 = ordersDAO.selectAll();
@@ -49,7 +54,7 @@ public class LoadReciptDataControl extends HttpServlet {
 				}
 				request.setAttribute("listOrders", listAll);
 				request.setAttribute("sourceServlet", "loadOrders");
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Admin/admin-manager-recipt.jsp");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 				rd.forward(request, response);
 			}
 		} catch (Exception e) {

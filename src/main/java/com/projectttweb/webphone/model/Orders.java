@@ -11,7 +11,6 @@ public class Orders {
     private String shippingAddress;
     private String phone;
     private int isCheck;
-    private int isSendAdmin;
     private String idNV;
     private Date dateTK;
 
@@ -26,7 +25,7 @@ public class Orders {
         this.phone = phone;
     }
 
-    public Orders(String orderID, Date ordersDate, User user, String status, double totalAmount, String shippingAddress, String phone, int isCheck, int isSendAdmin) {
+    public Orders(String orderID, Date ordersDate, User user, String status, double totalAmount, String shippingAddress, String phone, int isCheck) {
         this.orderID = orderID;
         this.ordersDate = ordersDate;
         this.user = user;
@@ -35,10 +34,10 @@ public class Orders {
         this.shippingAddress = shippingAddress;
         this.phone = phone;
         this.isCheck = isCheck;
-        this.isSendAdmin = isSendAdmin;
+
     }
 
-    public Orders(String orderID, Date ordersDate, User user, String status, double totalAmount, String shippingAddress, String phone, int isCheck, int isSendAdmin, String idNV, Date dateTK) {
+    public Orders(String orderID, Date ordersDate, User user, String status, double totalAmount, String shippingAddress, String phone, int isCheck, String idNV, Date dateTK) {
         this.orderID = orderID;
         this.ordersDate = ordersDate;
         this.user = user;
@@ -47,7 +46,6 @@ public class Orders {
         this.shippingAddress = shippingAddress;
         this.phone = phone;
         this.isCheck = isCheck;
-        this.isSendAdmin = isSendAdmin;
         this.idNV = idNV;
         this.dateTK = dateTK;
     }
@@ -114,14 +112,6 @@ public class Orders {
 
     public void setIsCheck(int isCheck) {
         this.isCheck = isCheck;
-    }
-
-    public int getIsSendAdmin() {
-        return isSendAdmin;
-    }
-
-    public void setIsSendAdmin(int isSendAdmin) {
-        this.isSendAdmin = isSendAdmin;
     }
 
     public String getIdNV() {

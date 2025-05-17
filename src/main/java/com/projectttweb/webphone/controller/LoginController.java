@@ -161,29 +161,9 @@ public class LoginController extends HttpServlet {
 				rd.forward(request, response);
 			}else if(us.getRole().getRoleID() == 4) {
 				HttpSession session = request.getSession();
-				session.setAttribute("khachHang", us);
-				User user2 = (User) session.getAttribute("khachHang");
-				url = "/index.jsp";
-				int soLuongSanPhamLike = proFaDao.getSoLuong2(user2.getUserID().trim());
-				ListOrderDetailsItem li = (ListOrderDetailsItem) session.getAttribute("listItem");
-				String slSP = "";
-				if (li != null) {
-					slSP = li.getList().size() + "";
-					slSP = (slSP == "0") ? "0" : slSP;
-				} else {
-					slSP = "0";
-				}
-				ProductDao proDao = new ProductDao();
-				List<Product> lstPro1 = proDao.getProductMain();
-				List<Product> lstPro2 = proDao.getProductMain();
-				List<Product> lstPro3 = proDao.getProductMain();
-				request.setAttribute("uri", "/LoadDataMain");
-				request.setAttribute("soLuongSP", slSP);
-				request.setAttribute("danhSachMain1", lstPro1);
-				request.setAttribute("danhSachMain2", lstPro2);
-				request.setAttribute("danhSachMain3", lstPro3);
-				request.setAttribute("sourceServlet", "loginController");
-				request.setAttribute("soLuongSanPhamLike", soLuongSanPhamLike);
+				session.setAttribute("employee", us);
+				System.out.println("vao employee");
+				url = "/Employee/Employee.jsp";
 				RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 				rd.forward(request, response);
 			} else {
@@ -199,7 +179,6 @@ public class LoginController extends HttpServlet {
 				if(!USER_NAME.equalsIgnoreCase(userName) && COUNT2 != 1) {
 					COUNT2 = 0;
 				}
-				System.out.println(COUNT2+" số là số");
 				USER_NAME = userName;
 				if(COUNT2 > 5 && COUNT2 <= 10) {
 					notify = "Bạn đã nhập sai tk mk 5 lần. Vui lòng thử lại sau 30s";
