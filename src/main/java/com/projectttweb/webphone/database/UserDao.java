@@ -5,29 +5,22 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.projectttweb.webphone.model.Product;
 import com.projectttweb.webphone.model.Roles;
+import com.projectttweb.webphone.model.SoTaiKhoan;
 import com.projectttweb.webphone.model.User;
-import com.projectttweb.webphone.util.MaHoa;
 
 public class UserDao implements DAOInterface<User> {
 
 	@Override
 	public ArrayList<User> selectAll() {
-		// TODO Auto-generated method stub
-		ArrayList<User> answer = new ArrayList<User>();
+		ArrayList<User> answer = new ArrayList<>();
 		try {
-			// B1: Tạo kết nối đến CSDL
 			Connection con = JDBCUtil.getConnection();
-			// B2: Tạo ra đổi tượng Statment
 			String sql = "SELECT * FROM user";
 			PreparedStatement st = con.prepareStatement(sql);
-			// B3: Thực thi câu lênh sql
-			System.out.println(sql);
+			System.out.println("Executing: " + sql);
 			ResultSet rs = st.executeQuery();
-			// B4:
 			while (rs.next()) {
 				String userID = rs.getString("userID");
 				String userName = rs.getString("userName");
@@ -39,15 +32,33 @@ public class UserDao implements DAOInterface<User> {
 				Roles role = new Roles();
 				role.setRoleID(roleID);
 				Roles roles = new RolesDao().selectById(role);
-				Date date = rs.getDate("createAt");
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
 				String image = rs.getString("image");
-				String key = rs.getString("isKey");
-				User user = new User(userID, userName, passWord, fullName, email, phone, roles, date, userName, phone,
-						date, image, key);
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				User user = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex,
+						address, createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser,
+						age, cccd, degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 				answer.add(user);
 			}
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectAll: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return answer;
@@ -55,50 +66,62 @@ public class UserDao implements DAOInterface<User> {
 
 	@Override
 	public User selectById(User t) {
-		// TODO Auto-generated method stub
-		User ansWer = null;
+		User answer = null;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			// Tạo đối tg statment
-			String sql = "SELECT * FROM user " + " WHERE userID=?";
+			String sql = "SELECT * FROM user WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, t.getUserID());
-			// B3: Thuc thi câu lệnh sql
-			System.out.println(sql);
+			System.out.println("Executing: " + sql + " with userID=" + t.getUserID());
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				String userID = rs.getString("userID");
 				String userName = rs.getString("userName");
 				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
 				String email = rs.getString("email");
-				String phoneNum = rs.getString("phoneNumber");
+				String phone = rs.getString("phoneNumber");
 				int roleID = rs.getInt("roleID");
-				Roles roles = new Roles();
-				roles.setRoleID(roleID);
-				Roles role = new RolesDao().selectById(roles);
-				Date date = rs.getDate("createAt");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
 				String image = rs.getString("image");
-				ansWer = new User(userID, userName, passWord, email, phoneNum, role, date, image);
-				break;
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				answer = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 			}
-			// B5 : đóng kết nối
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectById for userID=" + t.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
-		return ansWer;
+		return answer;
 	}
 
 	@Override
 	public int insert(User t) {
-		// TODO Auto-generated method stub
 		int ketQua = 0;
 		try {
-			// B1: Tạo kết nối đến Csdl
 			Connection con = JDBCUtil.getConnection();
-			String sql = "INSERT INTO User (userID, userName, passWord, email, phoneNumber, roleID, createAt, authenticationCode, confirmationTime, status, image)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO user (userID, userName, passWord, email, phoneNumber, roleID, createAt, authenticationCode, confirmationTime, status, image) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, t.getUserID());
 			st.setString(2, t.getUserName());
@@ -111,12 +134,11 @@ public class UserDao implements DAOInterface<User> {
 			st.setDate(9, t.getConfirmationTime());
 			st.setInt(10, t.getStatus());
 			st.setString(11, t.getImageAvatar());
-			// thực thi câu lệnh
 			ketQua = st.executeUpdate();
-			// đóng kết nối
+			System.out.println("Inserted user: " + t.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in insert for userID=" + t.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ketQua;
@@ -124,7 +146,6 @@ public class UserDao implements DAOInterface<User> {
 
 	@Override
 	public int insertAll(ArrayList<User> arr) {
-		// TODO Auto-generated method stub
 		int count = 0;
 		for (User user : arr) {
 			count += this.insert(user);
@@ -134,19 +155,17 @@ public class UserDao implements DAOInterface<User> {
 
 	@Override
 	public int delete(User t) {
-		// TODO Auto-generated method stub
-		// mở kết nối
 		int ans = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "DELETE FROM user " + " WHERE userID=?";
+			String sql = "DELETE FROM user WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, t.getUserID());
-			// B3 thực thi câu lệnh
 			ans = st.executeUpdate();
+			System.out.println("Deleted user: " + t.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in delete for userID=" + t.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ans;
@@ -154,56 +173,76 @@ public class UserDao implements DAOInterface<User> {
 
 	@Override
 	public int deleteAll(ArrayList<User> arr) {
-		// TODO Auto-generated method stub
 		int count = 0;
 		for (User user : arr) {
 			count += this.delete(user);
 		}
 		return count;
-
 	}
 
 	@Override
 	public int update(User t) {
-		// TODO Auto-generated method stub
 		int ans = 0;
 		try {
-
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET userName = ?, passWord = ?, fullName = ?, email = ?, phoneNumber = ?, roleID = ?, dateofbirth = ?, sex = ?, address = ?, createAt = ?, authenticationCode = ?, confirmationTime = ?, status = ?, image = ?, isKey = ?, soDu = ?, typeuser = ?, age = ?, cccd = ?, degree = ?, numbank = ? WHERE userID = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, t.getUserName());
+			st.setString(2, t.getPassWord());
+			st.setString(3, t.getFullName());
+			st.setString(4, t.getEmail());
+			st.setString(5, t.getPhoneNumber());
+			st.setInt(6, t.getRole().getRoleID());
+			st.setDate(7, t.getDateOfBirth());
+			st.setString(8, t.getSex());
+			st.setString(9, t.getAddress());
+			st.setDate(10, t.getCreateAt());
+			st.setString(11, t.getAuthenticationCode());
+			st.setDate(12, t.getConfirmationTime());
+			st.setInt(13, t.getStatus());
+			st.setString(14, t.getImageAvatar());
+			st.setString(15, t.getIsKey());
+			st.setString(16, t.getSoDu());
+			st.setString(17, t.getTypeUser());
+			st.setInt(18, t.getAge());
+			st.setString(19, t.getCccd());
+			st.setString(20, t.getDegree());
+			st.setString(21, t.getSoTaiKhoan() != null ? t.getSoTaiKhoan().getStk() : null);
+			st.setString(22, t.getUserID());
+			ans = st.executeUpdate();
+			System.out.println("Updated user: " + t.getUserID());
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in update for userID=" + t.getUserID() + ": " + e.getMessage());
+			e.printStackTrace();
 		}
 		return ans;
 	}
 
 	public boolean kiemTraTenDangNhap(String userName) {
-		// TODO Auto-generated method stub
 		boolean res = false;
-		// kết nối
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userName=?";
+			String sql = "SELECT * FROM user WHERE userName = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, userName);
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				res = true;
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in kiemTraTenDangNhap for userName=" + userName + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public int insert2(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "INSERT INTO user (userID, userName, passWord, fullName, email, phoneNumber, roleID, dateofbirth, sex, address, createAt, authenticationCode, confirmationTime, status, image, isKey)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO user (userID, userName, passWord, fullName, email, phoneNumber, roleID, dateofbirth, sex, address, createAt, authenticationCode, confirmationTime, status, image, isKey) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getUserID());
 			st.setString(2, user.getUserName());
@@ -222,30 +261,30 @@ public class UserDao implements DAOInterface<User> {
 			st.setString(15, "");
 			st.setString(16, user.getIsKey());
 			res = st.executeUpdate();
+			System.out.println("Inserted user (insert2): " + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in insert2 for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public int updateVertifyInformation(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET authenticationCode=?, confirmationTime=?, status=? WHERE userID=?";
+			String sql = "UPDATE user SET authenticationCode = ?, confirmationTime = ?, status = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getAuthenticationCode());
 			st.setDate(2, user.getConfirmationTime());
 			st.setInt(3, 0);
 			st.setString(4, user.getUserID());
-			// thục thi câu lệnh sql
 			res = st.executeUpdate();
+			System.out.println("Updated verify info for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exceptione
+			System.err.println("Error in updateVertifyInformation for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
@@ -255,153 +294,29 @@ public class UserDao implements DAOInterface<User> {
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "DELETE FROM user WHERE email=?";
+			String sql = "DELETE FROM user WHERE email = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, email);
 			res = st.executeUpdate();
+			System.out.println("Deleted user with email=" + email);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in deleteByEmail for email=" + email + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
-	}
-
-	public static void main(String[] args) {
-//		User user = new User();
-//		user.setUserID("1730035481024");
-		UserDao userDao = new UserDao();
-//		System.out.println(userDao.delete(user));
-//		User user = new User();
-//		user.setUserName("trang55");
-//		String pass = "123456";
-//		String passMH = MaHoa.toSHA1(pass);
-//		user.setPassWord(passMH);
-//		User us = userDao.selectByUserNameAndPassWord(user);
-//		System.out.println(us.getFullName());
-//		System.out.println(us.getPassWord());
-		System.out.println(userDao.deleteByEmail("soul362004@gmail.com"));
-
 	}
 
 	public User selectById2(User user) {
-		// TODO Auto-generated method stub
 		User us = null;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userID=?";
+			String sql = "SELECT * FROM user WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getUserID());
+			System.out.println("Executing: " + sql + " with userID=" + user.getUserID());
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				String userID = rs.getString("userID");
-				String userName = rs.getString("userName");
-				String passWord = rs.getString("passWord");
-				String fullName = rs.getString("fullName");
-				String email = rs.getString("email");
-				String phoneNum = rs.getString("phoneNumber");
-				int roleID = rs.getInt("roleID");
-				Roles roles = new Roles();
-				roles.setRoleID(roleID);
-				Roles role = new RolesDao().selectById(roles);
-				Date dateOfBirth = rs.getDate("dateofbirth");
-				String sex = rs.getString("sex");
-				String addRess = rs.getString("address");
-				Date date = rs.getDate("createAt");
-				String maXacNhan = rs.getString("authenticationCode");
-				Date thoiGianXacNhan = rs.getDate("confirmationTime");
-				int status = rs.getInt("status");
-				String image = rs.getString("image");
-				String key = rs.getString("isKey");
-				String soDu = rs.getString("soDu");
-				String typeUser = rs.getString("typeuser");
-				us = new User(userID, userName, passWord, fullName, email, phoneNum, role, dateOfBirth, sex, addRess,
-						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu, typeUser);
-				break;
-			}
-			JDBCUtil.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return us;
-
-	}
-	public User selectById3(String  userID1) {
-		// TODO Auto-generated method stub
-		User us = null;
-		try {
-			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userID=?";
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, userID1.trim());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				String userID = rs.getString("userID");
-				String userName = rs.getString("userName");
-				String passWord = rs.getString("passWord");
-				String fullName = rs.getString("fullName");
-				String email = rs.getString("email");
-				String phoneNum = rs.getString("phoneNumber");
-				int roleID = rs.getInt("roleID");
-				Roles roles = new Roles();
-				roles.setRoleID(roleID);
-				Roles role = new RolesDao().selectById(roles);
-				Date dateOfBirth = rs.getDate("dateofbirth");
-				String sex = rs.getString("sex");
-				String addRess = rs.getString("address");
-				Date date = rs.getDate("createAt");
-				String maXacNhan = rs.getString("authenticationCode");
-				Date thoiGianXacNhan = rs.getDate("confirmationTime");
-				int status = rs.getInt("status");
-				String image = rs.getString("image");
-				String key = rs.getString("isKey");
-				String soDu = rs.getString("soDu");
-				String typeUser = rs.getString("typeuser");
-				us = new User(userID, userName, passWord, fullName, email, phoneNum, role, dateOfBirth, sex, addRess,
-						date, maXacNhan, thoiGianXacNhan, status, image, key, soDu, typeUser);
-				break;
-			}
-			JDBCUtil.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return us;
-
-	}
-
-	public int updateVertifyInformation2(User us) {
-		// TODO Auto-generated method stub
-		int res = 0;
-		try {
-			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET status=? WHERE userID=?";
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, us.getStatus());
-			st.setString(2, us.getUserID());
-			res = st.executeUpdate();
-			JDBCUtil.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return res;
-
-	}
-
-	public User selectByUserNameAndPassWord(User user) {
-		// TODO Auto-generated method stub
-		User us = null;
-		try {
-			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userName=? and passWord=?";
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, user.getUserName());
-			st.setString(2, user.getPassWord());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				System.out.println("okok");
+			if (rs.next()) {
 				String userID = rs.getString("userID");
 				String userName = rs.getString("userName");
 				String passWord = rs.getString("passWord");
@@ -409,54 +324,184 @@ public class UserDao implements DAOInterface<User> {
 				String email = rs.getString("email");
 				String phone = rs.getString("phoneNumber");
 				int roleID = rs.getInt("roleID");
-				Date dateOfBir = rs.getDate("dateofbirth");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
 				String sex = rs.getString("sex");
-				String addRess = rs.getString("address");
+				String address = rs.getString("address");
 				Date createAt = rs.getDate("createAt");
-				String maXacNhan = rs.getString("authenticationCode");
-				Date thoiGianXacNhan = rs.getDate("confirmationTime");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
 				int status = rs.getInt("status");
-				String img = rs.getString("image");
-				String key = rs.getString("isKey");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
 				String soDu = rs.getString("soDu");
 				String typeUser = rs.getString("typeuser");
-				us = new User(userID, userName, passWord, fullName, email, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
-				System.out.println("okok");
-				break;
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				us = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectById2 for userID=" + user.getUserID() + ": " + e.getMessage());
+			e.printStackTrace();
+		}
+		return us;
+	}
+
+	public User selectById3(String userID) {
+		User us = null;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID.trim());
+			System.out.println("Executing: " + sql + " with userID=" + userID);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				String userID1 = rs.getString("userID");
+				String userName = rs.getString("userName");
+				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
+				String email = rs.getString("email");
+				String phone = rs.getString("phoneNumber");
+				int roleID = rs.getInt("roleID");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID1);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				us = new User(userID1, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			System.err.println("Error in selectById3 for userID=" + userID + ": " + e.getMessage());
+			e.printStackTrace();
+		}
+		return us;
+	}
+
+	public int updateVertifyInformation2(User us) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET status = ? WHERE userID = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, us.getStatus());
+			st.setString(2, us.getUserID());
+			res = st.executeUpdate();
+			System.out.println("Updated verify info (2) for userID=" + us.getUserID());
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			System.err.println("Error in updateVertifyInformation2 for userID=" + us.getUserID() + ": " + e.getMessage());
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public User selectByUserNameAndPassWord(User user) {
+		User us = null;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userName = ? AND passWord = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, user.getUserName());
+			st.setString(2, user.getPassWord());
+			System.out.println("Executing: " + sql + " with userName=" + user.getUserName());
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				String userID = rs.getString("userID");
+				String userName = rs.getString("userName");
+				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
+				String email = rs.getString("email");
+				String phone = rs.getString("phoneNumber");
+				int roleID = rs.getInt("roleID");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				us = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			System.err.println("Error in selectByUserNameAndPassWord for userName=" + user.getUserName() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return us;
 	}
 
 	public int updateImgUser(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET image=? WHERE userID=?";
+			String sql = "UPDATE user SET image = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getImageAvatar());
 			st.setString(2, user.getUserID());
 			res = st.executeUpdate();
+			System.out.println("Updated image for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateImgUser for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public int updateCusInformation(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET fullName=?, email=?, phoneNumber=?, address=?, dateofbirth=?, sex=? WHERE userID=?";
+			String sql = "UPDATE user SET fullName = ?, email = ?, phoneNumber = ?, address = ?, dateofbirth = ?, sex = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getFullName());
 			st.setString(2, user.getEmail());
@@ -466,104 +511,99 @@ public class UserDao implements DAOInterface<User> {
 			st.setString(6, user.getSex());
 			st.setString(7, user.getUserID());
 			res = st.executeUpdate();
+			System.out.println("Updated customer info for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateCusInformation for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public int updateImgAvatar(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET image=? WHERE userID=?";
+			String sql = "UPDATE user SET image = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getImageAvatar());
 			st.setString(2, user.getUserID());
 			res = st.executeUpdate();
+			System.out.println("Updated avatar for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateImgAvatar for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
-
 	}
 
 	public int upDatePassWordNew(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET passWord=? WHERE userID=?";
+			String sql = "UPDATE user SET passWord = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getPassWord());
 			st.setString(2, user.getUserID());
 			res = st.executeUpdate();
+			System.out.println("Updated password for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in upDatePassWordNew for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public boolean kiemTraByEmail(String email) {
-		// TODO Auto-generated method stub
 		boolean res = false;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE email=?";
+			String sql = "SELECT * FROM user WHERE email = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, email);
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				res = true;
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in kiemTraByEmail for email=" + email + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public boolean kiemTraSoDienThoai(String phone) {
-		// TODO Auto-generated method stub
 		boolean res = false;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE phoneNumber=?";
+			String sql = "SELECT * FROM user WHERE phoneNumber = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, phone);
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				res = true;
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in kiemTraSoDienThoai for phone=" + phone + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public User getUserByEmail(String email) {
-		// TODO Auto-generated method stub
 		User user = null;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE email=?";
+			String sql = "SELECT * FROM user WHERE email = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, email);
+			System.out.println("Executing: " + sql + " with email=" + email);
 			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				System.out.println("okok");
+			if (rs.next()) {
 				String userID = rs.getString("userID");
 				String userName = rs.getString("userName");
 				String passWord = rs.getString("passWord");
@@ -571,500 +611,572 @@ public class UserDao implements DAOInterface<User> {
 				String gmail = rs.getString("email");
 				String phone = rs.getString("phoneNumber");
 				int roleID = rs.getInt("roleID");
-				Date dateOfBir = rs.getDate("dateofbirth");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
 				String sex = rs.getString("sex");
-				String addRess = rs.getString("address");
+				String address = rs.getString("address");
 				Date createAt = rs.getDate("createAt");
-				String maXacNhan = rs.getString("authenticationCode");
-				Date thoiGianXacNhan = rs.getDate("confirmationTime");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
 				int status = rs.getInt("status");
-				String img = rs.getString("image");
-				String key = rs.getString("isKey");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
 				String soDu = rs.getString("soDu");
 				String typeUser = rs.getString("typeuser");
-				user = new User(userID, userName, passWord, fullName, gmail, phone, new Roles(roleID, "Khách Hàng"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu, typeUser);
-				System.out.println("okok");
-				break;
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				user = new User(userID, userName, passWord, fullName, gmail, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in getUserByEmail for email=" + email + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return user;
 	}
 
 	public int updatePassWordNewReal(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "UPDATE user SET passWord=? WHERE userID=?";
+			String sql = "UPDATE user SET passWord = ? WHERE userID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getPassWord());
 			st.setString(2, user.getUserID());
 			res = st.executeUpdate();
+			System.out.println("Updated password (real) for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updatePassWordNewReal for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public User selectUserById(String userID) {
-		// TODO Auto-generated method stub
 		User user = null;
 		try {
-			ArrayList<User> lst = selectAll();
-			for (User user2 : lst) {
-				if (user2.getUserID().equalsIgnoreCase(userID)) {
-					user = user2;
-					break;
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE userID = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID.trim());
+			System.out.println("Executing: " + sql + " with userID=" + userID);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				String userID1 = rs.getString("userID");
+				String userName = rs.getString("userName");
+				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
+				String email = rs.getString("email");
+				String phone = rs.getString("phoneNumber");
+				int roleID = rs.getInt("roleID");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID1);
+					roles = new Roles(roleID, "Unknown");
 				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				user = new User(userID1, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 			}
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectUserById for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return user;
-
 	}
 
 	public ArrayList<User> selectUserNotAdmin() {
-		// TODO Auto-generated method stub
-		ArrayList<User> ans = new ArrayList<User>();
+		ArrayList<User> ans = new ArrayList<>();
 		try {
-			ArrayList<User> lst = selectAll();
-			for (User user : lst) {
-				if (user.getRole().getRoleID() == 2) {
-					ans.add(user);
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM user WHERE roleID = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, 2);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				String userID = rs.getString("userID");
+				String userName = rs.getString("userName");
+				String passWord = rs.getString("passWord");
+				String fullName = rs.getString("fullName");
+				String email = rs.getString("email");
+				String phone = rs.getString("phoneNumber");
+				int roleID = rs.getInt("roleID");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
 				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
+				String sex = rs.getString("sex");
+				String address = rs.getString("address");
+				Date createAt = rs.getDate("createAt");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
+				int status = rs.getInt("status");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
+				String soDu = rs.getString("soDu");
+				String typeUser = rs.getString("typeuser");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				User user = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
+				ans.add(user);
 			}
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectUserNotAdmin: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ans;
 	}
 
 	public int updateUserIsKey(String userID, String string) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET isKey = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, string);
-			stm.setString(2, userID.trim());
-			res = stm.executeUpdate();
-			System.out.println("Bạn đã tt " + sql);
-			System.out.println("có kq " + res);
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, string);
+			st.setString(2, userID.trim());
+			res = st.executeUpdate();
+			System.out.println("Updated isKey for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateUserIsKey for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public boolean checkUserNameIsTrue(String userName) {
-		// TODO Auto-generated method stub
 		boolean res = false;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userName = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userName.trim());
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userName.trim());
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
 				res = true;
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
+			System.err.println("Error in checkUserNameIsTrue for userName=" + userName + ": " + e.getMessage());
 			e.printStackTrace();
-			// TODO: handle exception
 		}
 		return res;
-
 	}
 
 	public int khoaTaiKhoanViNhapSaiHonMuoiLan(String userName) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET isKey = ? WHERE userName = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, "Bị khóa");
-			stm.setString(2, userName.trim());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, "Bị khóa");
+			st.setString(2, userName.trim());
+			res = st.executeUpdate();
+			System.out.println("Locked account for userName=" + userName);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in khoaTaiKhoanViNhapSaiHonMuoiLan for userName=" + userName + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
-
 	}
 
 	public boolean kiemTraNameUserHasBlock(String userName) {
-		// TODO Auto-generated method stub
 		boolean res = false;
-		String mess = "";
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userName = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userName);
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
-				mess = rs.getString("isKey");
-				if(mess.equalsIgnoreCase("Bị khóa")) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userName);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				String isKey = rs.getString("isKey");
+				if ("Bị khóa".equalsIgnoreCase(isKey)) {
 					res = true;
 				}
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in kiemTraNameUserHasBlock for userName=" + userName + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public int capNhatSoDuMoi(User user, String menhGia) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			int soDuMoi = Integer.valueOf(user.getSoDu().trim()) + Integer.valueOf(menhGia.trim());
-			System.out.println(soDuMoi+"tktktk");
-			stm.setString(1, String.valueOf(soDuMoi));
-			stm.setString(2, user.getUserID());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			int soDuMoi = Integer.parseInt(user.getSoDu().trim()) + Integer.parseInt(menhGia.trim());
+			st.setString(1, String.valueOf(soDuMoi));
+			st.setString(2, user.getUserID());
+			res = st.executeUpdate();
+			System.out.println("Updated soDu for userID=" + user.getUserID() + " to " + soDuMoi);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in capNhatSoDuMoi for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public String isCTV(String userID) {
-		// TODO Auto-generated method stub
 		String res = "";
 		User user = selectById3(userID);
-		if(user.getRole().getRoleID() == 3) {
+		if (user != null && user.getRole().getRoleID() == 3) {
 			res = "ok";
-		}else {
+		} else {
 			res = "notok";
 		}
 		return res;
 	}
 
 	public boolean kiemTraHoTen(String name, String userID) {
-		// TODO Auto-generated method stub
 		boolean check = false;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID);
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
-				String name2 = rs.getString("fullName");
-				if(name.equalsIgnoreCase(name2)) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				String fullName = rs.getString("fullName");
+				if (name.equalsIgnoreCase(fullName)) {
 					check = true;
-					break;
-				}else {
-					break;
 				}
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in kiemTraHoTen for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return check;
 	}
 
-	public boolean updateCTV(String age, String cccd, String gender, String degree, String stk,String nh, String userID) {
-		// TODO Auto-generated method stub
+	public boolean updateCTV(String age, String cccd, String gender, String degree, String stk, String nh, String userID) {
 		boolean res = false;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET age = ?, cccd = ?, degree = ?, numbank = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, Integer.valueOf(age));
-			stm.setString(2, cccd);
-			stm.setString(3, degree);
-			stm.setString(4, stk);
-			stm.setString(5, userID);
-			int res2 = stm.executeUpdate();
-			if(res2 > 0) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, Integer.parseInt(age));
+			st.setString(2, cccd);
+			st.setString(3, degree);
+			st.setString(4, stk);
+			st.setString(5, userID);
+			int res2 = st.executeUpdate();
+			if (res2 > 0) {
 				res = true;
 			}
+			System.out.println("Updated CTV for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateCTV for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
 
 	public String getSoDu(String userID) {
-		// TODO Auto-generated method stub
 		String ans = "";
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID.trim());
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID.trim());
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
 				ans = rs.getString("soDu");
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in getSoDu for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ans;
 	}
+
 	public int insert3(User user) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "INSERT INTO user(userID, userName, passWord, fullName, email, phoneNumber, roleID, dateofbirth, sex, address, createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeuser, age, cccd, degree, numbank, isDesposit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, user.getUserID());
-			stm.setString(2, user.getUserName());
-			stm.setString(3, user.getPassWord());
-			stm.setString(4, user.getFullName());
-			stm.setString(5, user.getEmail());
-			stm.setString(6, user.getPhoneNumber());
-			stm.setInt(7, user.getRole().getRoleID());
-			stm.setDate(8, user.getDateOfBirth());
-			stm.setString(9, user.getSex());
-			stm.setString(10, user.getAddress());
-			stm.setDate(11, user.getCreateAt());
-			stm.setString(12, user.getAuthenticationCode());
-			stm.setDate(13, user.getConfirmationTime());
-			stm.setInt(14, user.getStatus());
-			stm.setString(15, user.getImageAvatar());
-			stm.setString(16, user.getIsKey());
-			stm.setString(17, user.getSoDu());
-			stm.setString(18, user.getTypeUser());
-			stm.setInt(19, user.getAge());
-			stm.setString(20, user.getCccd());
-			stm.setString(21, user.getDegree());
-			stm.setString(22, null);
-			stm.setString(23, null);
-			res = stm.executeUpdate();
+			String sql = "INSERT INTO user (userID, userName, passWord, fullName, email, phoneNumber, roleID, dateofbirth, sex, address, createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeuser, age, cccd, degree, numbank, isDesposit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, user.getUserID());
+			st.setString(2, user.getUserName());
+			st.setString(3, user.getPassWord());
+			st.setString(4, user.getFullName());
+			st.setString(5, user.getEmail());
+			st.setString(6, user.getPhoneNumber());
+			st.setInt(7, user.getRole().getRoleID());
+			st.setDate(8, user.getDateOfBirth());
+			st.setString(9, user.getSex());
+			st.setString(10, user.getAddress());
+			st.setDate(11, user.getCreateAt());
+			st.setString(12, user.getAuthenticationCode());
+			st.setDate(13, user.getConfirmationTime());
+			st.setInt(14, user.getStatus());
+			st.setString(15, user.getImageAvatar());
+			st.setString(16, user.getIsKey());
+			st.setString(17, user.getSoDu());
+			st.setString(18, user.getTypeUser());
+			st.setInt(19, user.getAge());
+			st.setString(20, user.getCccd());
+			st.setString(21, user.getDegree());
+			st.setString(22, user.getSoTaiKhoan() != null ? user.getSoTaiKhoan().getStk() : null);
+			st.setString(23, null);
+			res = st.executeUpdate();
+			System.out.println("Inserted user (insert3): " + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in insert3 for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public String selectSoDuHienTai(String userID) {
-		// TODO Auto-generated method stub
 		String ans = "";
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID.trim());
-			ResultSet rs = stm.executeQuery();
-			while (rs.next()) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID.trim());
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
 				ans = rs.getString("soDu");
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectSoDuHienTai for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ans;
 	}
+
 	public int capNhatSoDuMoiKhiThemSP(User user, String valueOf) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, valueOf.trim());
-			stm.setString(2, user.getUserID());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, valueOf.trim());
+			st.setString(2, user.getUserID());
+			res = st.executeUpdate();
+			System.out.println("Updated soDu for userID=" + user.getUserID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in capNhatSoDuMoiKhiThemSP for userID=" + user.getUserID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public int updateTypeUser(String userID, int i) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET typeuser = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, String.valueOf(i));
-			stm.setString(2, userID.trim());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, String.valueOf(i));
+			st.setString(2, userID.trim());
+			res = st.executeUpdate();
+			System.out.println("Updated typeuser for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in updateTypeUser for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public ArrayList<User> selectEmployeeNotAdminNotUser() {
-		// TODO Auto-generated method stub
-		ArrayList<User> lst = new ArrayList<User>();
+		ArrayList<User> lst = new ArrayList<>();
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE roleID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, 4);
-			ResultSet rs = stm.executeQuery();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, 4);
+			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
-				System.out.println("okok");
 				String userID = rs.getString("userID");
 				String userName = rs.getString("userName");
 				String passWord = rs.getString("passWord");
 				String fullName = rs.getString("fullName");
-				String gmail = rs.getString("email");
+				String email = rs.getString("email");
 				String phone = rs.getString("phoneNumber");
 				int roleID = rs.getInt("roleID");
-				Date dateOfBir = rs.getDate("dateofbirth");
+				Roles role = new Roles();
+				role.setRoleID(roleID);
+				Roles roles = new RolesDao().selectById(role);
+				if (roles == null) {
+					System.out.println("No role found for roleID=" + roleID + " for userID=" + userID);
+					roles = new Roles(roleID, "Unknown");
+				}
+				Date dateOfBirth = rs.getDate("dateofbirth");
 				String sex = rs.getString("sex");
-				String addRess = rs.getString("address");
+				String address = rs.getString("address");
 				Date createAt = rs.getDate("createAt");
-				String maXacNhan = rs.getString("authenticationCode");
-				Date thoiGianXacNhan = rs.getDate("confirmationTime");
+				String authenticationCode = rs.getString("authenticationCode");
+				Date confirmationTime = rs.getDate("confirmationTime");
 				int status = rs.getInt("status");
-				String img = rs.getString("image");
-				String key = rs.getString("isKey");
+				String image = rs.getString("image");
+				String isKey = rs.getString("isKey");
 				String soDu = rs.getString("soDu");
 				String typeUser = rs.getString("typeuser");
-				User user = new User(userID, userName, passWord, fullName, gmail, phone, new Roles(roleID, "Employee"),
-						dateOfBir, sex, addRess, createAt, maXacNhan, thoiGianXacNhan, status, img, key, soDu,
-						typeUser);
-				System.out.println("okok");
+				int age = rs.getInt("age");
+				String cccd = rs.getString("cccd");
+				String degree = rs.getString("degree");
+				String numBank = rs.getString("numbank");
+				User user = new User(userID, userName, passWord, fullName, email, phone, roles, dateOfBirth, sex, address,
+						createAt, authenticationCode, confirmationTime, status, image, isKey, soDu, typeUser, age, cccd,
+						degree, numBank != null ? new SoTaiKhoan(numBank) : null);
 				lst.add(user);
 			}
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectEmployeeNotAdminNotUser: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return lst;
 	}
+
 	public int setUpRolesAndDesposit(String userID) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET roleID = ?, isDesposit = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, 3);
-			stm.setString(2, "Đang cọc");
-			stm.setString(3, userID);
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, 3);
+			st.setString(2, "Đang cọc");
+			st.setString(3, userID);
+			res = st.executeUpdate();
+			System.out.println("Updated role and deposit for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in setUpRolesAndDesposit for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public int capNhatNhanVienMoi(String userID) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET status = ?, isKey = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, 1);
-			stm.setString(2, "Hoạt động");
-			stm.setString(3, userID);
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, 1);
+			st.setString(2, "Hoạt động");
+			st.setString(3, userID);
+			res = st.executeUpdate();
+			System.out.println("Updated nhan vien moi for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in capNhatNhanVienMoi for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public String selectSoTaiKhoan(String userID) {
-		// TODO Auto-generated method stub
 		String ans = "";
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "SELECT * FROM user WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, userID);
-			ResultSet rs = stm.executeQuery();
-			while (rs.next()) {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, userID);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
 				ans = rs.getString("numbank");
-				break;
 			}
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectSoTaiKhoan for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ans;
 	}
+
 	public int hoanTienLaiChoCtv(String userID, String valueOf) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET soDu = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setString(1, valueOf.trim());
-			stm.setString(2, userID.trim());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, valueOf.trim());
+			st.setString(2, userID.trim());
+			res = st.executeUpdate();
+			System.out.println("Updated soDu for CTV userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in hoanTienLaiChoCtv for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	public int restartCtvIsNullAndReturnCus(String userID) {
-		// TODO Auto-generated method stub
 		int res = 0;
 		try {
 			Connection con = JDBCUtil.getConnection();
 			String sql = "UPDATE user SET roleID = ?, age = ?, cccd = ?, degree = ?, numbank = ?, isDesposit = ? WHERE userID = ?";
-			PreparedStatement stm = con.prepareStatement(sql);
-			stm.setInt(1, 2);
-			stm.setInt(2, 0);
-			stm.setString(3, null);
-			stm.setString(4, null);
-			stm.setString(5, null);
-			stm.setString(6, null);
-			stm.setString(7, userID.trim());
-			res = stm.executeUpdate();
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, 2);
+			st.setInt(2, 0);
+			st.setString(3, null);
+			st.setString(4, null);
+			st.setString(5, null);
+			st.setString(6, null);
+			st.setString(7, userID.trim());
+			res = st.executeUpdate();
+			System.out.println("Reset CTV for userID=" + userID);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in restartCtvIsNullAndReturnCus for userID=" + userID + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return res;
 	}
-
-
 }

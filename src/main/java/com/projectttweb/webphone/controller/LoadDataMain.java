@@ -14,10 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import com.projectttweb.webphone.database.ProductDao;
 import com.projectttweb.webphone.database.ProductFavoriteDAO;
-import com.projectttweb.webphone.model.ListOrderDetailsItem;
 import com.projectttweb.webphone.model.Product;
-import com.projectttweb.webphone.model.ProductFavorite;
 import com.projectttweb.webphone.model.User;
+import com.projectttweb.webphone.service.CartService;
 
 /**
  * Servlet implementation class LoadDataMain
@@ -25,102 +24,101 @@ import com.projectttweb.webphone.model.User;
 @WebServlet("/LoadDataMain")
 public class LoadDataMain extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private CartService cartService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoadDataMain() {
 		super();
-		// TODO Auto-generated constructor stub
+		cartService = new CartService();
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		    HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo mới
+		HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo mới
 
-		    // Kiểm tra session và xử lý cho lần đầu truy cập
-		    if (session == null) {
-		        session = request.getSession(true); // Tạo session mới nếu không tồn tại
-		        session.setAttribute("firstVisit", false); // Đặt cờ lần đầu truy cập
-		    } else {
-		        Boolean firstVisit = (Boolean) session.getAttribute("firstVisit");
-		        if (firstVisit == null || firstVisit) {
-		        	System.out.println("doraemon kkkk");
-		            session.invalidate(); // Xóa session cũ
-		            session = request.getSession(true); // Tạo session mới
-		            session.setAttribute("firstVisit", false); // Đặt lại cờ
-		        }
-		    }
+		// Kiểm tra session và xử lý cho lần đầu truy cập
+		if (session == null) {
+			session = request.getSession(true); // Tạo session mới nếu không tồn tại
+			session.setAttribute("firstVisit", false); // Đặt cờ lần đầu truy cập
+		} else {
+			Boolean firstVisit = (Boolean) session.getAttribute("firstVisit");
+			if (firstVisit == null || firstVisit) {
+				System.out.println("doraemon kkkk");
+				session.invalidate(); // Xóa session cũ
+				session = request.getSession(true); // Tạo session mới
+				session.setAttribute("firstVisit", false); // Đặt lại cờ
+			}
+		}
 
-		    // Lấy thông tin user từ session
-		    User user = (User) session.getAttribute("khachHang");
-		    ProductDao proDao = new ProductDao();
-		    List<Product> lstPro1 = proDao.getProductMain();
-		    List<Product> lstPro2 = proDao.getProductMain();
-		    List<Product> lstPro3 = proDao.getProductMain();
+		// Lấy thông tin user từ session
+		User user = (User) session.getAttribute("khachHang");
+		ProductDao proDao = new ProductDao();
+		List<Product> lstPro1 = proDao.getProductMain();
+		List<Product> lstPro2 = proDao.getProductMain();
+		List<Product> lstPro3 = proDao.getProductMain();
 
-		    if (user != null) {
-		        // Nếu user tồn tại trong session, lấy danh sách sản phẩm yêu thích
-		        ProductFavoriteDAO productFaDao = new ProductFavoriteDAO();
-		        int lstProductFavoriteDao = productFaDao.getSoLuong2(user.getUserID());
-		        request.setAttribute("soLuongSanPhamLike", lstProductFavoriteDao);
-		        ListOrderDetailsItem li = (ListOrderDetailsItem) session.getAttribute("listItem");
-		        String slSP = "";
-				if (li != null) {
-					slSP = li.getList().size() + "";
-					slSP = (slSP == "0") ? "0" : slSP;
-				} else {
-					slSP = "0";
-				}
-				request.setAttribute("soLuongSP", slSP);
-				String uri = request.getRequestURI();
-				String uriReal = xuLyURI(uri);
-				request.setAttribute("uri", uriReal);
-				String sourceServlet = (String) request.getParameter("sourceServlet");
-				System.out.println("sourceServlet là: "+sourceServlet);
-				boolean checkVar = false;
-				boolean checkVar1 = false;
-				if(sourceServlet != null) {
+		if (user != null) {
+			// Nếu user tồn tại trong session, lấy danh sách sản phẩm yêu thích
+			ProductFavoriteDAO productFaDao = new ProductFavoriteDAO();
+			int lstProductFavoriteDao = productFaDao.getSoLuong2(user.getUserID());
+			request.setAttribute("soLuongSanPhamLike", lstProductFavoriteDao);
+
+			// Tính số lượng sản phẩm trong giỏ hàng
+			int soLuongSP = cartService.getCartItems(user).size();
+			request.setAttribute("soLuongSP", soLuongSP);
+
+			// Xử lý URI
+			String uri = request.getRequestURI();
+			String uriReal = xuLyURI(uri);
+			request.setAttribute("uri", uriReal);
+
+			// Xử lý sourceServlet để hiển thị modal
+			String sourceServlet = request.getParameter("sourceServlet");
+			System.out.println("sourceServlet là: " + sourceServlet);
+			boolean checkVar = false;
+			boolean checkVar1 = false;
+			boolean checkSuccess = false;
+			if (sourceServlet != null) {
 				if (sourceServlet.equalsIgnoreCase("addToCart")) {
 					checkVar = true;
 					request.setAttribute("checkNoInput", checkVar);
-				}else if(sourceServlet.equalsIgnoreCase("hetHang")) {
+				} else if (sourceServlet.equalsIgnoreCase("hetHang")) {
 					checkVar1 = true;
 					request.setAttribute("checkHetHang", checkVar1);
+				} else if (sourceServlet.equalsIgnoreCase("success")) {
+					checkSuccess = true;
+					request.setAttribute("checkSuccess", checkSuccess);
 				}
-				}
-		    } else {
-		        System.out.println("User không tồn tại trong session.");
-		    }
-
-		    // Set danh sách sản phẩm cho view
-		    request.setAttribute("danhSachMain1", lstPro1);
-		    request.setAttribute("danhSachMain2", lstPro2);
-		    request.setAttribute("danhSachMain3", lstPro3);
-
-		    // Chuyển tiếp đến trang index.jsp
-		    RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-		    rd.forward(request, response);
+			}
+		} else {
+			System.out.println("User không tồn tại trong session.");
+			request.setAttribute("soLuongSP", 0); // Đặt số lượng giỏ hàng bằng 0 nếu chưa đăng nhập
 		}
 
+		// Set danh sách sản phẩm cho view
+		request.setAttribute("danhSachMain1", lstPro1);
+		request.setAttribute("danhSachMain2", lstPro2);
+		request.setAttribute("danhSachMain3", lstPro3);
+
+		// Chuyển tiếp đến trang index.jsp
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+		rd.forward(request, response);
+	}
 
 	private String xuLyURI(String uri) {
-		// TODO Auto-generated method stub
 		return uri.substring(13);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
@@ -142,5 +140,4 @@ public class LoadDataMain extends HttpServlet {
 		System.out.println(ansInt);
 		System.out.println(priceDis);
 	}
-
 }

@@ -1,6 +1,5 @@
 package com.projectttweb.webphone.database;
 
-import java.awt.image.Kernel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,28 +11,22 @@ public class RolesDao implements DAOInterface<Roles> {
 
 	@Override
 	public ArrayList<Roles> selectAll() {
-		// TODO Auto-generated method stub
-		ArrayList<Roles> answer = new ArrayList<Roles>();
+		ArrayList<Roles> answer = new ArrayList<>();
 		try {
-			// b1: Tạo kết nối đến cơ sở dữ liệu
 			Connection con = JDBCUtil.getConnection();
-			// b2: Tạo đối tượng reparetedStament
 			String sql = "SELECT * FROM roles";
 			PreparedStatement st = con.prepareStatement(sql);
-			// b3: thực thi câu lệnh sql
-			System.out.println(sql);
+			System.out.println("Executing: " + sql);
 			ResultSet rs = st.executeQuery();
-			// b4: đọc dữ liệu lên
-			while(rs.next()) {
+			while (rs.next()) {
 				int roleID = rs.getInt("roleID");
 				String roleName = rs.getString("roleName");
 				Roles role = new Roles(roleID, roleName);
 				answer.add(role);
 			}
-			//b5: đóng kết nối
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectAll: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return answer;
@@ -41,31 +34,24 @@ public class RolesDao implements DAOInterface<Roles> {
 
 	@Override
 	public Roles selectById(Roles t) {
-		// TODO Auto-generated method stub
 		Roles role = null;
 		try {
-			//b1: Tạo kết nối đến CSDl
 			Connection con = JDBCUtil.getConnection();
-			//B2: Tạo ra đối tượng statment
-			String sql = "SELECT * FROM roles WHERE roleID=?";
+			String sql = "SELECT * FROM roles WHERE roleID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, t.getRoleID());
-			
-			//B3: thực thi câu lệnh sql
-			System.out.println(sql);
+			System.out.println("Executing: " + sql + " with roleID=" + t.getRoleID());
 			ResultSet rs = st.executeQuery();
-			
-			//Bước 4:
-			while(rs.next()) {
+			if (rs.next()) {
 				int roleID = rs.getInt("roleID");
 				String roleName = rs.getString("roleName");
 				role = new Roles(roleID, roleName);
-				break;
+			} else {
+				System.out.println("No role found for roleID=" + t.getRoleID());
 			}
 			JDBCUtil.closeConnection(con);
-			
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in selectById for roleID=" + t.getRoleID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return role;
@@ -73,29 +59,25 @@ public class RolesDao implements DAOInterface<Roles> {
 
 	@Override
 	public int insert(Roles t) {
-		// TODO Auto-generated method stub
 		int answer = 0;
 		try {
-			//B1: Tạo kết nối đến CSDL
 			Connection con = JDBCUtil.getConnection();
-			//B2: Tạo ra đối tượng statement
-			String sql = "INSERT INTO roles (roleID, roleName)" + "VALUES (?,?)";
+			String sql = "INSERT INTO roles (roleID, roleName) VALUES (?, ?)";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, t.getRoleID());
 			st.setString(2, t.getRoleName());
-			//B3: thực thi câu lệnh SQL
 			answer = st.executeUpdate();
-			//B5
+			System.out.println("Inserted role: " + t.getRoleID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in insert for roleID=" + t.getRoleID() + ": " + e.getMessage());
+			e.printStackTrace();
 		}
 		return answer;
 	}
 
 	@Override
 	public int insertAll(ArrayList<Roles> arr) {
-		// TODO Auto-generated method stub
 		int dem = 0;
 		for (Roles roles : arr) {
 			dem += this.insert(roles);
@@ -105,30 +87,24 @@ public class RolesDao implements DAOInterface<Roles> {
 
 	@Override
 	public int delete(Roles t) {
-		// TODO Auto-generated method stub
-		int ansWer = 0;
+		int answer = 0;
 		try {
-			//B1: tạo kết nối đến CSDL
 			Connection con = JDBCUtil.getConnection();
-			//B2: tạo ra đối tượng statement
-			String sql = "DELETE from roles" + "WHERE roleID=?";
+			String sql = "DELETE FROM roles WHERE roleID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, t.getRoleID());
-			//B3: thực thi câu lệnh SQL
-			System.out.println(sql);
-			ansWer = st.executeUpdate();
-			//B4:
+			answer = st.executeUpdate();
+			System.out.println("Deleted role: " + t.getRoleID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in delete for roleID=" + t.getRoleID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
-		return ansWer;
+		return answer;
 	}
 
 	@Override
 	public int deleteAll(ArrayList<Roles> arr) {
-		// TODO Auto-generated method stub
 		int dem = 0;
 		for (Roles roles : arr) {
 			dem += this.delete(roles);
@@ -138,27 +114,23 @@ public class RolesDao implements DAOInterface<Roles> {
 
 	@Override
 	public int update(Roles t) {
-		// TODO Auto-generated method stub
-		int ansWer = 0;
+		int answer = 0;
 		try {
-			// Tạo kết nối
 			Connection con = JDBCUtil.getConnection();
-			//Tạo đối tg statment
-			String sql = "UPDATE roles "+" SET "+" roleName=?"+" WHERE roleID=?";
+			String sql = "UPDATE roles SET roleName = ? WHERE roleID = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, t.getRoleName());
 			st.setInt(2, t.getRoleID());
-			// Thực thi câu lệnh
-			System.out.println(sql);
-			ansWer = st.executeUpdate();
-			//B4:
+			answer = st.executeUpdate();
+			System.out.println("Updated role: " + t.getRoleID());
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Error in update for roleID=" + t.getRoleID() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
-		return ansWer;
+		return answer;
 	}
+
 	public static void main(String[] args) {
 		RolesDao roleDao = new RolesDao();
 		ArrayList<Roles> list = roleDao.selectAll();
@@ -166,5 +138,4 @@ public class RolesDao implements DAOInterface<Roles> {
 			System.out.println(roles.toString());
 		}
 	}
-
 }
