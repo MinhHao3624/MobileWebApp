@@ -450,8 +450,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
 				int isCheck = rs.getInt("isCheck");
-				int isSendAdmin = rs.getInt("isSendAdmin");
-				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin);
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck);
 				res.add(orders);
 			}
 			for (Orders orders : res) {
@@ -491,7 +490,7 @@ public class OrdersDAO implements DAOInterface<Orders> {
 		ArrayList<Orders> res2 = new ArrayList<Orders>();
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM orders WHERE idNV = ? AND (isSendAdmin = 0 OR isSendAdmin = 1) AND isCheck = 1";
+			String sql = "SELECT * FROM orders WHERE idNV = ? AND isCheck = 1";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setString(1, userID2.trim());
 			ResultSet rs = stm.executeQuery();
@@ -505,10 +504,9 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
 				int isCheck = rs.getInt("isCheck");
-				int isSendAdmin = rs.getInt("isSendAdmin");
 				String idNV = rs.getString("idNV");
 				Date ngayTK = rs.getDate("dateTK");
-				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, idNV, ngayTK);
 				res.add(orders);
 			}
 			for (Orders orders : res) {
@@ -541,10 +539,9 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
 				int isCheck = rs.getInt("isCheck");
-				int isSendAdmin = rs.getInt("isSendAdmin");
 				String idNV = rs.getString("idNV");
 				Date ngayTK = rs.getDate("dateTK");
-				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck,  idNV, ngayTK);
 				ans.add(orders);
 			}
 			for (Orders orders : ans) {
@@ -593,10 +590,9 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				String shippingAddress = rs.getString("shippingAddress");
 				String phone = rs.getString("phone");
 				int isCheck = rs.getInt("isCheck");
-				int isSendAdmin = rs.getInt("isSendAdmin");
 				String idNV = rs.getString("idNV");
 				Date ngayTK = rs.getDate("dateTK");
-				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, isSendAdmin, idNV, ngayTK);
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, idNV, ngayTK);
 				ans.add(orders);
 			}
 			for (Orders orders : ans) {
@@ -609,5 +605,76 @@ public class OrdersDAO implements DAOInterface<Orders> {
 			e.printStackTrace();
 		}
 		return ans2;
+	}
+
+	public List<Orders> selectOrdersIsCheckInMonth(Date todaysDate, java.util.Date firstDayOfMonth) {
+		List<Orders> ans = new ArrayList<>();
+		List<Orders> res = new ArrayList<>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE isCheck = 1 ORDER BY dateTK DESC";
+			PreparedStatement stm = con.prepareStatement(sql);
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while (rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				String idNV = rs.getString("idNV");
+				Date ngayTK = rs.getDate("dateTK");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, idNV, ngayTK);
+				ans.add(orders);
+			}
+			for(Orders orders : ans) {
+				if(orders.getDateTK().getTime() >= firstDayOfMonth.getTime() && orders.getDateTK().getTime() <= todaysDate.getTime()) {
+					res.add(orders);
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return res;
+    }
+
+	public List<Orders> selectOrdersIsCheckNV(Date todaysDate, Date previousMonthDate, String userID) {
+		List<Orders> ans = new ArrayList<>();
+		List<Orders> res = new ArrayList<>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM orders WHERE isCheck = 1 AND idNV = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID);
+			ResultSet rs = stm.executeQuery();
+			UserDao userDAO = new UserDao();
+			while(rs.next()) {
+				String ordersID = rs.getString("ordersID");
+				Date date = rs.getDate("ordersDate");
+				String userID2 = rs.getString("userID");
+				String status = rs.getString("status");
+				double totalAmount = rs.getDouble("totalAmount");
+				String shippingAddress = rs.getString("shippingAddress");
+				String phone = rs.getString("phone");
+				int isCheck = rs.getInt("isCheck");
+				String idNV = rs.getString("idNV");
+				Date ngayTK = rs.getDate("dateTK");
+				Orders orders = new Orders(ordersID, date, userDAO.selectUserById(userID), status, totalAmount, shippingAddress, phone, isCheck, idNV, ngayTK);
+				ans.add(orders);
+			}
+			for (Orders orders : ans) {
+				if(orders.getDateTK().getTime() >= previousMonthDate.getTime() && orders.getDateTK().getTime() <= todaysDate.getTime()) {
+					res.add(orders);
+				}
+			}
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 }

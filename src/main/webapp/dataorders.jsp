@@ -367,7 +367,7 @@
             justify-content: center;
             z-index: 1050; /* Đặt cao hơn navbar */
         }
-        }
+
 
         .modal5.show {
             visibility: visible;
@@ -489,11 +489,11 @@
                         </c:if>
                         <c:if test="${not empty sessionScope.khachHang}">
                             <li><a
-                                    href="http://localhost:8080/MobileWebApp/account-login?userID=${sessionScope.khachHang.userID}"
+                                    href="account-login?userID=${sessionScope.khachHang.userID}"
                                     class="title hidden-xs">Hi <c:out
                                     value="${sessionScope.khachHang.userName}"/></a>|
                             </li>
-                            <li><a href="http://localhost:8080/MobileWebApp/dang-xuat"
+                            <li><a href="dang-xuat"
                                    class="title hidden-xs">Log out </a></li>
                             <li><a
                                     href="load-page-favorite-list?userID=${sessionScope.khachHang.userID}"><i
@@ -520,12 +520,12 @@
                         <ul>
                             <li class="active"><a href="LoadDataMain">Trang chủ</a></li>
                             <li><a
-                                    href="http://localhost:8080/MobileWebApp/load-product?page=1">Điện
+                                    href="load-product?page=1">Điện
                                 thoại</a></li>
                             <li><a href="go-to-blog">Thông tin</a></li>
                             <li><a href="go-to-about">Bài viết</a></li>
                             <li><a
-                                    href="http://localhost:8080/MobileWebApp/go-to-contactus">Liên
+                                    href="go-to-contactus">Liên
                                 hệ, hỗ trợ</a></li>
                         </ul>
                     </div>
@@ -565,7 +565,7 @@
                     <div class="side-bar-content">
                         <ul>
                             <a
-                                    href="http://localhost:8080/MobileWebApp/account-login?userID=${sessionScope.khachHang.userID}">
+                                    href="account-login?userID=${sessionScope.khachHang.userID}">
                                 <li
                                         class="slide-bar "><i class="fa fa-edit"></i><span>Thông
 											tin tài khoản</span></li>
@@ -619,90 +619,90 @@
                         </ul>
                     </div>
                 </div>
-                <div class="order-stats-wrapper">
-                    <h2>Đơn hàng đặt trong tháng</h2>
+<%--                <div class="order-stats-wrapper">--%>
+<%--                    <h2>Đơn hàng đặt trong tháng</h2>--%>
 
-                    <div class="order-labels">
-                        <div class="order-label">
-                            <h4>Số tiền trong tháng</h4>
-                            <p>${soTien1}₫</p>
-                        </div>
-                        <div class="order-label">
-                            <h4>Số tiền tạm thời</h4>
-                            <p>${soTien2}₫</p>
-                        </div>
-                        <div class="order-label">
-                            <h4>Số đơn hàng duyệt</h4>
-                            <p>${numOrders}</p>
-                        </div>
-                        <div class="order-label">
-                            <h4>Số đơn hàng duyệt tạm thời</h4>
-                            <p>${numOrders2}</p>
-                        </div>
-                    </div>
+<%--                    <div class="order-labels">--%>
+<%--                        <div class="order-label">--%>
+<%--                            <h4>Số tiền trong tháng</h4>--%>
+<%--                            <p>${soTien1}₫</p>--%>
+<%--                        </div>--%>
+<%--                        <div class="order-label">--%>
+<%--                            <h4>Số tiền tạm thời</h4>--%>
+<%--                            <p>${soTien2}₫</p>--%>
+<%--                        </div>--%>
+<%--                        <div class="order-label">--%>
+<%--                            <h4>Số đơn hàng duyệt</h4>--%>
+<%--                            <p>${numOrders}</p>--%>
+<%--                        </div>--%>
+<%--                        <div class="order-label">--%>
+<%--                            <h4>Số đơn hàng duyệt tạm thời</h4>--%>
+<%--                            <p>${numOrders2}</p>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
 
-                    <table class="order-table">
-                        <thead>
-                        <tr>
-                            <th>Mã đơn hàng</th>
-                            <th>Tên khách hàng</th>
-                            <th>Ngày đặt hàng</th>
-                            <th>Tổng tiền</th>
-                            <th>Tình trạng đơn hàng</th>
-                            <th>Hành động</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="item" items="${listOrders}">
-                            <tr>
-                                <td>${item.orderID}</td>
-                                <td>${item.user.userName}</td>
-                                <td>${item.ordersDate}</td>
-                                <td><fmt:formatNumber value="${item.totalAmount}" type="number" groupingUsed="true"/>
-                                    VND
-                                </td>
-                                <td>${item.status}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${item.isCheck == 1}">
-                                            <button class="action-button" style="background-color: red; color: white;"
-                                                    disabled>Đã thống kê
-                                            </button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a href="thong-Ke-Don-Hang?userID=${sessionScope.khachHang.userID}&orderID=${item.orderID}&page=${currentPage}">
-                                                <button type="submit" class="action-button">Thống kê</button>
-                                            </a>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                        <button type="button" class="action-button" style="background-color: #007bff; color: white;"
-                                onclick="xemLichSuThongKe(${sessionScope.khachHang.userID})">
-                            Xem lịch sử thống kê
-                        </button>
-                    </table>
-                    <div class="pagination">
-                        <a
-                                href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${currentPage == 1 ? tongSoTrang : currentPage - 1}">Trước</a>
+<%--                    <table class="order-table">--%>
+<%--                        <thead>--%>
+<%--                        <tr>--%>
+<%--                            <th>Mã đơn hàng</th>--%>
+<%--                            <th>Tên khách hàng</th>--%>
+<%--                            <th>Ngày đặt hàng</th>--%>
+<%--                            <th>Tổng tiền</th>--%>
+<%--                            <th>Tình trạng đơn hàng</th>--%>
+<%--                            <th>Hành động</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <tbody>--%>
+<%--                        <c:forEach var="item" items="${listOrders}">--%>
+<%--                            <tr>--%>
+<%--                                <td>${item.orderID}</td>--%>
+<%--                                <td>${item.user.userName}</td>--%>
+<%--                                <td>${item.ordersDate}</td>--%>
+<%--                                <td><fmt:formatNumber value="${item.totalAmount}" type="number" groupingUsed="true"/>--%>
+<%--                                    VND--%>
+<%--                                </td>--%>
+<%--                                <td>${item.status}</td>--%>
+<%--                                <td>--%>
+<%--                                    <c:choose>--%>
+<%--                                        <c:when test="${item.isCheck == 1}">--%>
+<%--                                            <button class="action-button" style="background-color: red; color: white;"--%>
+<%--                                                    disabled>Đã thống kê--%>
+<%--                                            </button>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:otherwise>--%>
+<%--                                            <a href="thong-Ke-Don-Hang?userID=${sessionScope.khachHang.userID}&orderID=${item.orderID}&page=${currentPage}">--%>
+<%--                                                <button type="submit" class="action-button">Thống kê</button>--%>
+<%--                                            </a>--%>
+<%--                                        </c:otherwise>--%>
+<%--                                    </c:choose>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+<%--                        </c:forEach>--%>
+<%--                        </tbody>--%>
+<%--                        <button type="button" class="action-button" style="background-color: #007bff; color: white;"--%>
+<%--                                onclick="xemLichSuThongKe(${sessionScope.khachHang.userID})">--%>
+<%--                            Xem lịch sử thống kê--%>
+<%--                        </button>--%>
+<%--                    </table>--%>
+<%--                    <div class="pagination">--%>
+<%--                        <a--%>
+<%--                                href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${currentPage == 1 ? tongSoTrang : currentPage - 1}">Trước</a>--%>
 
-                        <c:forEach var="i" begin="1" end="${tongSoTrang}">
-                            <a
-                                    href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${i}"
-                                    class="${i == currentPage ? 'active' : ''}">${i}</a>
-                        </c:forEach>
+<%--                        <c:forEach var="i" begin="1" end="${tongSoTrang}">--%>
+<%--                            <a--%>
+<%--                                    href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${i}"--%>
+<%--                                    class="${i == currentPage ? 'active' : ''}">${i}</a>--%>
+<%--                        </c:forEach>--%>
 
-                        <a
-                                href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${currentPage == tongSoTrang ? 1 : currentPage + 1}">Sau</a>
-                    </div>
-                </div>
+<%--                        <a--%>
+<%--                                href="go-to-quan-li-san-pham?userID=${sessionScope.khachHang.userID}&page=${currentPage == tongSoTrang ? 1 : currentPage + 1}">Sau</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
 
-            </div>
-        </div>
-    </div>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
 
     <div class="footer">
