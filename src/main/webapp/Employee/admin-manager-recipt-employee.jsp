@@ -110,45 +110,27 @@
 				</div>
 				<div class="profile-info">
 					<span>Welcome</span>
-					<h5>Administrator</h5>
+					<h5>Employee</h5>
 				</div>
 			</div>
 			<div class="list-group list-group-flush">
 				<ul>
-					<li><a href="Admin/admin.jsp"
-						class="list-group-item list-group-item-action  "> Trang chủ <i
-							class="menu-icon fa fa-laptop"></i></a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/load-user-data"
-						class="list-group-item list-group-item-action "> Thông tin
-							người dùng<i class="menu-icon fas fa-users font-list"></i>
-					</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/load-product-data"
-						class="list-group-item list-group-item-action "> Thông tin sản
-							phẩm <i class="menu-icon fas fa-mobile-alt font-list"></i>
-					</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/load-recipt-data"
-						class="list-group-item list-group-item-action active "> Quản
-							lí đơn hàng <i class="menu-icon fas fa-shopping-cart font-list"></i>
-					</a></li>
-					<li><a href="${pageContext.request.contextPath}/load-product-categories"
-						class="list-group-item list-group-item-action "> Thông tin
-							thương hiệu <i class="menu-icon fas fa-archway"></i>
-					</a></li>
-					<li><a href="${pageContext.request.contextPath}/load-cancel-receipt"
-						class="list-group-item list-group-item-action "> Đơn hàng bị
-							hủy <i class="menu-icon fas fa-phone-slash"></i>
-					</a></li>
-					<li><a href="${pageContext.request.contextPath}/load-feedback"
-						class="list-group-item list-group-item-action"> Phản hồi khách
-							hàng <i class="menu-icon far fa-paper-plane"></i>
-					</a></li>
-					<!-- <li>
-            <a href="admin-filter.html" class="list-group-item list-group-item-action "> Dữ liệu lọc <i
-                class="menu-icon fas fa-filter"></i></a>
-          </li> -->
+					<li>
+						<a href="${pageContext.request.contextPath}/Employee/Employee.jsp" class="list-group-item list-group-item-action "> Trang chủ <i
+								class="menu-icon fa fa-laptop"></i></a>
+					</li>
+					<li>
+						<a href="${pageContext.request.contextPath}/load-product-data" class="list-group-item list-group-item-action active "> Thông tin sản phẩm
+							<i class="menu-icon fas fa-mobile-alt font-list"></i></a>
+					</li>
+					<li>
+						<a href="${pageContext.request.contextPath}/load-recipt-data" class="list-group-item list-group-item-action "> Quản lí đơn hàng <i
+								class="menu-icon fas fa-shopping-cart font-list"></i></a>
+					</li>
+					<li>
+						<a href="${pageContext.request.contextPath}/go-to-xu-li-don-hang?userID=${sessionScope.khachHang.userID}&page=1" class="list-group-item list-group-item-action "> Đơn hàng thành công<i
+								class="menu-icon fas fa-shopping-cart font-list"></i></a>
+					</li>
 				</ul>
 			</div>
 		</div>

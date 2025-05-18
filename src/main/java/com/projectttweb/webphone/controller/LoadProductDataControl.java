@@ -38,11 +38,16 @@ public class LoadProductDataControl extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("admin");
+			String url = "/Admin/dataProduct.jsp";
+			if(user == null) {
+				user = (User) session.getAttribute("employee");
+				url = "/Employee/dataProductEmployee.jsp";
+			}
 			if(user != null) {
 				ProductDao proDao = new ProductDao();
 				ArrayList<Product> list = proDao.selectAll();
 				request.setAttribute("listProduct", list);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Admin/dataProduct.jsp");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 				rd.forward(request, response);
 			}
 		} catch (Exception e) {
