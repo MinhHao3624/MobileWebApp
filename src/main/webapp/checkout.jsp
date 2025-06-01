@@ -318,6 +318,16 @@
 										<button class="btn btn-primary ">Xác nhận thanh toán</button>
 									</div>
 								</form>
+<%--								<form method="POST" action="${pageContext.request.contextPath}/VNPay/vnpay_pay.jsp">--%>
+<%--									<input type="hidden" name="amount" value="1000000"/>--%>
+<%--									<button type="submit">Test VNPAY</button>--%>
+<%--								</form>--%>
+
+								<form method="POST" action="ThanhToanVNPAY">
+									<input type="hidden" name="amount" value="${totalAmount}"/>
+									<button type="submit">Test VNPAY</button>
+								</form>
+
 								<div class="checkbox alignright mt20">
 									<label> <a href="go-to-cart"><span>Quay Lại?</span></a>
 									</label>
