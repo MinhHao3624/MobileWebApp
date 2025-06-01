@@ -39,7 +39,14 @@ public class UpLoadAnhDienThoaiCtv extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests to upload a phone image file from a collaborator.
+	 *
+	 * Processes multipart form data, saves the uploaded file to the server's images directory, sets the file name as a request attribute, and forwards the request to the `/insert-img-ctv` resource.
+	 *
+	 * @param request the HTTP request containing the file upload
+	 * @param response the HTTP response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs during file handling
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

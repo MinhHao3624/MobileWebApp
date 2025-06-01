@@ -39,7 +39,10 @@ public class UpLoadAnhDienThoaiControl extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles HTTP POST requests for uploading a phone image file.
+	 *
+	 * Processes multipart form data, saves the uploaded file to the server's images directory,
+	 * sets the file name as a request attribute, and forwards the request to the `/insert-image-phone` resource.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
