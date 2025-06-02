@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projectttweb.webphone.controller.ThanhToanVNPay;
 import com.projectttweb.webphone.model.Orders;
 import com.projectttweb.webphone.model.Product;
 
@@ -672,6 +673,36 @@ public class OrdersDAO implements DAOInterface<Orders> {
 				}
 			}
 			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int insertOrderInDB2(Orders order, double totalAmount, ThanhToanVNPay.SaveInfoApi saveInfoApi) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "INSERT INTO orders (ordersID, ordersDate, userID, status, totalAmount, shippingAddress, phone, isCheck, idNV, dateTK, provice, dictrict, communes, shipfee, methodspay) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, order.getOrderID());
+			stm.setDate(2, order.getOrdersDate());
+			stm.setString(3, order.getUser().getUserID());
+			stm.setString(4, "Đã thanh toán");
+			stm.setDouble(5, totalAmount);
+			stm.setString(6, order.getUser().getAddress());
+			stm.setString(7, order.getUser().getPhoneNumber());
+			stm.setInt(8, 0);
+			stm.setString(9, null);
+			stm.setDate(10, null);
+			stm.setString(11, saveInfoApi.getTinh());
+			stm.setString(12, saveInfoApi.getHuyen());
+			stm.setString(13, saveInfoApi.getXa());
+			stm.setString(14, saveInfoApi.getFee());
+			stm.setString(15, "VnPay");
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -48,7 +48,6 @@ public class GoToCartController extends HttpServlet {
 						double tongTien = 0;
 						for (OrderDetails oder : list.getList()) {
 						   double price = oder.getUnitPrice() * oder.getQuantity();
-						   System.out.println(price+"giá là đây nhá");
 						   tongTien += price;
 						}
 						ProductFavoriteDAO productFaDao = new ProductFavoriteDAO();

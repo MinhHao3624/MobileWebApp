@@ -102,6 +102,7 @@ public class LoadDataMain extends HttpServlet {
 		    request.setAttribute("danhSachMain1", lstPro1);
 		    request.setAttribute("danhSachMain2", lstPro2);
 		    request.setAttribute("danhSachMain3", lstPro3);
+			System.out.println("Good Morning VN");
 
 		    // Chuyển tiếp đến trang index.jsp
 		    RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");

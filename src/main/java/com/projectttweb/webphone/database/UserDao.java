@@ -43,8 +43,10 @@ public class UserDao implements DAOInterface<User> {
 				Date date = rs.getDate("createAt");
 				String image = rs.getString("image");
 				String key = rs.getString("isKey");
+				String isDeleted = rs.getInt("isDeleted")+"";
+				isDeleted = isDeleted.equals("0") ? "0" : "1";
 				User user = new User(userID, userName, passWord, fullName, email, phone, roles, date, userName, phone,
-						date, image, key);
+						date, image, key, Integer.parseInt(isDeleted));
 				answer.add(user);
 			}
 		} catch (Exception e) {
@@ -396,7 +398,7 @@ public class UserDao implements DAOInterface<User> {
 		User us = null;
 		try {
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM user WHERE userName=? and passWord=?";
+			String sql = "SELECT * FROM user WHERE userName=? and passWord=? and isDeleted=0";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, user.getUserName());
 			st.setString(2, user.getPassWord());
@@ -639,7 +641,8 @@ public class UserDao implements DAOInterface<User> {
 		try {
 			ArrayList<User> lst = selectAll();
 			for (User user : lst) {
-				if (user.getRole().getRoleID() == 2) {
+				System.out.println(user.getIsDeleted() + "hellllo");
+				if (user.getRole().getRoleID() == 2 && user.getIsDeleted() != 1) {
 					ans.add(user);
 				}
 			}
@@ -1162,6 +1165,36 @@ public class UserDao implements DAOInterface<User> {
 			res = stm.executeUpdate();
 			JDBCUtil.closeConnection(con);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+    public int updateUserIsDeleted(String userID) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET isDeleted = 1 WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+    }
+
+	public int updateUserIsNoDeleted(String userID) {
+		int res = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			String sql = "UPDATE user SET isDeleted = 0 WHERE userID = ?";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, userID.trim());
+			res = stm.executeUpdate();
+			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

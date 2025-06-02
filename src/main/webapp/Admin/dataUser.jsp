@@ -290,6 +290,15 @@
 																		<i class="txt-center fas fa-lock" ></i>
 																	</button></a>
 																</div>
+																<div style="margin: auto;">
+																	<a href="xoa-tai-khoan?userID=${user.userID}">
+																		<button class="btn btn-danger sizeTh1" value="true"
+																				id="delete" data-placement="top" title="Xóa tài khoản"
+																				data-target="#delete-user" data-toggle="modal">
+																			<i class="txt-center fas fa-trash-alt"></i>
+																		</button>
+																	</a>
+																</div>
 															</td>
 														</tr>
 														</c:forEach>

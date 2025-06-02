@@ -13,7 +13,7 @@ public class VNPayConfig {
     public static String vnp_Command = "pay";
 
     //day nay
-    public static String vnp_ReturnUrl = "http://localhost:8080/Webphone";
+    public static String vnp_ReturnUrl = "http://localhost:8080/Webphone/Payment-success-VNPay";
 
     public static String hmacSHA512(final String key, final String data) {
         try {
