@@ -41,11 +41,13 @@ public class GoToCheckOutControl extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("khachHang");
 			ListOrderDetailsItem list = (ListOrderDetailsItem) session.getAttribute("listItem");
+			String orderID = "";
 			if(list != null) {
 				double tongTien = 0;
 				for (OrderDetails oder : list.getList()) {
 				   double price = oder.getUnitPrice() * oder.getQuantity();
 				   tongTien += price;
+				   orderID = oder.getOrder().getOrderID();
 				}
 				ProductFavoriteDAO productFaDao = new ProductFavoriteDAO();
 		        List<ProductFavorite> lstProductFavoriteDao = productFaDao.getLstProFavorite(user.getUserID());
@@ -57,6 +59,7 @@ public class GoToCheckOutControl extends HttpServlet {
 				} else {
 					slSP = "0";
 				}
+				request.setAttribute("orderID", orderID);
 				request.setAttribute("soLuongSP", slSP);
 				request.setAttribute("totalAmount", tongTien);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/checkout.jsp");

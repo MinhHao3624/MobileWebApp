@@ -27,6 +27,7 @@ private String degree;
 private SoTaiKhoan soTaiKhoan;
 private String desposit;
 private String isLoginGoogle;
+private int isDeleted;
 
 	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role, Date dateOfBirth, String sex, String address, Date createAt, String authenticationCode, Date confirmationTime, int status, String imageAvatar, String isKey, String soDu, String typeUser, int age, String cccd, String degree, SoTaiKhoan soTaiKhoan, String desposit, String isLoginGoogle) {
 		this.userID = userID;
@@ -75,6 +76,7 @@ private String isLoginGoogle;
 		this.soDu = soDu;
 		this.typeUser = typeUser;
 		this.isLoginGoogle = isLoginGoogle;
+		this.isDeleted = 0;
 	}
 
 	public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber,
@@ -98,6 +100,7 @@ private String isLoginGoogle;
 	this.isKey = isKey;
 	this.soDu = soDu;
 	this.typeUser = typeUser;
+	this.isDeleted = 0;
 }
 
 
@@ -129,6 +132,7 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.cccd = cccd;
 	this.degree = degree;
 	this.soTaiKhoan = numBank;
+	this.isDeleted = 0;
 }
 
 
@@ -154,7 +158,7 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.typeUser = "1";
 }
 public User(String userID, String userName, String passWord, String fullName, String email, String phoneNumber, Roles role,
-		Date dateOfBirth, String sex, String address, Date createAt, String imageAvatar, String isKey) {
+		Date dateOfBirth, String sex, String address, Date createAt, String imageAvatar, String isKey, int isDeleted) {
 	super();
 	this.userID = userID;
 	this.userName = userName;
@@ -171,6 +175,7 @@ public User(String userID, String userName, String passWord, String fullName, St
 	this.isKey = isKey;
 	this.soDu = "0";
 	this.typeUser = "1";
+	this.isDeleted = isDeleted;
 }
 
 public User() {
@@ -188,7 +193,16 @@ public User(String userID, String userName, String passWord, String email, Strin
 	this.createAt = createAt;
 	this.imageAvatar = imageAvatar;
 }
-public String getUserID() {
+
+	public int getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getUserID() {
 	return userID;
 }
 public void setUserID(String userID) {

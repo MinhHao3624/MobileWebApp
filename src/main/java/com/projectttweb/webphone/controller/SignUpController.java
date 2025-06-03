@@ -107,6 +107,7 @@ public class SignUpController extends HttpServlet {
 					user.setAuthenticationCode(maXacThuc);
 					user.setConfirmationTime(thoiGianHieuLucXacThuc);
 					user.setStatus(0); // Chưa xác thực
+					int res = userDao.updateUserIsNoDeleted(user.getUserID());
 
 					if (userDao.updateVertifyInformation(user) > 0) {
 						// Gửi email xác thực
